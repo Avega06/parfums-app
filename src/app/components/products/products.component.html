@@ -1,0 +1,8 @@
+@for (product of details(); track product.parfumId) {
+<product-cards
+  [routerLink]="[`/product/${product.product}`]"
+  routerLinkActive="router-link-active"
+  [product]="product"
+  (click)="selectedProduct(product)"
+/>
+}

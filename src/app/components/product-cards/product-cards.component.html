@@ -1,0 +1,23 @@
+<figure #imageEl style="view-timeline-name: hero" class="opacity-0 px-10 pt-10">
+  <img
+    [srcset]="product()!.imageUrl"
+    [alt]="product()?.product"
+    class="rounded-xl"
+  />
+</figure>
+<div class="card-body items-center text-center">
+  <h2 class="card-title">{{ product()?.brand }}</h2>
+  <span class="">{{ product()?.product }}</span>
+  <span class="text-slate-300 font-bold">{{
+    product()?.price | currency : "CLP" : "symbol-narrow"
+  }}</span>
+  <div class="pt-2 card-actions flex gap-8 justify-between items-center">
+    <span class="text-info italic underline">Disponible en:</span>
+
+    <img
+      [srcset]="getImageUrl(product()?.shop!)"
+      [alt]="product()?.shop"
+      class="h-14 w-22 bg-slate-100 rounded-sm object-contain"
+    />
+  </div>
+</div>

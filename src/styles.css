@@ -1,1 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../public/fonts/inter.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 100 700;
+  font-display: swap;
+}
+
+@theme{
+  --font-sans: 'Inter', system-ui, sans-serif;
+}
+
+@plugin "daisyui"{
+    themes: all
+}

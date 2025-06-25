@@ -1,0 +1,15 @@
+<!-- <button class="join-item btn">2</button>
+
+<button class="join-item btn">99</button>
+<button class="join-item btn">100</button> -->
+
+<button class="join-item btn" [routerLink]="['/parfums', prevPage()]">«</button>
+@for (item of pages(); track $index) { @if (typeof item === 'number') {
+<button
+  class="join-item btn"
+  [class.btn-active]="item === +currentPage()"
+  [routerLink]="['/parfums', item]"
+>
+  {{ item }}</button
+>} @else {<button class="join-item btn btn-disabled">...</button>} }
+<button class="join-item btn" [routerLink]="['/parfums', nextPage()]">»</button>

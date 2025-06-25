@@ -1,0 +1,83 @@
+<div class="min-h-screen grid grid-cols-1 xl:grid-cols-5 gap-5 p-5">
+  <!-- Imagen a la izquierda -->
+
+  <!-- Stats a la derecha, más pequeños -->
+  <div class="xl:col-start-2 xl:col-span-2">
+    <div class="grid grid-cols-4 gap-60">
+      <product-image
+        [imageName]="productName()!"
+        [imageSrc]="product().imageUrl!"
+        class="col-span-3 w-full max-w-md"
+      ></product-image>
+
+      <div class="flex flex-col gap-y-10 col-span-1 p-5">
+        <div class="card w-120 bg-base-100 card-md shadow">
+          <div class="card-body">
+            <h1 class="card-title">
+              {{ product().product }} | {{ product().shop }}
+            </h1>
+            <p class="flex justify-end">
+              <span class="text-2xl font-bold">
+                {{ product().price | currency : "CLP" : "symbol-narrow" }}
+              </span>
+            </p>
+
+            <div class="justify-end card-actions">
+              <div class="badge badge-neutral">
+                <span>{{ product().type }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card w-120 bg-base-100 card-md shadow-md">
+          <div class="card-body">
+            <h2 class="card-title">Disponible en:</h2>
+            <div class="flex flex-col items-center gap-2 justify-center">
+              <button
+                class="tooltip tooltip-right"
+                data-tip="Información de la tienda:"
+                (click)="shopModal.showModal()"
+              >
+                <img
+                  [srcset]="getImageUrl(product().shop!)"
+                  [alt]="product()!.shop"
+                  class="h-50 w-50 bg-slate-100 rounded-sm object-contain"
+                />
+              </button>
+              <dialog
+                #shopModal
+                class="modal modal-bottom lg:modal-middle lg:w-full"
+              >
+                <div class="modal-box">
+                  <h3 class="text-xl font-bold">
+                    Información de la tienda: {{ product().shop }}
+                  </h3>
+
+                  <img
+                    height="2000"
+                    width="1000"
+                    [srcset]="getImageUrl(product().shop)"
+                  />
+                  <div class="modal-action">
+                    <form method="dialog">
+                      <!-- if there is a button in form, it will close the modal -->
+                      <button
+                        class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                      >
+                        ✕
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </dialog>
+              <a [href]="product().link" class="w-full btn btn-primary">
+                Ir a {{ product().shop }}
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
