@@ -19,7 +19,9 @@ import { GsapService } from '../../core/services/gsap.service';
   imports: [CurrencyPipe],
   templateUrl: './product-cards.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'card bg-base-100 w-96 shadow-sm' },
+  host: {
+    class: 'card bg-base-100 card-xl w-100 tablet:w-86 shadow-sm ',
+  },
 })
 export class ProductCardsComponent {
   imageElement = viewChild<ElementRef<HTMLImageElement>>('imageEl');

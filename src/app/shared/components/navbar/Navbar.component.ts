@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   inject,
   resource,
@@ -24,17 +25,31 @@ export class NavbarComponent {
   productQuery = signal<string>('');
   productsListService = inject(ProductsService);
 
-  productNameResource = resource({
-    request: () => ({ query: this.productQuery()! }),
-    loader: async ({ request }) => {
-      return firstValueFrom(
-        this.productsListService.getProductLikeTerm(request.query!)
-      );
-    },
+  width = computed(() => {
+    return window.screen.width;
   });
 
   ce = effect(() => {
-    console.log('result of search:', this.productNameResource.value());
+    console.log(this.width());
+  });
+  productNameResource = resource({
+    params: this.productQuery,
+    loader: async ({ params }) => {
+      if (!params || params.trim().length === 0) {
+        return null; // o null, o lo que tenga sentido
+      }
+      try {
+        return await firstValueFrom(
+          this.productsListService.getProductLikeTerm(params)
+        );
+      } catch (err) {
+        // Si err no es Error, conviértelo:
+        if (!(err instanceof Error)) {
+          throw new Error(JSON.stringify(err));
+        }
+        throw err;
+      }
+    },
   });
 
   setTheme(theme: string) {

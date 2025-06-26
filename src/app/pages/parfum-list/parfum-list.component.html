@@ -1,14 +1,18 @@
-<div class="">
-  <div
-    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 py-4"
-  >
+<div class="grid grid-cols-1 tablet:grid-cols-3 gap-4 py-4">
+  <div class="tablet:flex tablet:justify-center col-span-1 tablet:col-span-3">
     <main-card />
-    @if (parfumsResource.isLoading()) {
+  </div>
+  @if (parfumsResource.isLoading()) {
+  <div class="tablet:col-span-3">
     <skeleton-view [totalCountSkeleton]="20" />
-    }@else {
+  </div>
+  }@else {
+  <div class="ml-50 tablet:ml-0 tablet:justify-start tablet:col-span-3">
     <products [details]="products()" />
-    }
+  </div>
+  }
 
+  <div class="tablet:col-span-3 flex justify-center mt-4">
     <page-controller
       [totalPages]="totalPages()"
       [currentPage]="currentPage()!"

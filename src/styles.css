@@ -11,8 +11,18 @@
 
 @theme{
   --font-sans: 'Inter', system-ui, sans-serif;
+
+  --breakpoint-desktop: 120rem; /* 1920px / 16 */
+  --breakpoint-laptop: 80rem;   /* 1280px / 16 */
+  --breakpoint-tablet: 48rem;   /* 768px  / 16 */
+  --breakpoint-mobile: 24.5625rem; 
 }
 
 @plugin "daisyui"{
     themes: all
 }
+
+@view-transition {
+  navigation: auto
+}
+

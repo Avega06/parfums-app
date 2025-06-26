@@ -1,15 +1,16 @@
-<div class="min-h-screen grid grid-cols-1 xl:grid-cols-5 gap-5 p-5">
+<div class="min-h-screen grid grid-cols-1 xl:grid-cols-5 gap-5 p-20 xl:p-5">
   <!-- Imagen a la izquierda -->
+  <div class="col-span-2 col-start-2 xl:col-span-2">
+    <product-image
+      [imageName]="productName()!"
+      [imageSrc]="product().imageUrl!"
+      class="col-span-1 xl:col-span-3 w-full max-w-md"
+    ></product-image>
+  </div>
 
   <!-- Stats a la derecha, más pequeños -->
-  <div class="xl:col-start-2 xl:col-span-2">
+  <div class="col-span-2 col-start-2 xl:col-span-2">
     <div class="grid grid-cols-4 gap-60">
-      <product-image
-        [imageName]="productName()!"
-        [imageSrc]="product().imageUrl!"
-        class="col-span-3 w-full max-w-md"
-      ></product-image>
-
       <div class="flex flex-col gap-y-10 col-span-1 p-5">
         <div class="card w-120 bg-base-100 card-md shadow">
           <div class="card-body">
@@ -49,14 +50,15 @@
                 #shopModal
                 class="modal modal-bottom lg:modal-middle lg:w-full"
               >
-                <div class="modal-box">
+                <div class="modal-box p-4">
                   <h3 class="text-xl font-bold">
                     Información de la tienda: {{ product().shop }}
                   </h3>
 
                   <img
-                    height="2000"
-                    width="1000"
+                    height="200"
+                    width="200"
+                    class="bg-slate-100 gap-y-2"
                     [srcset]="getImageUrl(product().shop)"
                   />
                   <div class="modal-action">

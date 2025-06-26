@@ -14,7 +14,8 @@ import { ProductsService } from '../../services/products.service';
   imports: [ProductCardsComponent, RouterLink],
   templateUrl: './products.component.html',
   host: {
-    class: 'row-start-2 col-start-2 col-span-5 flex flex-wrap gap-2 w-full',
+    class:
+      'tablet:flex tablet:flex-wrap  basis-128 gap-4 w-full justify-center',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -55,11 +55,9 @@ export default class ParfumListComponent {
   });
 
   parfumsResource = resource({
-    request: () => ({ page: this.currentPage()! }),
-    loader: async ({ request }) => {
-      return firstValueFrom(
-        this.productsListService.getProducts(request.page!)
-      );
+    params: () => ({ page: this.currentPage()! }),
+    loader: async ({ params }) => {
+      return firstValueFrom(this.productsListService.getProducts(params.page!));
     },
   });
 }
