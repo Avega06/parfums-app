@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -22,20 +23,22 @@ import { isPlatformBrowser } from '@angular/common';
   templateUrl: './Navbar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarComponent {
+export class NavbarComponent implements AfterViewInit {
   #platformId = inject(PLATFORM_ID);
   productsListService = inject(ProductsService);
   theme = signal<string>('');
   productQuery = signal<string>('');
 
+  ngAfterViewInit(): void {
+    if (this.isBrowser()) {
+      this.width.set(window.screen.width);
+    }
+  }
   isBrowser = computed(() => {
     return isPlatformBrowser(this.#platformId);
   });
 
-  width = computed(() => {
-    if (!this.isBrowser) 0;
-    return window.screen.width;
-  });
+  width = signal(0);
 
   ce = effect(() => {
     console.log(this.width());
