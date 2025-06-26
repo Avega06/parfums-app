@@ -33,7 +33,7 @@ export class NavbarComponent {
   });
 
   width = computed(() => {
-    if (!this.isBrowser) return;
+    if (!this.isBrowser) 0;
     return window.screen.width;
   });
 
