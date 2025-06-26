@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { delay, Observable, of } from 'rxjs';
+import { delay, map, Observable, of } from 'rxjs';
 import { ProductMock } from '../shared/mocks/product-response.mock';
 import {
   Product,
@@ -20,32 +20,54 @@ export class ProductsService {
 
   getProductLikeTerm(term: string): Observable<ProductByTerm> {
     return this.http.get<ProductByTerm>(
-      `${environment.apiUrl}/api/parfums/product_term/${term}`
+      `https://parfums-api-production.up.railway.app/api/parfums/product_term/${term}`
     );
   }
 
   getProducts(page: string): Observable<ProductsResponse> {
-    return this.http.get<ProductsResponse>(
-      `${environment.apiUrl}/api/parfums`,
-      {
-        params: {
-          page: page,
-          limit: 20,
-        },
-      }
-    );
+    return this.http
+      .get<ProductsResponse>(
+        `https://parfums-api-production.up.railway.app/api/parfums`,
+        {
+          params: {
+            page: page,
+            limit: 20,
+          },
+        }
+      )
+      .pipe(
+        map((response) => {
+          const fallbackUrl =
+            'https://www.google.com/url?sa=i&url=https%3A%2F%2Fcommons.wikimedia.org%2Fwiki%2FFile%3ANo_Image_Available.jpg&psig=AOvVaw3E8Sekaxto6flY-AL5DVi_&ust=1751015586586000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCKj46sLfjo4DFQAAAAAdAAAAABAE';
+
+          // Asegúrate de que los productos existan antes de intentar mutarlos
+          if (response.result?.result) {
+            response.result.result = response.result.result.map((product) => {
+              if (product.imageUrl === 'http://na') {
+                return {
+                  ...product,
+                  imageUrl: fallbackUrl,
+                };
+              }
+              return product;
+            });
+          }
+
+          return response;
+        })
+      );
   }
 
   getProductByName(name: string): Observable<Product[]> {
     return this.http.get<Product[]>(
-      `${environment.apiUrl}/api/parfums/product/${name}`,
+      `https://parfums-api-production.up.railway.app/api/parfums/product/${name}`,
       {}
     );
   }
 
   getShopByName(name: string): Observable<ShopResponse> {
     return this.http.get<ShopResponse>(
-      `${environment.apiUrl}/api/parfums/shop/${name}`,
+      `https://parfums-api-production.up.railway.app/api/parfums/shop/${name}`,
       {}
     );
   }

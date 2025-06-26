@@ -1,81 +1,94 @@
-<div class="min-h-screen grid grid-cols-1 xl:grid-cols-5 gap-5 p-20 xl:p-5">
-  <!-- Imagen a la izquierda -->
-  <div class="col-span-2 col-start-2 xl:col-span-2">
-    <product-image
-      [imageName]="productName()!"
-      [imageSrc]="product().imageUrl!"
-      class="col-span-1 xl:col-span-3 w-full max-w-md"
-    ></product-image>
-  </div>
+<div class="laptop:ml-100 tablet:py-5 ml-10 overscroll-none">
+  <div class="min-h-screen grid grid-cols-1 xl:grid-cols-5 gap-5 p-20 xl:p-5">
+    <!-- Imagen a la izquierda -->
+    <div class="col-span-2 col-start-2 xl:col-span-2">
+      <product-image
+        [imageName]="productName()!"
+        [imageSrc]="product().imageUrl!"
+        class="col-span-1 xl:col-span-3 w-full max-w-md"
+      ></product-image>
+    </div>
 
-  <!-- Stats a la derecha, más pequeños -->
-  <div class="col-span-2 col-start-2 xl:col-span-2">
-    <div class="grid grid-cols-4 gap-60">
-      <div class="flex flex-col gap-y-10 col-span-1 p-5">
-        <div class="card w-120 bg-base-100 card-md shadow">
-          <div class="card-body">
-            <h1 class="card-title">
-              {{ product().product }} | {{ product().shop }}
-            </h1>
-            <p class="flex justify-end">
-              <span class="text-2xl font-bold">
-                {{ product().price | currency : "CLP" : "symbol-narrow" }}
-              </span>
-            </p>
+    <!-- Stats a la derecha, más pequeños -->
+    <div class="col-span-2 col-start-2 xl:col-span-2">
+      <div class="grid grid-cols-4 gap-60">
+        <div class="flex flex-col gap-y-10 col-span-1 p-5">
+          <div class="card w-120 bg-base-100 card-md shadow">
+            <div class="card-body">
+              <h1 class="card-title text-3xl tablet:text-2xl">
+                {{ product().product }} | {{ product().shop }}
+              </h1>
 
-            <div class="justify-end card-actions">
-              <div class="badge badge-neutral">
-                <span>{{ product().type }}</span>
+              <div class="justify-end items-center pt-5 card-actions">
+                <p class="flex">
+                  <span class="text-3xl tablet:text-2xl font-bold">
+                    {{ product().price | currency : "CLP" : "symbol-narrow" }}
+                  </span>
+                </p>
+
+                <div class="badge badge-lg tablet:badge-md badge-neutral">
+                  <span class="text-2xl tablet:text-2xl">{{
+                    product().type
+                  }}</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="card w-120 bg-base-100 card-md shadow-md">
-          <div class="card-body">
-            <h2 class="card-title">Disponible en:</h2>
-            <div class="flex flex-col items-center gap-2 justify-center">
-              <button
-                class="tooltip tooltip-right"
-                data-tip="Información de la tienda:"
-                (click)="shopModal.showModal()"
-              >
-                <img
-                  [srcset]="getImageUrl(product().shop!)"
-                  [alt]="product()!.shop"
-                  class="h-50 w-50 bg-slate-100 rounded-sm object-contain"
-                />
-              </button>
-              <dialog
-                #shopModal
-                class="modal modal-bottom lg:modal-middle lg:w-full"
-              >
-                <div class="modal-box p-4">
-                  <h3 class="text-xl font-bold">
-                    Información de la tienda: {{ product().shop }}
-                  </h3>
-
+          <div class="card w-120 bg-base-100 card-md shadow-md">
+            <div class="card-body">
+              <h2 class="card-title text-3xl tablet:text-2xl">
+                Disponible en:
+              </h2>
+              <div class="flex flex-col items-center gap-2 justify-center">
+                <button
+                  class="tooltip py-4 tooltip-right"
+                  data-tip="Información de la tienda:"
+                  (click)="shopModal.showModal()"
+                >
                   <img
-                    height="200"
-                    width="200"
-                    class="bg-slate-100 gap-y-2"
-                    [srcset]="getImageUrl(product().shop)"
+                    [srcset]="getImageUrl(product().shop!)"
+                    [alt]="product()!.shop"
+                    class="h-80 w-80 tablet:h-50 tablet:w-50 bg-slate-100 rounded-sm object-contain"
                   />
-                  <div class="modal-action">
-                    <form method="dialog">
-                      <!-- if there is a button in form, it will close the modal -->
-                      <button
-                        class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                      >
-                        ✕
-                      </button>
-                    </form>
+                </button>
+                <dialog
+                  #shopModal
+                  class="modal modal-bottom lg:modal-middle lg:w-full"
+                >
+                  <div class="modal-box p-4">
+                    <h3 class="text-xl font-bold">
+                      Información de la tienda: {{ product().shop }}
+                    </h3>
+
+                    <div>
+                      <img
+                        height="200"
+                        width="200"
+                        class="bg-slate-100 gap-y-2"
+                        [srcset]="getImageUrl(product().shop)"
+                      />
+                    </div>
+
+                    <div class="modal-action">
+                      <form method="dialog">
+                        <!-- if there is a button in form, it will close the modal -->
+                        <button
+                          class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                        >
+                          ✕
+                        </button>
+                      </form>
+                    </div>
                   </div>
-                </div>
-              </dialog>
-              <a [href]="product().link" class="w-full btn btn-primary">
-                Ir a {{ product().shop }}
-              </a>
+                </dialog>
+                <a
+                  [href]="product().link"
+                  class="w-150 tablet:w-100 h-13 text-2xl tablet:text-xl font-bold btn btn-primary"
+                >
+                  Ir a {{ product().shop }}
+                </a>
+              </div>
             </div>
           </div>
         </div>

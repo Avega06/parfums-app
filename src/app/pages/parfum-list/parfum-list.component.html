@@ -3,7 +3,7 @@
     <main-card />
   </div>
   @if (parfumsResource.isLoading()) {
-  <div class="tablet:col-span-3">
+  <div class="ml-100 tablet:ml-0 tablet:col-span-3">
     <skeleton-view [totalCountSkeleton]="20" />
   </div>
   }@else {
@@ -12,7 +12,7 @@
   </div>
   }
 
-  <div class="tablet:col-span-3 flex justify-center mt-4">
+  <div class="ml-100 tablet:ml-0 tablet:col-span-3 flex justify-center mt-4">
     <page-controller
       [totalPages]="totalPages()"
       [currentPage]="currentPage()!"

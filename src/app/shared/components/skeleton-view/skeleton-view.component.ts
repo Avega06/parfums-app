@@ -9,7 +9,9 @@ import {
   selector: 'skeleton-view',
   imports: [],
   templateUrl: './skeleton-view.component.html',
-  host: { class: 'flex flex-wrap basis-128 gap-4 w-full justify-center' },
+  host: {
+    class: 'flex flex-wrap basis-128 gap-4 w-full justify-center',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkeletonViewComponent {
