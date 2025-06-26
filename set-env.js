@@ -10,7 +10,7 @@ const targetPath = path.join(
 );
 
 const isProduction = process.env.STAGE === "production";
-const apiUrlFromVercel = process.env.API_URL || "http://localhost:3000"; // Accedes a process.env aquí
+const apiUrlFromVercel = process.env.API_URL || "http://localhost:4000"; // Accedes a process.env aquí
 
 const envContent = `
 export const environment = {

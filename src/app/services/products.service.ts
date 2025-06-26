@@ -7,6 +7,7 @@ import {
   ProductsResponse,
 } from '../intefaces/products-response.interface';
 import { ProductByTerm, ShopResponse } from '../intefaces';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -19,13 +20,13 @@ export class ProductsService {
 
   getProductLikeTerm(term: string): Observable<ProductByTerm> {
     return this.http.get<ProductByTerm>(
-      `http://localhost:4000/api/parfums/product_term/${term}`
+      `${environment.apiUrl}/api/parfums/product_term/${term}`
     );
   }
 
   getProducts(page: string): Observable<ProductsResponse> {
     return this.http.get<ProductsResponse>(
-      `http://localhost:4000/api/parfums`,
+      `${environment.apiUrl}/api/parfums`,
       {
         params: {
           page: page,
@@ -37,14 +38,14 @@ export class ProductsService {
 
   getProductByName(name: string): Observable<Product[]> {
     return this.http.get<Product[]>(
-      `http://localhost:4000/api/parfums/product/${name}`,
+      `${environment.apiUrl}/api/parfums/product/${name}`,
       {}
     );
   }
 
   getShopByName(name: string): Observable<ShopResponse> {
     return this.http.get<ShopResponse>(
-      `http://localhost:4000/api/parfums/shop/${name}`,
+      `${environment.apiUrl}/api/parfums/shop/${name}`,
       {}
     );
   }
