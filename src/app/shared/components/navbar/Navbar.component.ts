@@ -4,6 +4,7 @@ import {
   computed,
   effect,
   inject,
+  PLATFORM_ID,
   resource,
   signal,
 } from '@angular/core';
@@ -13,6 +14,7 @@ import { ProductsService } from '../../../services/products.service';
 import { input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'navbar',
@@ -21,12 +23,17 @@ import { firstValueFrom } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent {
+  #platformId = inject(PLATFORM_ID);
+  productsListService = inject(ProductsService);
   theme = signal<string>('');
   productQuery = signal<string>('');
-  productsListService = inject(ProductsService);
+
+  isBrowser = computed(() => {
+    return isPlatformBrowser(this.#platformId);
+  });
 
   width = computed(() => {
-    return window.screen.width;
+    return this.isBrowser() && window.screen.width;
   });
 
   ce = effect(() => {
