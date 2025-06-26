@@ -16,7 +16,6 @@ import { ProductImageComponent } from '../../components/product-image/product-im
 import { ProductsService } from '../../services/products.service';
 import { CurrencyPipe } from '@angular/common';
 import { ShopImagesSrc } from '../../features/shops-images-url';
-import { DbService } from '../../core/services';
 
 @Component({
   selector: 'app-product',
@@ -24,11 +23,10 @@ import { DbService } from '../../core/services';
   templateUrl: './product.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export default class ProductComponent implements OnInit {
+export default class ProductComponent {
   shopModal = viewChild<Element>('shopModal');
   productsService = inject(ProductsService);
   private route = inject(ActivatedRoute);
-  dbService = inject(DbService);
 
   shop = signal<any[]>([]);
 
@@ -48,11 +46,6 @@ export default class ProductComponent implements OnInit {
   ce = effect(() => {
     console.log('allShops', this.shop());
   });
-
-  async ngOnInit() {
-    await this.dbService.init();
-    this.shop.set(this.dbService.queryShopsByName(this.product().shop));
-  }
 
   getImageUrl(name: string) {
     const shopSelected = ShopImagesSrc.find((shop) => shop.name === name);
