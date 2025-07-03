@@ -20,21 +20,18 @@ export class ProductsService {
 
   getProductLikeTerm(term: string): Observable<ProductByTerm> {
     return this.http.get<ProductByTerm>(
-      `https://parfums-api-production.up.railway.app/api/parfums/product_term/${term}`
+      `${environment.apiUrl}/api/parfums/product_term/${term}`
     );
   }
 
   getProducts(page: string): Observable<ProductsResponse> {
     return this.http
-      .get<ProductsResponse>(
-        `https://parfums-api-production.up.railway.app/api/parfums`,
-        {
-          params: {
-            page: page,
-            limit: 20,
-          },
-        }
-      )
+      .get<ProductsResponse>(`${environment.apiUrl}/api/parfums`, {
+        params: {
+          page: page,
+          limit: 20,
+        },
+      })
       .pipe(
         map((response) => {
           const fallbackUrl =
@@ -60,14 +57,14 @@ export class ProductsService {
 
   getProductByName(name: string): Observable<Product[]> {
     return this.http.get<Product[]>(
-      `https://parfums-api-production.up.railway.app/api/parfums/product/${name}`,
+      `${environment.apiUrl}/api/parfums/product/${name}`,
       {}
     );
   }
 
   getShopByName(name: string): Observable<ShopResponse> {
     return this.http.get<ShopResponse>(
-      `https://parfums-api-production.up.railway.app/api/parfums/shop/${name}`,
+      `${environment.apiUrl}/api/parfums/shop/${name}`,
       {}
     );
   }

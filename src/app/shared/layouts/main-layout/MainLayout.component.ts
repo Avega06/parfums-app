@@ -29,20 +29,12 @@ export default class MainLayoutComponent implements OnInit {
   isOnline = signal<boolean | null>(null);
 
   ngOnInit(): void {
-    if (!this.isBrowser()) this.isOnline.set(navigator.onLine);
-  }
+    if (this.isBrowser()) {
+      this.isOnline.set(navigator.onLine);
+      window.addEventListener('online', () => this.isOnline.set(true));
+      window.addEventListener('offline', () => this.isOnline.set(false));
 
-  listenerEffect = effect(() => {
-    console.log('connected??', this.isOnline());
-  });
-
-  @HostListener('window:online')
-  online() {
-    this.isOnline.set(true);
-  }
-
-  @HostListener('window:offline')
-  offline() {
-    this.isOnline.set(false);
+      console.log('connected??', this.isOnline());
+    }
   }
 }

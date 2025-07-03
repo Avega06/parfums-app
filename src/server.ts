@@ -8,7 +8,9 @@ import express from 'express';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const browserDistFolder = join(__dirname, '../browser');
 
 const app = express();
@@ -51,12 +53,16 @@ app.use((req, res, next) => {
 
 /**
  * Start the server if this module is the main entry point.
+ * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
+ */
 if (isMainModule(import.meta.url)) {
-  const port = process.env['PORT'] || 4000;
-  app.listen(port, () => {
+  const port = process.env['PORT'] || 5000;
+  app.listen(port, (error) => {
+    if (error) {
+      throw error;
+    }
+
     console.log(`Node Express server listening on http://localhost:${port}`);
-  });
-}
   });
 }
 

@@ -52,20 +52,19 @@
                     class="h-80 w-80 tablet:h-50 tablet:w-50 bg-slate-100 rounded-sm object-contain"
                   />
                 </button>
-                <dialog
-                  #shopModal
-                  class="modal modal-bottom lg:modal-middle lg:w-full"
-                >
-                  <div class="modal-box p-4">
+                <dialog #shopModal class="modal">
+                  <div class="modal-box w-11/12 max-w-5xl p-4">
                     <h3 class="text-xl font-bold">
                       Información de la tienda: {{ product().shop }}
                     </h3>
 
-                    <div>
+                    <hr class="mt-2" />
+
+                    <div class="py-2 gap-y-2">
                       <img
                         height="200"
                         width="200"
-                        class="bg-slate-100 gap-y-2"
+                        class="bg-slate-100"
                         [srcset]="getImageUrl(product().shop)"
                       />
                     </div>
@@ -74,7 +73,7 @@
                       <form method="dialog">
                         <!-- if there is a button in form, it will close the modal -->
                         <button
-                          class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                          class="btn btn-lg btn-circle btn-ghost absolute right-2 top-1"
                         >
                           ✕
                         </button>
