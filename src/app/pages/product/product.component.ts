@@ -11,11 +11,12 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, firstValueFrom, map, tap } from 'rxjs';
+import { firstValueFrom, map, tap } from 'rxjs';
 import { ProductImageComponent } from '../../components/product-image/product-image.component';
 import { ProductsService } from '../../services/products.service';
 import { CurrencyPipe } from '@angular/common';
 import { ShopImagesSrc } from '../../features/shops-images-url';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product',
@@ -27,6 +28,8 @@ export default class ProductComponent {
   shopModal = viewChild<Element>('shopModal');
   productsService = inject(ProductsService);
   private route = inject(ActivatedRoute);
+  private title = inject(Title);
+  private meta = inject(Meta);
 
   shop = signal<any[]>([]);
 
@@ -43,13 +46,35 @@ export default class ProductComponent {
     )
   );
 
-  ce = effect(() => {
+  metaTagsEffect = effect(() => {
+    const pageTitle = this.product().product;
+    const pageDescription = `${this.product().product} | ${
+      this.product().shop
+    }`;
+
+    const imageSrc = `${this.product().imageUrl}`;
+    this.title.setTitle(`${pageTitle}`);
+    this.meta.updateTag({
+      name: 'description',
+      content: pageDescription,
+    });
+    this.meta.updateTag({
+      name: 'og:title',
+      content: pageTitle,
+    });
+    this.meta.updateTag({
+      name: 'og:description',
+      content: pageDescription,
+    });
+    this.meta.updateTag({
+      name: 'og:image',
+      content: imageSrc,
+    });
     console.log('allShops', this.shop());
   });
 
   getImageUrl(name: string) {
     const shopSelected = ShopImagesSrc.find((shop) => shop.name === name);
-    // console.log(name, shopSelected);
 
     if (!shopSelected) return;
 
