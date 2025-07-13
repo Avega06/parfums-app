@@ -42,8 +42,9 @@ export class NavbarComponent implements OnInit {
   width = signal(0);
 
   ce = effect(() => {
-    console.log(this.width());
+    console.log(`width: ${this.width()}`);
   });
+
   productNameResource = resource({
     params: this.productQuery,
     loader: async ({ params }) => {

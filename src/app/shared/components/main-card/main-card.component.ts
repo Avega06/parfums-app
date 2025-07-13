@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './main-card.component.html',
   host: {
     class:
-      'row-start-1 col-span-5 col-start-2 card card-side h-50 w-200 tablet:w-300 bg-base-200 shadow-sm ',
+      'row-start-1 col-span-5 col-start-2 card card-side h-50 w-95 tablet:w-300 bg-base-200 shadow-sm ',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

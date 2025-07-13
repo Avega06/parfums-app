@@ -1,38 +1,41 @@
-@if (width()! > 320) {
-<div class="navbar w-full bg-base-100 sticky top-0 z-9999 shadow-md">
-  <div class="navbar-start"></div>
-  <div class="navbar-center relative">
-    <div class="pr-7">
+<div
+  class="sticky top-0 z-30 w-full bg-base-100 shadow-sm px-4 flex items-center justify-between"
+>
+  <!-- Menú hamburguesa solo visible en móvil -->
+  <div class="navbar-start">
+    <!-- Logo -->
+    <div class="pl-2">
       @if (theme() === 'coffee') {
       <img
         [routerLink]="['/']"
         class="cursor-pointer"
         width="90"
         src="logo-dark.svg"
-        alt=""
-        srcset=""
+        alt="Logo dark"
       />
-      }@else{
+      } @else {
       <img
         [routerLink]="['/']"
         class="cursor-pointer"
         width="90"
         src="logo-light.svg"
-        alt=""
-        srcset=""
+        alt="Logo light"
       />
       }
     </div>
+  </div>
 
+  <!-- Buscador y menú horizontal visible solo en desktop -->
+  <div class="navbar-center hidden lg:flex flex-col gap-1">
+    <!-- Buscador -->
     <div class="relative w-140">
       <label class="input w-full">
         <search-input (value)="productQuery.set($event)" />
       </label>
 
-      <!-- menú flotante ajustado -->
       @if (productNameResource.value() && productQuery() !== '') {
       <ul
-        class="flex flex-row items-center menu absolute left-0 mt-1 w-full bg-base-100 shadow rounded-box z-20 max-h-60 overflow-y-auto overflow-x-hidden"
+        class="flex items-center menu absolute left-0 mt-1 w-full bg-base-100 shadow rounded-box z-30 max-h-60 overflow-y-auto overflow-x-hidden"
       >
         @for (product of productNameResource.value()?.products; track
         product.id) {
@@ -46,80 +49,9 @@
       }
     </div>
   </div>
-  <div class="navbar-end">
-    <button class="btn btn-ghost btn-circle">
-      <div class="indicator">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-          />
-        </svg>
-        <span class="badge badge-xs badge-primary indicator-item"></span>
-      </div>
-    </button>
-    <button class="btn btn-ghost btn-circle">
-      <theme-controller (selectTheme)="setTheme($event)" />
-    </button>
-  </div>
-</div>
 
-} @else {
-<div class="navbar w-320 bg-base-100 sticky top-0 z-9999 shadow-md">
-  <div class="navbar-start">
-    <div class="pr-5">
-      @if (theme() === 'coffee') {
-      <img
-        [routerLink]="['/']"
-        class="cursor-pointer"
-        width="90"
-        src="logo-dark.svg"
-        alt=""
-        srcset=""
-      />
-      }@else{
-      <img
-        [routerLink]="['/']"
-        class="cursor-pointer"
-        width="90"
-        src="logo-light.svg"
-        alt=""
-        srcset=""
-      />
-      }
-    </div>
-
-    <div class="relative pl-20 w-110">
-      <label class="input w-full">
-        <search-input (value)="productQuery.set($event)" />
-      </label>
-
-      <!-- menú flotante ajustado -->
-      @if (productNameResource.value() && productQuery() !== '') {
-      <ul
-        class="flex flex-row items-center menu absolute left-0 mt-1 w-full bg-base-100 shadow rounded-box z-20 max-h-60 overflow-y-auto overflow-x-hidden"
-      >
-        @for (product of productNameResource.value()?.products; track
-        product.id) {
-        <li>
-          <a [routerLink]="[`/product/${product.name}`]">
-            {{ product.name }}
-          </a>
-        </li>
-        }
-      </ul>
-      }
-    </div>
-  </div>
-  <div class="navbar-center pl-15 relative">
+  <!-- Íconos -->
+  <div class="navbar-end gap-2">
     <button class="btn btn-ghost btn-circle">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -136,6 +68,7 @@
         />
       </svg>
     </button>
+
     <button class="btn btn-ghost btn-circle">
       <div class="indicator">
         <svg
@@ -155,10 +88,9 @@
         <span class="badge badge-xs badge-primary indicator-item"></span>
       </div>
     </button>
+
     <button class="btn btn-ghost btn-circle">
       <theme-controller (selectTheme)="setTheme($event)" />
     </button>
   </div>
-  <div class="navbar-end"></div>
 </div>
-}

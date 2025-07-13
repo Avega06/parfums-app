@@ -1,27 +1,29 @@
-<div class="laptop:ml-100 tablet:py-5 ml-10 overscroll-none">
-  <div class="min-h-screen grid grid-cols-1 xl:grid-cols-5 gap-5 p-20 xl:p-5">
+<div class="laptop:ml-100 flex justify-center tablet:py-5 overflow-x-hidden">
+  <div class="min-h-screen grid grid-cols-1 xl:grid-cols-5 xl:p-5">
     <!-- Imagen a la izquierda -->
-    <div class="col-span-2 col-start-2 xl:col-span-2">
+    <div class="col-span-1 xl:col-span-2">
       <product-image
         [imageName]="productName()!"
         [imageSrc]="product().imageUrl!"
-        class="col-span-1 xl:col-span-3 w-full max-w-md"
+        class="w-full max-w-md"
       ></product-image>
     </div>
 
     <!-- Stats a la derecha, más pequeños -->
-    <div class="col-span-2 col-start-2 xl:col-span-2">
-      <div class="grid grid-cols-4 gap-60">
-        <div class="flex flex-col gap-y-10 col-span-1 p-5">
-          <div class="card w-120 bg-base-100 card-md shadow">
+    <div class="col-span-1 tablet:col-start-2 xl:col-span-2">
+      <div class="grid grid-cols-1 tablet:grid-cols-4 tablet:gap-60">
+        <div class="flex flex-col gap-y-10 col-span-1 py-5">
+          <div
+            class="card w-70 tablet:w-120 bg-base-100 card-sm tablet:card-md shadow"
+          >
             <div class="card-body">
-              <h1 class="card-title text-3xl tablet:text-2xl">
+              <h1 class="card-title text-xl tablet:text-2xl">
                 {{ product().product }} | {{ product().shop }}
               </h1>
 
               <div class="justify-end items-center pt-5 card-actions">
                 <p class="flex">
-                  <span class="text-3xl tablet:text-2xl font-bold">
+                  <span class="text-2xl tablet:text-2xl font-bold">
                     {{ product().price | currency : "CLP" : "symbol-narrow" }}
                   </span>
                 </p>
@@ -35,9 +37,11 @@
             </div>
           </div>
 
-          <div class="card w-120 bg-base-100 card-md shadow-md">
+          <div
+            class="card w-70 tablet:w-120 bg-base-100 card-sm tablet:card-md shadow-md"
+          >
             <div class="card-body">
-              <h2 class="card-title text-3xl tablet:text-2xl">
+              <h2 class="card-title text-2xl tablet:text-2xl">
                 Disponible en:
               </h2>
               <div class="flex flex-col items-center gap-2 justify-center">
@@ -49,7 +53,7 @@
                   <img
                     [srcset]="getImageUrl(product().shop!)"
                     [alt]="product()!.shop"
-                    class="h-80 w-80 tablet:h-50 tablet:w-50 bg-slate-100 rounded-sm object-contain"
+                    class="h-50 w-50 tablet:h-50 tablet:w-50 bg-slate-100 rounded-sm object-contain"
                   />
                 </button>
                 <dialog #shopModal class="modal">
@@ -73,7 +77,7 @@
                       <form method="dialog">
                         <!-- if there is a button in form, it will close the modal -->
                         <button
-                          class="btn btn-lg btn-circle btn-ghost absolute right-2 top-1"
+                          class="btn tablet:btn-lg btn-circle btn-ghost absolute right-2 top-1"
                         >
                           ✕
                         </button>
@@ -83,7 +87,7 @@
                 </dialog>
                 <a
                   [href]="product().link"
-                  class="w-150 tablet:w-100 h-13 text-2xl tablet:text-xl font-bold btn btn-primary"
+                  class="w-60 tablet:w-100 h-13 text-2xl tablet:text-xl font-bold btn btn-primary"
                 >
                   Ir a {{ product().shop }}
                 </a>
