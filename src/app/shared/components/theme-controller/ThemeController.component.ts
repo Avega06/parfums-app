@@ -28,7 +28,7 @@ export class ThemeControllerComponent {
     if (this.isBrowser()) {
       const storedTheme = localStorage.getItem('theme');
       this.isCoffeeTheme.set(storedTheme === 'coffee');
-      this.setTheme(this.isCoffeeTheme() ? 'coffee' : 'light');
+      //this.setTheme(this.isCoffeeTheme() ? 'coffee' : 'light');
     }
   }
 
@@ -41,7 +41,7 @@ export class ThemeControllerComponent {
 
   setTheme(theme: string): void {
     // Cambia el atributo "data-theme" en el elemento raíz.
-    this.selectTheme.emit(theme);
     document.documentElement.setAttribute('data-theme', theme);
+    this.selectTheme.emit(theme);
   }
 }

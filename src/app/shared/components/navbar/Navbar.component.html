@@ -5,23 +5,20 @@
   <div class="navbar-start">
     <!-- Logo -->
     <div class="pl-2">
-      @if (theme() === 'coffee') {
       <img
         [routerLink]="['/']"
-        class="cursor-pointer"
+        class="logo cursor-pointer logo-coffee"
         width="90"
         src="logo-dark.svg"
         alt="Logo dark"
       />
-      } @else {
       <img
         [routerLink]="['/']"
-        class="cursor-pointer"
+        class="logo cursor-pointer logo-light"
         width="90"
         src="logo-light.svg"
         alt="Logo light"
       />
-      }
     </div>
   </div>
 

@@ -1,7 +1,9 @@
 <div class="laptop:ml-100 flex justify-center tablet:py-5 overflow-x-hidden">
-  <div class="min-h-screen grid grid-cols-1 xl:grid-cols-5 xl:p-5">
+  <div
+    class="min-h-screen flex flex-col tablet:grid tablet:grid-cols-1 xl:grid-cols-5 xl:p-5"
+  >
     <!-- Imagen a la izquierda -->
-    <div class="col-span-1 xl:col-span-2">
+    <div class="ml-4 col-span-1 xl:col-span-2">
       <product-image
         [imageName]="productName()!"
         [imageSrc]="product().imageUrl!"

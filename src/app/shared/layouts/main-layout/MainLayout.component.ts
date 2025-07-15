@@ -9,13 +9,13 @@ import {
   PLATFORM_ID,
   signal,
 } from '@angular/core';
-import { NavbarComponent } from '../../components';
 import { RouterOutlet } from '@angular/router';
 import { isPlatformBrowser } from '@angular/common';
+import { NavbarComponent } from '../../components';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [NavbarComponent, RouterOutlet],
+  imports: [RouterOutlet, NavbarComponent],
   templateUrl: './MainLayout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -33,8 +33,6 @@ export default class MainLayoutComponent implements OnInit {
       this.isOnline.set(navigator.onLine);
       window.addEventListener('online', () => this.isOnline.set(true));
       window.addEventListener('offline', () => this.isOnline.set(false));
-
-      console.log('connected??', this.isOnline());
     }
   }
 }
