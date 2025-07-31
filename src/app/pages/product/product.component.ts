@@ -39,6 +39,10 @@ export default class ProductComponent {
     );
   });
 
+  shopName = computed<string>(() => {
+    return this.product().shop;
+  });
+
   public productName = toSignal<string>(
     this.route.params.pipe(
       map((params) => params['product_id'] ?? ''),
@@ -86,6 +90,15 @@ export default class ProductComponent {
     loader: ({ params }) => {
       return firstValueFrom(
         this.productsService.getProductByName(params.product)
+      );
+    },
+  });
+
+  shopResource = resource({
+    params: () => ({ shop_name: this.shopName() }),
+    loader: ({ params }) => {
+      return firstValueFrom(
+        this.productsService.getShopByName(params.shop_name)
       );
     },
   });
