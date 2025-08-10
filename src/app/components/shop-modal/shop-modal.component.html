@@ -23,9 +23,7 @@
           <div class="card-actions justify-end">
             <p>Dirección:</p>
             <a
-              href="https://www.google.com/maps/search/?q={{
-                shopResource.value().at(0)!.address
-              }}"
+              [href]="shopAddress()"
               target="_blank"
               class="tooltip-info tooltip hover:text-blue-500 hover:underline"
               data-tip="Ver Ubicación en Google Maps:"
