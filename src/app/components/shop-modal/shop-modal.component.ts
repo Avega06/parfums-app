@@ -24,19 +24,23 @@ import { ShopService } from '../../services/shops.service';
 })
 export class ShopModalComponent {
   shopService = inject(ShopService);
+  productsService = inject(ProductsService);
 
   shop = input.required<string>();
   isModalChecked = output<boolean>();
-  isMobile = signal(
-    (navigator as any).userAgentData?.mobile ??
-      (navigator.maxTouchPoints > 0 &&
-        /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent))
-  );
 
   shopModal = viewChild<HTMLDialogElement>('dialog');
-  productsService = inject(ProductsService);
 
   isOpen = signal(false);
+
+  isMobile = computed(() => {
+    const nav = navigator as any;
+    return (
+      nav.userAgentData?.mobile ??
+      (navigator.maxTouchPoints > 0 &&
+        /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent))
+    );
+  });
 
   shopName = computed<string>(() => {
     console.log(this.shop());
@@ -49,16 +53,15 @@ export class ShopModalComponent {
   });
 
   shopAddress = computed(() => {
-    if (this.shopResource.hasValue()) {
-      const encodedAddress = encodeURIComponent(
-        this.shopResource.value().at(0)!.address
-      );
+    if (!this.shopResource.hasValue()) return '';
 
-      if (this.isMobile()) return `geo:0,0?q=${encodedAddress}`;
+    const encodedAddress = encodeURIComponent(
+      this.shopResource.value().at(0)!.address
+    );
 
-      return `https://maps.google.com/?q=${encodedAddress}`;
-    }
-    return;
+    return this.isMobile()
+      ? `geo:0,0?q=${encodedAddress}`
+      : `https://maps.google.com/?q=${encodedAddress}`;
   });
 
   shopResource = resource({
