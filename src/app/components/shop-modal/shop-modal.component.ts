@@ -52,7 +52,7 @@ export class ShopModalComponent {
     return this.shopService.getImageUrl(this.shopName());
   });
 
-  shopAddress = computed(() => {
+  shopUriAddress = computed(() => {
     if (!this.shopResource.hasValue()) return '';
 
     const encodedAddress = encodeURIComponent(
@@ -85,11 +85,4 @@ export class ShopModalComponent {
     console.log('close press');
     this.isModalChecked.emit(false);
   }
-
-  de = effect(() => {
-    console.log(this.isMobile());
-
-    console.log(`address: ${this.shopAddress()}`);
-    console.log('shopInfoValue:', this.shopResource.value());
-  });
 }
