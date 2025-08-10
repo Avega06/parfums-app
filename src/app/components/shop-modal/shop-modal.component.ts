@@ -27,7 +27,11 @@ export class ShopModalComponent {
 
   shop = input.required<string>();
   isModalChecked = output<boolean>();
-  isMobile = signal(/Android|iPhone|iPad/i.test(navigator.userAgent));
+  isMobile = signal(
+    (navigator as any).userAgentData?.mobile ??
+      (navigator.maxTouchPoints > 0 &&
+        /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent))
+  );
 
   shopModal = viewChild<HTMLDialogElement>('dialog');
   productsService = inject(ProductsService);
@@ -80,6 +84,9 @@ export class ShopModalComponent {
   }
 
   de = effect(() => {
+    console.log(this.isMobile());
+
+    console.log(`address: ${this.shopAddress()}`);
     console.log('shopInfoValue:', this.shopResource.value());
   });
 }
