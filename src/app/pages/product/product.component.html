@@ -50,7 +50,7 @@
                 <button
                   class="tooltip py-4 tooltip-right"
                   data-tip="Información de la tienda:"
-                  (click)="shopModal.showModal()"
+                  (click)="openShopModal()"
                 >
                   <img
                     [srcset]="getImageUrl(product().shop!)"
@@ -58,35 +58,13 @@
                     class="h-50 w-50 tablet:h-50 tablet:w-50 bg-slate-100 rounded-sm object-contain"
                   />
                 </button>
-                <dialog #shopModal class="modal">
-                  <div class="modal-box w-11/12 max-w-5xl p-4">
-                    <h3 class="text-xl font-bold">
-                      Información de la tienda: {{ product().shop }}
-                    </h3>
 
-                    <hr class="mt-2" />
-
-                    <div class="py-2 gap-y-2">
-                      <img
-                        height="200"
-                        width="200"
-                        class="bg-slate-100"
-                        [srcset]="getImageUrl(product().shop)"
-                      />
-                    </div>
-
-                    <div class="modal-action">
-                      <form method="dialog">
-                        <!-- if there is a button in form, it will close the modal -->
-                        <button
-                          class="btn tablet:btn-lg btn-circle btn-ghost absolute right-2 top-1"
-                        >
-                          ✕
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                </dialog>
+                @if(isShopModalOpen()){
+                <shop-modal
+                  (isModalChecked)="closeModal($event)"
+                  [shop]="product().shop"
+                />
+                }
                 <a
                   [href]="product().link"
                   class="w-60 tablet:w-100 h-13 text-2xl tablet:text-xl font-bold btn btn-primary"

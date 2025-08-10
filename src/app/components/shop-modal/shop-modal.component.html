@@ -1,0 +1,55 @@
+<dialog #dialog open class="modal">
+  <div class="modal-box w-11/12 max-w-5xl p-4">
+    <h3 class="text-xl font-bold">Información de la tienda: {{ shop() }}</h3>
+
+    <hr class="mt-2" />
+
+    @if (shopResource.hasValue()) {
+    <div class="py-2 gap-y-2 gap-x-40 flex justify-center">
+      <img
+        height="200px"
+        width="300"
+        class="bg-slate-100 object-contain"
+        [src]="shopImage()"
+      />
+      <div class="card lg:card-side bg-base-100 shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title">
+            <p>
+              Comercio:
+              <span>{{ shopResource.value().at(0)!.type }}</span>
+            </p>
+          </h2>
+          <div class="card-actions justify-end">
+            <p>Dirección:</p>
+            <a
+              href="https://www.google.com/maps/search/?q={{
+                shopResource.value().at(0)!.address
+              }}"
+              target="_blank"
+              class="tooltip-info tooltip hover:text-blue-500 hover:underline"
+              data-tip="Ver Ubicación en Google Maps:"
+              rel="noopener noreferrer"
+            >
+              {{ shopResource.value().at(0)!.address }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    } @else {
+    <p class="text-center py-8">Cargando información...</p>
+    }
+
+    <div class="modal-action">
+      <form>
+        <button
+          (click)="close()"
+          class="btn tablet:btn-lg btn-circle btn-ghost absolute right-2 top-1"
+        >
+          ✕
+        </button>
+      </form>
+    </div>
+  </div>
+</dialog>

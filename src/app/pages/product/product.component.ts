@@ -4,7 +4,6 @@ import {
   computed,
   effect,
   inject,
-  OnInit,
   resource,
   signal,
   viewChild,
@@ -17,21 +16,24 @@ import { ProductsService } from '../../services/products.service';
 import { CurrencyPipe } from '@angular/common';
 import { ShopImagesSrc } from '../../features/shops-images-url';
 import { Meta, Title } from '@angular/platform-browser';
+import { ShopInfoResponse } from '../../intefaces';
+import { ShopModalComponent } from '../../components/shop-modal/shop-modal.component';
 
 @Component({
   selector: 'app-product',
-  imports: [ProductImageComponent, CurrencyPipe],
+  imports: [ProductImageComponent, CurrencyPipe, ShopModalComponent],
   templateUrl: './product.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ProductComponent {
-  shopModal = viewChild<Element>('shopModal');
+  shopModal = viewChild<HTMLDialogElement>('shopModal');
   productsService = inject(ProductsService);
   private route = inject(ActivatedRoute);
   private title = inject(Title);
   private meta = inject(Meta);
 
-  shop = signal<any[]>([]);
+  shop = signal<ShopInfoResponse | null>(null);
+  isShopModalOpen = signal(false);
 
   product = computed(() => {
     return (
@@ -40,6 +42,7 @@ export default class ProductComponent {
   });
 
   shopName = computed<string>(() => {
+    console.log(this.product().shop);
     return this.product().shop;
   });
 
@@ -74,7 +77,7 @@ export default class ProductComponent {
       name: 'og:image',
       content: imageSrc,
     });
-    console.log('allShops', this.shop());
+    console.log('isModalOpen', this.isShopModalOpen());
   });
 
   getImageUrl(name: string) {
@@ -85,20 +88,20 @@ export default class ProductComponent {
     return shopSelected.src;
   }
 
+  openShopModal() {
+    this.isShopModalOpen.set(true);
+  }
+
+  closeModal(isClose: boolean) {
+    console.log('isClose value:', isClose);
+    this.isShopModalOpen.set(isClose);
+  }
+
   productResource = resource({
     params: () => ({ product: this.productName()! }),
     loader: ({ params }) => {
       return firstValueFrom(
         this.productsService.getProductByName(params.product)
-      );
-    },
-  });
-
-  shopResource = resource({
-    params: () => ({ shop_name: this.shopName() }),
-    loader: ({ params }) => {
-      return firstValueFrom(
-        this.productsService.getShopByName(params.shop_name)
       );
     },
   });

@@ -1,7 +1,9 @@
-export interface ShopResponse {
+export interface ShopInfoResponse {
   shopId: string;
   name: string;
   address: string;
-  isDeleted: boolean;
+  isDeleted: number;
   deletedAt: null;
+  typeId: number;
+  type: string;
 }

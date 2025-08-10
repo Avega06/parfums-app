@@ -6,7 +6,7 @@ import {
   Product,
   ProductsResponse,
 } from '../intefaces/products-response.interface';
-import { ProductByTerm, ShopResponse } from '../intefaces';
+import { ProductByTerm, ShopInfoResponse } from '../intefaces';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -62,8 +62,8 @@ export class ProductsService {
     );
   }
 
-  getShopByName(name: string): Observable<ShopResponse> {
-    return this.http.get<ShopResponse>(
+  getShopByName(name: string): Observable<ShopInfoResponse[]> {
+    return this.http.get<ShopInfoResponse[]>(
       `${environment.apiUrl}/api/parfums/shop/${name}`,
       {}
     );

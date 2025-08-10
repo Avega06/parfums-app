@@ -25,18 +25,18 @@
   <!-- Buscador y menú horizontal visible solo en desktop -->
   <div class="navbar-center hidden lg:flex flex-col gap-1">
     <!-- Buscador -->
-    <div class="relative w-140">
+    <div class="relative w-160">
       <label class="input w-full">
         <search-input (value)="productQuery.set($event)" />
       </label>
 
       @if (productNameResource.value() && productQuery() !== '') {
       <ul
-        class="flex items-center menu absolute left-0 mt-1 w-full bg-base-100 shadow rounded-box z-30 max-h-60 overflow-y-auto overflow-x-hidden"
+        class="flex flex-col justify-between absolute left-0 mt-1 w-full bg-base-100 shadow rounded-box z-30 max-h-60 overflow-y-auto"
       >
         @for (product of productNameResource.value()?.products; track
         product.id) {
-        <li>
+        <li class="text-lg">
           <a [routerLink]="[`/product/${product.name}`]">
             {{ product.name }}
           </a>
