@@ -82,7 +82,6 @@ export class ShopModalComponent {
   });
 
   close() {
-    console.log('close press');
     this.isModalChecked.emit(false);
   }
 }

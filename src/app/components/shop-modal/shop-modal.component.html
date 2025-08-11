@@ -5,10 +5,12 @@
     <hr class="mt-2" />
 
     @if (shopResource.hasValue()) {
-    <div class="py-2 gap-y-2 gap-x-40 flex justify-center">
+    <div
+      class="py-2 gap-y-2 gap-x-40 tablet:flex-row flex flex-col justify-center"
+    >
       <img
         height="200px"
-        width="300"
+        width="300px"
         class="bg-slate-100 object-contain"
         [src]="shopImage()"
       />
