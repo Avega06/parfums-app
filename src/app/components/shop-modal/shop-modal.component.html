@@ -23,6 +23,7 @@
             </p>
           </h2>
           <div class="card-actions justify-end">
+            @if (shopResource.value().at(0)!.address) {
             <p>Dirección:</p>
             <a
               [href]="shopUriAddress()"
@@ -33,6 +34,15 @@
             >
               {{ shopResource.value().at(0)!.address }}
             </a>
+
+            }
+            <p>Link:</p>
+            <a
+              [href]="shopResource.value().at(0)?.shopLink"
+              target="_blank"
+              rel="noopener noreferrer"
+              >{{ shopResource.value().at(0)?.shopLink }}</a
+            >
           </div>
         </div>
       </div>
