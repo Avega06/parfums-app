@@ -1,6 +1,27 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './shared/guards/auth-guard';
 
 export const routes: Routes = [
+  {
+    path: 'auth',
+    loadComponent: () => import('./shared/layouts/auth-layout/auth-layout'),
+    children: [
+      {
+        path: 'login',
+        title: 'Iniciar Sesión',
+        loadComponent: () => import('./pages/auth/login/login'),
+      },
+      {
+        path: 'signup',
+        title: 'Crear Cuenta',
+        loadComponent: () => import('./pages/auth/signup/signup'),
+      },
+      {
+        path: '**',
+        redirectTo: 'login',
+      },
+    ],
+  },
   {
     path: '',
     loadComponent: () =>
@@ -18,8 +39,32 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/product/product.component'),
       },
       {
+        path: 'user/product-list',
+        title: 'Mis Perfumes',
+        loadComponent: () =>
+          import('./pages/user/product-list/product-list-page'),
+        canActivate: [authGuard],
+      },
+      {
+        path: 'access-denied',
+        title: 'Acceso denegado',
+        loadComponent: () =>
+          import('./shared/pages/errors/access-denied/access-denied-page'),
+      },
+      {
+        path: 'not-found',
+        title: 'Pagina no encontrada',
+        loadComponent: () =>
+          import('./shared/pages/errors/not-found/not-found-page'),
+      },
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'parfums/1',
+      },
+      {
         path: '**',
-        redirectTo: '/parfums/1',
+        redirectTo: 'not-found',
       },
     ],
   },

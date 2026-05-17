@@ -1,0 +1,11 @@
+<div class="flex flex-col justify-center items-center gap-4">
+  @for(socialNetwork of socialNetworks(); track socialNetwork.provider){
+  <button
+    (click)="socialLogin(socialNetwork.provider)"
+    [classList]="socialNetwork.style"
+  >
+    <img [src]="socialNetwork.svgFile" alt="Social Logo" />
+    {{socialNetwork.text}}
+  </button>
+  }
+</div>

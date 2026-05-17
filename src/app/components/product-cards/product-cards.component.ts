@@ -20,7 +20,8 @@ import { GsapService } from '../../core/services/gsap.service';
   templateUrl: './product-cards.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'card bg-base-100 card-xl w-100 tablet:w-86 shadow-sm ',
+    class:
+      'card card-dash cursor-pointer card-border bg-base-200 card-xl  shadow-md ',
   },
 })
 export class ProductCardsComponent {

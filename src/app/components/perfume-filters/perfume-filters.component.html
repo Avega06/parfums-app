@@ -1,0 +1,94 @@
+<aside
+  class="w-64 min-h-screen bg-base-100 p-4 border-r shadow-md border-base-200"
+>
+  <h2 class="text-xl font-bold mb-4 px-2">Filtros</h2>
+
+  <!-- Stores -->
+  <div class="collapse collapse-arrow mb-4">
+    <input type="checkbox" />
+    <h3 class="font-semibold collapse-title text-lg mb-2 px-2">Tiendas</h3>
+    <div class="collapse-content">
+      <ul class="menu p-0">
+        @for (store of shops; track store) {
+          <li>
+            <label class="label cursor-pointer justify-start gap-2">
+              <input
+                type="checkbox"
+                class="checkbox checkbox-sm"
+                [checked]="selectedStore() === store"
+                (change)="toggleFilter('shop', store)"
+              />
+              <span class="label-text">{{ store }}</span>
+            </label>
+          </li>
+        }
+      </ul>
+    </div>
+    <div class="divider my-0"></div>
+  </div>
+
+  <!-- Price Range -->
+  <div class="collapse collapse-arrow mb-4">
+    <input type="checkbox" />
+    <h3 class="font-semibold collapse-title text-lg mb-2 px-2">
+      Rango de Precio
+    </h3>
+    <div class="collapse-content">
+      <ul class="menu p-0">
+        @for (price of prices; track price) {
+          <li>
+            <label class="label cursor-pointer justify-start gap-2">
+              <input type="checkbox" disabled class="checkbox checkbox-sm" />
+              <span class="label-text">{{ price }}</span>
+            </label>
+          </li>
+        }
+      </ul>
+    </div>
+    <div class="divider my-0"></div>
+  </div>
+
+  <!-- Fragrance Type -->
+  <div class="collapse collapse-arrow mb-4 mt-4">
+    <input type="checkbox" />
+    <h3 class="font-semibold collapse-title text-lg mb-2 px-2">
+      Tipo de Fragancia
+    </h3>
+    <div class="collapse-content">
+      <ul class="menu p-0">
+        @for (type of types; track type) {
+          <li>
+            <label class="label cursor-pointer justify-start gap-2">
+              <input
+                type="checkbox"
+                class="checkbox checkbox-sm"
+                [checked]="selectedType() === type"
+                (change)="toggleFilter('type_parfum', type)"
+              />
+              <span class="label-text">{{ type }}</span>
+            </label>
+          </li>
+        }
+      </ul>
+    </div>
+    <div class="divider my-0"></div>
+  </div>
+
+  <!-- Audience -->
+  <div class="collapse-arrow collapse mb-4 mt-4">
+    <input type="checkbox" />
+    <h3 class="collapse-title font-semibold text-lg mb-2 px-2">Público</h3>
+    <div class="collapse-content">
+      <ul class="menu p-0">
+        @for (audience of audiences; track audience) {
+          <li>
+            <label class="label cursor-pointer justify-start gap-2">
+              <input type="checkbox" disabled class="checkbox checkbox-sm" />
+              <span class="label-text">{{ audience }}</span>
+            </label>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</aside>

@@ -5,4 +5,5 @@ export interface ProductByTerm {
 export interface ProductItem {
   id: string;
   name: string;
+  shop: string;
 }

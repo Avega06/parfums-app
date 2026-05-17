@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -13,22 +12,35 @@ import {
 import { ThemeControllerComponent } from '../theme-controller/ThemeController.component';
 import { SearchInputComponent } from '../search-input/search-input.component';
 import { ProductsService } from '../../../services/products.service';
-import { input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { isPlatformBrowser } from '@angular/common';
+import { SearchList } from '../searchList/searchList';
+import { UserStore } from '../../stores';
+import { UserDropdown, UserAvatar } from '../auth';
 
 @Component({
   selector: 'navbar',
-  imports: [ThemeControllerComponent, SearchInputComponent, RouterLink],
+  imports: [
+    ThemeControllerComponent,
+    SearchInputComponent,
+    RouterLink,
+    SearchList,
+    UserDropdown,
+    UserAvatar,
+  ],
   templateUrl: './Navbar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent implements OnInit {
   #platformId = inject(PLATFORM_ID);
   productsListService = inject(ProductsService);
+  userStore = inject(UserStore);
+
   theme = signal<string>('');
   productQuery = signal<string>('');
+
+  showResults = computed(() => this.productQuery().trim().length > 0);
 
   ngOnInit(): void {
     if (this.isBrowser()) {
@@ -42,21 +54,20 @@ export class NavbarComponent implements OnInit {
   width = signal(0);
 
   ce = effect(() => {
-    console.log(`width: ${this.width()}`);
+    // Combinando ambas soluciones
   });
 
   productNameResource = resource({
     params: this.productQuery,
     loader: async ({ params }) => {
       if (!params || params.trim().length === 0) {
-        return null; // o null, o lo que tenga sentido
+        return null;
       }
       try {
         return await firstValueFrom(
-          this.productsListService.getProductLikeTerm(params)
+          this.productsListService.getProductLikeTerm(params),
         );
       } catch (err) {
-        // Si err no es Error, conviértelo:
         if (!(err instanceof Error)) {
           throw new Error(JSON.stringify(err));
         }

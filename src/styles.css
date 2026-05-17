@@ -1,30 +1,131 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
 
+@plugin "@tailwindcss/typography";
 @font-face {
-  font-family: 'Inter';
-  src: url('../public/fonts/inter.woff2') format('woff2');
+  font-family: "Inter";
+  src: url("../public/fonts/inter.woff2") format("woff2");
   font-style: normal;
   font-weight: 100 700;
   font-display: swap;
 }
 
-@theme{
-  --font-sans: 'Inter', system-ui, sans-serif;
-
-  --breakpoint-desktop: 120rem; /* 1920px / 16 */
-  --breakpoint-laptop: 80rem;   /* 1280px / 16 */
-  --breakpoint-tablet: 48rem;   /* 768px  / 16 */
-  --breakpoint-mobile: 24.5625rem; 
+@font-face {
+  font-family: "GeistPixel";
+  src: url("/fonts/GeistPixel-Grid.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-@plugin "daisyui"{
-    themes: all
+@font-face {
+  font-family: "GeistPixel";
+  src: url("/fonts/GeistPixel-Circle.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "GeistPixel";
+  src: url("/fonts/GeistPixel-Square.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-geistPixel: "GeistPixel", system-ui, sans-serif;
+
+  --breakpoint-desktop: 120rem; /* 1920px / 16 */
+  --breakpoint-laptop: 80rem; /* 1280px / 16 */
+  --breakpoint-tablet: 48rem; /* 768px  / 16 */
+  --breakpoint-mobile: 24.5625rem;
+}
+
+@plugin "daisyui" {
+  themes: all;
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: false;
+  prefersdark: false;
+  color-scheme: "light";
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(98% 0 0);
+  --color-base-300: oklch(92% 0.013 255.508);
+  --color-base-content: oklch(21% 0.006 285.885);
+  --color-primary: oklch(45% 0.24 277.023);
+  --color-primary-content: oklch(93% 0.034 272.788);
+  --color-secondary: oklch(65% 0.241 354.308);
+  --color-secondary-content: oklch(94% 0.028 342.258);
+  --color-accent: oklch(77% 0.152 181.912);
+  --color-accent-content: oklch(38% 0.063 188.416);
+  --color-neutral: oklch(14% 0.005 285.823);
+  --color-neutral-content: oklch(92% 0.004 286.32);
+  --color-info: oklch(74% 0.16 232.661);
+  --color-info-content: oklch(29% 0.066 243.157);
+  --color-success: oklch(76% 0.177 163.223);
+  --color-success-content: oklch(37% 0.077 168.94);
+  --color-warning: oklch(82% 0.189 84.429);
+  --color-warning-content: oklch(41% 0.112 45.904);
+  --color-error: oklch(71% 0.194 13.428);
+  --color-error-content: oklch(27% 0.105 12.094);
+  --radius-selector: 1rem;
+  --radius-field: 2rem;
+  --radius-box: 2rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1.5px;
+  --depth: 1;
+  --noise: 1;
+}
+
+@plugin "daisyui/theme" {
+  name: "chadmax";
+  default: false;
+  prefersdark: true;
+  color-scheme: "dark";
+  --color-base-100: oklch(14% 0 0);
+  --color-base-200: oklch(20% 0 0);
+  --color-base-300: oklch(26% 0 0);
+  --color-base-content: oklch(79% 0.209 151.711);
+  --color-primary: oklch(47% 0.137 46.201);
+  --color-primary-content: oklch(90% 0.182 98.111);
+  --color-secondary: oklch(70% 0.165 254.624);
+  --color-secondary-content: oklch(28% 0.091 267.935);
+  --color-accent: oklch(76% 0.177 163.223);
+  --color-accent-content: oklch(26% 0.051 172.552);
+  --color-neutral: oklch(21% 0.006 285.885);
+  --color-neutral-content: oklch(98% 0 0);
+  --color-info: oklch(55% 0.046 257.417);
+  --color-info-content: oklch(97% 0.071 103.193);
+  --color-success: oklch(77% 0.152 181.912);
+  --color-success-content: oklch(27% 0.046 192.524);
+  --color-warning: oklch(85% 0.199 91.936);
+  --color-warning-content: oklch(28% 0.066 53.813);
+  --color-error: oklch(51% 0.222 16.935);
+  --color-error-content: oklch(84% 0.238 128.85);
+  --radius-selector: 1rem;
+  --radius-field: 2rem;
+  --radius-box: 2rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1.5px;
+  --depth: 1;
+  --noise: 1;
 }
 
 @view-transition {
-  navigation: auto
+  navigation: auto;
 }
 
+.chat-bubble .prose {
+  max-width: 100%;
+}
 
-
+.chat-bubble pre {
+  overflow-x: auto;
+}

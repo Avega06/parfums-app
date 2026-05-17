@@ -2,37 +2,71 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
-  HostListener,
   inject,
   OnInit,
   PLATFORM_ID,
   signal,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { isPlatformBrowser } from '@angular/common';
+import { Router, RouterOutlet } from '@angular/router';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { NavbarComponent } from '../../components';
+import { Footer } from '../../components/Footer/Footer';
+
+import { SupabaseService } from '../../services';
+import { UserStore } from '../../stores';
+import { Session, UserMetadata } from '@supabase/supabase-js';
+import { ToastMessage } from '../../components/toast-tmessage/ToastMessage';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [RouterOutlet, NavbarComponent],
+  imports: [RouterOutlet, NavbarComponent, Footer, CommonModule, ToastMessage],
   templateUrl: './MainLayout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class MainLayoutComponent implements OnInit {
+  public supabaseService = inject(SupabaseService);
+  public userStore = inject(UserStore);
+
+  public router = inject(Router);
+
+  public session = signal<Session | null>(null);
+
   #platformId = inject(PLATFORM_ID);
 
   isBrowser = computed(() => {
     return isPlatformBrowser(this.#platformId);
   });
 
-  isOnline = signal<boolean | null>(null);
+  isOnline = signal<boolean | null>(this.userStore.isAuthenticated());
+  toastMsg = signal<string | null>(null);
 
   ngOnInit(): void {
     if (this.isBrowser()) {
       this.isOnline.set(navigator.onLine);
       window.addEventListener('online', () => this.isOnline.set(true));
       window.addEventListener('offline', () => this.isOnline.set(false));
+    }
+
+    this.supabaseService.authChanges((event, session) => {
+      if (event === 'SIGNED_OUT') {
+        window.location.href = '/';
+      }
+
+      const { user_metadata } = session?.user as UserMetadata;
+      if (event === 'SIGNED_IN') {
+        this.dispararNotificacion(user_metadata);
+        this.userStore.userMetadata.set(user_metadata);
+
+        this.userStore.setAvatar();
+      }
+
+      this.supabaseService.session.set(session);
+    });
+  }
+
+  async dispararNotificacion(user: UserMetadata) {
+    if (!this.userStore.isLoading()) {
+      this.toastMsg.set(`¡Bienvenido 👋 ${user['name']}!`);
     }
   }
 }

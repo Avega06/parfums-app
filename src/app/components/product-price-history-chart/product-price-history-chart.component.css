@@ -1,0 +1,37 @@
+/* Custom styles to better integrate ApexCharts with DaisyUI/Tailwind */
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+/* Tooltip Customization to match DaisyUI */
+::ng-deep .apexcharts-tooltip {
+  @apply !bg-base-200 !border-base-300 !text-base-content !shadow-lg !rounded-lg !overflow-hidden;
+}
+
+::ng-deep .apexcharts-tooltip-title {
+  @apply !bg-base-300 !text-base-content !font-bold !border-b !border-base-content/10 !font-sans !px-3 !py-2;
+}
+
+::ng-deep .apexcharts-tooltip-text {
+  @apply !text-base-content !font-sans;
+}
+
+::ng-deep .apexcharts-tooltip-series-group {
+    @apply !px-3 !pb-2;
+}
+
+::ng-deep .apexcharts-xaxistooltip {
+  @apply !bg-base-200 !border-base-300 !text-base-content !rounded-md !shadow-sm;
+}
+
+::ng-deep .apexcharts-gridline {
+    stroke: oklch(var(--b3));
+    opacity: 0.2;
+}
+
+/* Hide menu icon mostly, or style it */
+::ng-deep .apexcharts-toolbar {
+    z-index: 10 !important;
+}

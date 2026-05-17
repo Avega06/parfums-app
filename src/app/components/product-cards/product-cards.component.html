@@ -11,10 +11,10 @@
 <div class="card-body items-center text-center">
   <h2 class="card-title">{{ product()?.brand }}</h2>
   <span class="">{{ product()?.product }}</span>
-  <span class="text-slate-300 font-bold">{{
-    product()?.price | currency : "CLP" : "symbol-narrow"
+  <span class="font-bold">{{
+    product()?.price | currency: "CLP" : "symbol-narrow"
   }}</span>
-  <div class="pt-2 card-actions flex gap-8 justify-between items-center">
+  <div class="pt-2 card-actions flex gap-2 justify-center">
     <span class="text-info italic underline">Disponible en:</span>
 
     <img

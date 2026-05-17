@@ -4,6 +4,8 @@ import {
   isMainModule,
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
+import { createClient } from '@supabase/supabase-js';
+import { REQUEST_COOKIES_MAP } from '../src/app/supabase.config';
 import express from 'express';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -36,17 +38,63 @@ app.use(
     maxAge: '1y',
     index: false,
     redirect: false,
-  })
+  }),
 );
 
 /**
  * Handle all other requests by rendering the Angular application.
  */
+app.use(async (req, res, next) => {
+  const cookieString = req.headers.cookie ?? '';
+
+  // Parsear cookies a un objeto simple (CookieMap)
+  const cookieMap = Object.fromEntries(
+    cookieString
+      .split('; ')
+      .map((c) => {
+        const [key, ...v] = c.split('=');
+        return [key.trim(), v.join('=')];
+      })
+      .filter((parts) => parts[0] !== ''),
+  );
+
+  // Opcional: Si aún quieres el objeto user para otras rutas de Express
+  const supabase = createClient(
+    'SUPABASE_URL',
+    'SUPABASE_KEY', // Usa la anon key
+    {
+      global: { headers: { cookie: cookieString } },
+      auth: { persistSession: false, autoRefreshToken: false },
+    },
+  );
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  (req as any).user = user;
+  (req as any).cookieMap = cookieMap; // Guardamos el mapa en el request
+
+  next();
+});
+
+// 2. Handler de Angular
 app.use((req, res, next) => {
   angularApp
-    .handle(req)
+    .handle(req, {
+      providers: [
+        // PROVEER EL VALOR AQUÍ
+        {
+          provide: REQUEST_COOKIES_MAP,
+          useValue: (req as any).cookieMap ?? {},
+        },
+        {
+          provide: 'SSR_USER',
+          useValue: (req as any).user ?? null,
+        },
+      ],
+    })
     .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next()
+      response ? writeResponseToNodeResponse(response, res) : next(),
     )
     .catch(next);
 });

@@ -7,25 +7,7 @@ import {
 
 @Component({
   selector: 'skeleton-view',
-  imports: [],
-  templateUrl: './skeleton-view.component.html',
-  host: {
-    class: 'flex flex-wrap basis-128 gap-4 w-full justify-center',
-  },
+  template: ` <div class="skeleton h-[570px] w-100 tablet:w-70"></div> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SkeletonViewComponent {
-  totalCountSkeleton = input<number>();
-
-  skeletons = computed(() => {
-    const total: number[] = [];
-
-    if (this.totalCountSkeleton()) {
-      for (let i = 1; i <= this.totalCountSkeleton()!; i++) {
-        total.push(i);
-      }
-    }
-
-    return total;
-  });
-}
+export class SkeletonViewComponent {}

@@ -27,8 +27,6 @@ export class SearchInputComponent {
       this.value.emit(value);
     }, 500);
 
-    console.log(value);
-
     onCleanup(() => {
       clearTimeout(timeout);
     });

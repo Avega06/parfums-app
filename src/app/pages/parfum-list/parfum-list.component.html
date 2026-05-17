@@ -1,21 +1,31 @@
-<div class="grid grid-cols-1 tablet:grid-cols-3 gap-4 py-4">
-  <div class="flex justify-center col-span-1 tablet:col-span-3">
-    <main-card />
-  </div>
-  @if (parfumsResource.isLoading()) {
-  <div class="col-span-1 col-start-1 tablet:ml-0 tablet:col-span-3">
-    <skeleton-view [totalCountSkeleton]="20" />
-  </div>
-  }@else {
-  <div class="tablet:ml-0 tablet:justify-start tablet:col-span-3">
-    <products [details]="products()" />
-  </div>
-  }
+<div class="">
+  <div
+    class="grid grid-cols-1 tablet:grid-cols-3 gap-6 py-10 max-w-7xl mx-auto px-4 items-start"
+  >
+    <div class="flex justify-center col-span-1 tablet:col-span-3">
+      <main-card />
+    </div>
 
-  <div class="tablet:ml-0 tablet:col-span-3 flex justify-center mt-4">
-    <page-controller
-      [totalPages]="totalPages()"
-      [currentPage]="currentPage()!"
-    />
+    <div class="flex items-start gap-6 tablet:col-span-3">
+      <div class="hidden tablet:block w-1/5">
+        <app-perfume-filters
+          (onFiltersChange)="updateFilters($event)"
+          class="block p-0"
+        />
+      </div>
+
+      <products
+        class="flex-1"
+        [currentPage]="currentPage()!"
+        [activeFilters]="activeFilters()"
+      />
+    </div>
+
+    <div class="tablet:col-span-3 flex justify-center tablet:ml-52 mt-4">
+      <page-controller
+        [totalPages]="totalPages()"
+        [currentPage]="currentPage()!"
+      />
+    </div>
   </div>
 </div>

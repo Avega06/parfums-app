@@ -1,22 +1,20 @@
 <div
-  class="sticky top-0 z-30 w-full bg-base-100 shadow-sm px-4 flex items-center justify-between"
+  class="sticky top-0 z-30 w-full bg-base-100 shadow-sm shadow-base-300 px-4 flex items-center justify-between"
 >
   <!-- Menú hamburguesa solo visible en móvil -->
   <div class="navbar-start">
     <!-- Logo -->
-    <div class="pl-2">
+    <div class="tablet:max-w-[27%] pl-2">
       <img
         [routerLink]="['/']"
-        class="logo cursor-pointer logo-coffee"
-        width="90"
-        src="logo-dark.svg"
+        class="w-full logo cursor-pointer logo-coffee"
+        src="logo-dark-transparent.png"
         alt="Logo dark"
       />
       <img
         [routerLink]="['/']"
-        class="logo cursor-pointer logo-light"
-        width="90"
-        src="logo-light.svg"
+        class="logo w-full cursor-pointer logo-light"
+        src="logo-light-transparent.png"
         alt="Logo light"
       />
     </div>
@@ -30,19 +28,8 @@
         <search-input (value)="productQuery.set($event)" />
       </label>
 
-      @if (productNameResource.value() && productQuery() !== '') {
-      <ul
-        class="flex flex-col justify-between absolute left-0 mt-1 w-full bg-base-100 shadow rounded-box z-30 max-h-60 overflow-y-auto"
-      >
-        @for (product of productNameResource.value()?.products; track
-        product.id) {
-        <li class="text-lg">
-          <a [routerLink]="[`/product/${product.name}`]">
-            {{ product.name }}
-          </a>
-        </li>
-        }
-      </ul>
+      @if (productNameResource.value()?.products && showResults()) {
+        <search-list [products]="productNameResource.value()?.products!" />
       }
     </div>
   </div>
@@ -66,7 +53,7 @@
       </svg>
     </button>
 
-    <button class="btn btn-ghost btn-circle">
+    <!-- <button class="btn btn-ghost btn-circle">
       <div class="indicator">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -84,10 +71,19 @@
         </svg>
         <span class="badge badge-xs badge-primary indicator-item"></span>
       </div>
-    </button>
+    </button> -->
 
     <button class="btn btn-ghost btn-circle">
-      <theme-controller (selectTheme)="setTheme($event)" />
+      <theme-controller />
     </button>
+
+    @if (!userStore.isAuthenticated()) {
+      <user-dropdown />
+    } @else {
+      <user-avatar
+        [userInfo]="userStore.userMetadata()!"
+        [isAvatarLoading]="userStore.isLoading()"
+      />
+    }
   </div>
 </div>

@@ -1,0 +1,30 @@
+<ul
+  class="list flex flex-col justify-between absolute left-0 mt-1 w-full bg-base-100 shadow rounded-box z-30 max-h-60 overflow-y-auto"
+>
+  @if (products().length > 0) {
+  <li class="p-4 pb-2 text-xs font-semibold opacity-60 tracking-wide">
+    Resultados de la busqueda:
+  </li>
+  @for ( product of encodedProducts(); track product.id ) {
+  <li class="list-row">
+    <div>
+      <div class="text-xs uppercase font-semibold opacity-60">
+        {{product.shop}}:
+      </div>
+      <div class="text-md font-semibold">
+        <a
+          (click)="goToProduct(product.encodedName)"
+          class="cursor-pointer"
+          (mousedown)="$event.preventDefault()"
+        >
+          {{ product.name }}
+        </a>
+      </div>
+    </div>
+  </li>
+  } } @else {
+  <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">
+    No se encontraron resultados
+  </li>
+  }
+</ul>

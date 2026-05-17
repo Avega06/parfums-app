@@ -1,0 +1,39 @@
+<div class="dropdown dropdown-end dropdown-click">
+  <div tabindex="0" role="button">
+    <div class="avatar">
+      <div
+        class="ring-primary ring-offset-base-100 w-8 rounded-full ring-2 ring-offset-2"
+      >
+        <img
+          [ngSrc]="avatarUrl()"
+          width="32"
+          height="32"
+          alt="User Avatar"
+          priority
+        />
+        <!-- @if (isAvatarLoading()) {
+        <span class="loading loading-ring loading-md"></span>
+        } @else {
+        <img
+          [ngSrc]="avatarUrl()"
+          width="32"
+          height="32"
+          alt="User Avatar"
+          priority
+        />
+        } -->
+      </div>
+    </div>
+  </div>
+  <ul
+    tabindex="-1"
+    class="dropdown-content menu bg-base-100 top-15 rounded-box z-1 w-52 p-2 items-center shadow-sm"
+  >
+    <li [routerLink]="['user/product-list']"><a>Mis Perfumes</a></li>
+    <li><a href="">Cuenta</a></li>
+    <div class="divider"></div>
+    <li class="font-bold text-error" (click)="handleSignOut()">
+      <a>Cerrar sesión</a>
+    </li>
+  </ul>
+</div>

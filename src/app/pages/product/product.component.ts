@@ -4,6 +4,7 @@ import {
   computed,
   effect,
   inject,
+  input,
   resource,
   signal,
   viewChild,
@@ -18,67 +19,113 @@ import { ShopImagesSrc } from '../../features/shops-images-url';
 import { Meta, Title } from '@angular/platform-browser';
 import { ShopInfoResponse } from '../../intefaces';
 import { ShopModalComponent } from '../../components/shop-modal/shop-modal.component';
+import { ChatbotComponent } from '../../shared/components/Chatbot/Chatbot';
+import {
+  ProductPriceHistoryChartComponent,
+  PriceHistory,
+} from '../../components/product-price-history-chart/product-price-history-chart.component';
+import { UserStore } from '../../shared/stores';
 
 @Component({
   selector: 'app-product',
-  imports: [ProductImageComponent, CurrencyPipe, ShopModalComponent],
+  imports: [
+    CurrencyPipe,
+    ChatbotComponent,
+    ProductPriceHistoryChartComponent,
+    ProductImageComponent,
+  ],
   templateUrl: './product.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ProductComponent {
+  product_id = input<string>();
   shopModal = viewChild<HTMLDialogElement>('shopModal');
+
+  open = signal(false);
+
+  isFavorite = signal(false);
+  isSubscribed = signal(false);
+
+  toggleFavorite() {
+    this.isFavorite.update((v) => !v);
+  }
+
+  toggleNotify() {
+    this.isSubscribed.update((v) => !v);
+    // Aquí iría tu lógica de integración con Telegram
+  }
+
   productsService = inject(ProductsService);
   private route = inject(ActivatedRoute);
   private title = inject(Title);
   private meta = inject(Meta);
 
+  userStore = inject(UserStore);
+
   shop = signal<ShopInfoResponse | null>(null);
+  showUserButtons = signal<boolean>(false);
   isShopModalOpen = signal(false);
 
+  // Mock Price History Data
+  priceHistory = signal<PriceHistory[]>([
+    { date: '2025-01-01', price: 89990 },
+    { date: '2025-02-01', price: 85990 },
+    { date: '2025-03-01', price: 87990 },
+    { date: '2025-04-01', price: 82990 },
+    { date: '2025-05-01', price: 84990 },
+  ]);
+
   product = computed(() => {
-    return (
-      this.productsService.product()! ?? this.productResource.value()?.at(0)
-    );
+    console.log('selected product', this.productsService.product());
+
+    if (this.productsService.product()) return this.productsService.product()!;
+
+    const resourceValue = this.productResource.value()?.at(0);
+
+    return resourceValue;
   });
 
   shopName = computed<string>(() => {
-    console.log(this.product().shop);
-    return this.product().shop;
+    console.log(this.product()!.shop);
+    return this.product()!.shop;
   });
 
   public productName = toSignal<string>(
     this.route.params.pipe(
       map((params) => params['product_id'] ?? ''),
-      tap(console.log)
-    )
+      tap(console.log),
+    ),
   );
 
-  metaTagsEffect = effect(() => {
-    const pageTitle = this.product().product;
-    const pageDescription = `${this.product().product} | ${
-      this.product().shop
-    }`;
+  constructor() {
+    effect(() => {
+      if (this.userStore.isAuthenticated()) this.showUserButtons.set(true);
 
-    const imageSrc = `${this.product().imageUrl}`;
-    this.title.setTitle(`${pageTitle}`);
-    this.meta.updateTag({
-      name: 'description',
-      content: pageDescription,
+      const pageTitle = this.product()!.product;
+      const pageDescription = `${this.product()!.product} | ${
+        this.product()!.shop
+      }`;
+
+      const imageSrc = `${this.product()!.imageUrl}`;
+      this.title.setTitle(`${pageTitle}`);
+      this.meta.updateTag({
+        name: 'description',
+        content: pageDescription,
+      });
+      this.meta.updateTag({
+        name: 'og:title',
+        content: pageTitle,
+      });
+      this.meta.updateTag({
+        name: 'og:description',
+        content: pageDescription,
+      });
+      this.meta.updateTag({
+        name: 'og:image',
+        content: imageSrc,
+      });
     });
-    this.meta.updateTag({
-      name: 'og:title',
-      content: pageTitle,
-    });
-    this.meta.updateTag({
-      name: 'og:description',
-      content: pageDescription,
-    });
-    this.meta.updateTag({
-      name: 'og:image',
-      content: imageSrc,
-    });
-    console.log('isModalOpen', this.isShopModalOpen());
-  });
+  }
 
   getImageUrl(name: string) {
     const shopSelected = ShopImagesSrc.find((shop) => shop.name === name);
@@ -86,6 +133,10 @@ export default class ProductComponent {
     if (!shopSelected) return;
 
     return shopSelected.src;
+  }
+
+  toggle() {
+    this.open.update((v) => !v);
   }
 
   openShopModal() {
@@ -98,10 +149,10 @@ export default class ProductComponent {
   }
 
   productResource = resource({
-    params: () => ({ product: this.productName()! }),
+    params: () => ({ product: this.product_id()! }),
     loader: ({ params }) => {
       return firstValueFrom(
-        this.productsService.getProductByName(params.product)
+        this.productsService.getProductByName(params.product),
       );
     },
   });

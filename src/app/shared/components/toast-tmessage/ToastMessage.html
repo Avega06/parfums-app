@@ -1,0 +1,11 @@
+@if (message()) {
+<div #toastRef class="toast toast-end top-25 z-50">
+  <div
+    class="alert alert-success shadow-lg border-none bg-opacity-95 backdrop-blur-sm"
+  >
+    <div class="flex items-center gap-2 text-white">
+      <span class="font-medium">{{ message() }}</span>
+    </div>
+  </div>
+</div>
+}
