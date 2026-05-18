@@ -11,6 +11,7 @@ try {
 }
 
 // Obtener las variables
+const apiUrl = process.env.API_URL || "";
 const supabaseUrl = process.env.NG_SUPABASE_URL || "";
 const supabaseKey = process.env.NG_SUPABASE_KEY || "";
 
@@ -18,7 +19,7 @@ const supabaseKey = process.env.NG_SUPABASE_KEY || "";
 const targetPath = "./src/environments/environment.ts";
 const envConfigFile = `export const environment = {
   production: true,
-  apiUrl: 'http://localhost:4000',
+  apiUrl: '${apiUrl}',
   supabaseUrl: '${supabaseUrl}',
   supabaseKey: '${supabaseKey}'
 };
