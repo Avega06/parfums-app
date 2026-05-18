@@ -11,8 +11,8 @@ try {
 }
 
 // Obtener las variables
-const supabaseUrl = process.env.SUPABASE_URL || "";
-const supabaseKey = process.env.SUPABASE_KEY || "";
+const supabaseUrl = process.env.NG_SUPABASE_URL || "";
+const supabaseKey = process.env.NG_SUPABASE_KEY || "";
 
 // Contenido que se escribirá en el archivo de Angular
 const targetPath = "./src/environments/environment.ts";
