@@ -1,5 +1,3 @@
-const { loadEnvFile } = require('node:process');
-
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -47,7 +45,6 @@ app.use(
  * Handle all other requests by rendering the Angular application.
  */
 app.use(async (req, res, next) => {
-  loadEnvFile('.env');
   const cookieString = req.headers.cookie ?? '';
 
   // Parsear cookies a un objeto simple (CookieMap)
