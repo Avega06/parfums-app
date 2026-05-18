@@ -7,7 +7,7 @@
 
 # Archivos de entorno generados dinámicamente por el script
 src/environments/environment.development.ts
-src/environments/environment.ts
+
 
 
 # Compiled output

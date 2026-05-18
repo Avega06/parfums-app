@@ -6,7 +6,7 @@ import {
 } from '@supabase/ssr';
 import { inject, InjectionToken, PLATFORM_ID } from '@angular/core';
 import { isPlatformServer } from '@angular/common';
-import { environment } from '../environments/environment.development';
+import { environment } from '../environments/environment';
 
 // Definimos el tipo de nuestras cookies
 export interface CookieMap {
@@ -22,8 +22,6 @@ export const injectSupabase = () => {
   const platformId = inject(PLATFORM_ID);
   const url = environment.supabaseUrl;
   const key = environment.supabaseKey;
-
-  console.log(url, key);
 
   if (isPlatformServer(platformId)) {
     // Lógica para el Servidor (SSR)
