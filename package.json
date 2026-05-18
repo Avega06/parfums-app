@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "dev": "node --env-file=.env node_modules/@angular/cli/bin/ng serve",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:ParfumsApp": "node dist/parfums-app/server/server.mjs"
@@ -45,7 +46,8 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular/build": "^21.1.1",
+    "@angular-devkit/build-angular": "^21.2.11",
+    "@angular/build": "^21.2.11",
     "@angular/cli": "^21.1.1",
     "@angular/compiler-cli": "^21.1.1",
     "@types/express": "^5.0.1",

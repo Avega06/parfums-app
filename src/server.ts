@@ -58,10 +58,22 @@ app.use(async (req, res, next) => {
       .filter((parts) => parts[0] !== ''),
   );
 
+  const supabaseUrl = process.env['SUPABASE_URL'] ?? '';
+  const supabaseKey = process.env['SUPABASE_KEY'] ?? '';
+
+  console.log(supabaseKey);
+  console.log(supabaseUrl);
+
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error(
+      'Faltan las variables de entorno de Supabase en process.env',
+    );
+  }
+
   // Opcional: Si aún quieres el objeto user para otras rutas de Express
   const supabase = createClient(
-    'SUPABASE_URL',
-    'SUPABASE_KEY', // Usa la anon key
+    supabaseUrl,
+    supabaseKey, // Usa la anon key
     {
       global: { headers: { cookie: cookieString } },
       auth: { persistSession: false, autoRefreshToken: false },

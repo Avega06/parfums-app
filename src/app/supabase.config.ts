@@ -23,6 +23,8 @@ export const injectSupabase = () => {
   const url = environment.supabaseUrl;
   const key = environment.supabaseKey;
 
+  console.log(url, key);
+
   if (isPlatformServer(platformId)) {
     // Lógica para el Servidor (SSR)
     // Aquí es donde Node.js maneja las cookies

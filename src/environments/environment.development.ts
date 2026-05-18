@@ -5,9 +5,10 @@ export interface Envs {
   supabaseKey: string;
 }
 
-export const environment: Envs = {
+export const environment = {
   production: false,
   apiUrl: 'http://localhost:4000',
-  supabaseUrl: '',
-  supabaseKey: '',
+  // Casteamos a 'any' para evitar el error de TypeScript
+  supabaseUrl: (import.meta as any).env['SUPABASE_URL'] ?? '',
+  supabaseKey: (import.meta as any).env['SUPABASE_KEY'] ?? '',
 };

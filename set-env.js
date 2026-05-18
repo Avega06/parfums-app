@@ -1,24 +1,29 @@
-const fs = require("fs");
-const path = require("path");
-require("dotenv").config();
+const { writeFileSync } = require("node:fs");
+const { loadEnvFile } = require("node:process");
 
-const targetPath = path.join(
-  __dirname,
-  "src",
-  "environments",
-  "environment.ts"
-);
+// Cargar el archivo .env usando la nueva característica de Node
+try {
+  loadEnvFile(".env");
+} catch (e) {
+  console.log(
+    "⚠️ No se encontró el archivo .env, se usarán las variables del sistema.",
+  );
+}
 
-const isProduction = process.env.STAGE === "production";
-const apiUrl = process.env.API_URL || "http://localhost:4000"; // Accedes a process.env aquí
-// const apiUrl = "http://localhost:4000"; // Accedes a process.env aquí
+// Obtener las variables
+const supabaseUrl = process.env.SUPABASE_URL || "";
+const supabaseKey = process.env.SUPABASE_KEY || "";
 
-const envContent = `
-export const environment = {
-  production: ${isProduction},
-  apiUrl: '${apiUrl}'
+// Contenido que se escribirá en el archivo de Angular
+const targetPath = "./src/environments/environment.ts";
+const envConfigFile = `export const environment = {
+  production: true,
+  apiUrl: 'http://localhost:4000',
+  supabaseUrl: '${supabaseUrl}',
+  supabaseKey: '${supabaseKey}'
 };
 `;
 
-fs.writeFileSync(targetPath, envContent);
-console.log("Environment file generated with Vercel variables.");
+// Escribir el archivo
+writeFileSync(targetPath, envConfigFile, "utf8");
+console.log(`✅ Entorno de desarrollo generado con éxito en ${targetPath}`);
