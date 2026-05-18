@@ -7,9 +7,7 @@ import {
   SupabaseClient,
   type User,
 } from '@supabase/supabase-js';
-import { environment } from '../../../environments/environment.development';
 import { SupabaseStorageService } from './supabase-storage-service';
-import { isPlatformBrowser } from '@angular/common';
 import { injectSupabase } from '../../supabase.config';
 
 @Injectable({ providedIn: 'root' })
