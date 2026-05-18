@@ -23,7 +23,7 @@ const envConfigFile = `export const environment = {
   production: true,
   apiUrl: '${apiUrl}',
   supabaseUrl: '${supabaseUrl}',
-  supabaseKey: '${supabaseKey}'
+  supabaseKey: '${supabaseKey}',
   supabaseCallback: '${supabaseCallback}'
 };
 `;
