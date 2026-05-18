@@ -9,6 +9,7 @@ import {
 } from '@supabase/supabase-js';
 import { SupabaseStorageService } from './supabase-storage-service';
 import { injectSupabase } from '../../supabase.config';
+import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class SupabaseService {
@@ -62,7 +63,10 @@ export class SupabaseService {
     return await this.supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: 'http://localhost:4200/parfums/1',
+        redirectTo:
+          environment.supabaseCallback.length >= 1
+            ? environment.supabaseCallback
+            : 'http://localhost:4200/parfums/1',
       },
     });
   }

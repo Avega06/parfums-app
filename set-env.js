@@ -15,6 +15,8 @@ const apiUrl = process.env.API_URL || "";
 const supabaseUrl = process.env.NG_SUPABASE_URL || "";
 const supabaseKey = process.env.NG_SUPABASE_KEY || "";
 
+const supabaseCallback = process.env.SUPABASE_CALLBACK;
+
 // Contenido que se escribirá en el archivo de Angular
 const targetPath = "./src/environments/environment.ts";
 const envConfigFile = `export const environment = {
@@ -22,6 +24,7 @@ const envConfigFile = `export const environment = {
   apiUrl: '${apiUrl}',
   supabaseUrl: '${supabaseUrl}',
   supabaseKey: '${supabaseKey}'
+  supabaseCallback: '${supabaseCallback}'
 };
 `;
 
