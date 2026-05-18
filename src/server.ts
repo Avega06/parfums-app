@@ -1,3 +1,5 @@
+const { loadEnvFile } = require('node:process');
+
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
@@ -45,6 +47,7 @@ app.use(
  * Handle all other requests by rendering the Angular application.
  */
 app.use(async (req, res, next) => {
+  loadEnvFile('.env');
   const cookieString = req.headers.cookie ?? '';
 
   // Parsear cookies a un objeto simple (CookieMap)
@@ -58,8 +61,8 @@ app.use(async (req, res, next) => {
       .filter((parts) => parts[0] !== ''),
   );
 
-  const supabaseUrl = process.env['SUPABASE_URL'] ?? '';
-  const supabaseKey = process.env['SUPABASE_KEY'] ?? '';
+  const supabaseUrl = process.env['NG_SUPABASE_URL'] ?? '';
+  const supabaseKey = process.env['NG_SUPABASE_KEY'] ?? '';
 
   console.log(supabaseKey);
   console.log(supabaseUrl);
