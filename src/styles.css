@@ -42,6 +42,8 @@
   --breakpoint-laptop: 80rem; /* 1280px / 16 */
   --breakpoint-tablet: 48rem; /* 768px  / 16 */
   --breakpoint-mobile: 24.5625rem;
+
+  --max-w-mobile: 24.5625rem;
 }
 
 @plugin "daisyui" {
