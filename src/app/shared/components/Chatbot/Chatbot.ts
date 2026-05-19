@@ -15,12 +15,13 @@ import { MarkdownModule } from 'ngx-markdown';
 import { ThemeStore } from '../../../core/services/ThemeStore';
 import { GsapService } from '../../../core/services';
 import { UserStore } from '../../stores';
+import { AutoGrowDirective } from '../../directives/AutoGrow';
 
 @Component({
   standalone: true,
   selector: 'app-chatbot',
   templateUrl: './Chatbot.html',
-  imports: [MarkdownModule],
+  imports: [MarkdownModule, AutoGrowDirective],
 })
 export class ChatbotComponent {
   pacoElement = viewChild<ElementRef<HTMLDivElement>>('pacoSniff');
