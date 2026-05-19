@@ -93,11 +93,13 @@
               </div>
             </div>
             <div
-              class="chat-bubble shadow-md w-fit max-w-[85%]"
+              class="chat-bubble shadow-md w-fit max-w-[85%] break-words"
               [class.chat-bubble-primary]="msg.role === 'user'"
               [class.chat-bubble-neutral]="msg.role === 'agent'"
             >
-              <div class="prose prose-sm max-w-none dark:prose-invert">
+              <div
+                class="prose prose-sm max-w-none dark:prose-invert break-words"
+              >
                 <markdown [data]="msg.text"></markdown>
               </div>
             </div>
