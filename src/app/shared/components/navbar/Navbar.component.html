@@ -4,7 +4,7 @@
   <!-- Menú hamburguesa solo visible en móvil -->
   <div class="navbar-start">
     <!-- Logo -->
-    <div class="min-w-[28%] tablet:max-w-[27%] pl-2">
+    <div class="min-w-[28%] tablet:max-w-[27%] pl-2 shrink-0">
       <img
         [routerLink]="['/']"
         class="w-full logo cursor-pointer logo-coffee"
@@ -21,8 +21,7 @@
   </div>
 
   <!-- Buscador y menú horizontal visible solo en desktop -->
-  <div class="navbar-center hidden lg:flex flex-col gap-1">
-    <!-- Buscador -->
+  <div class="navbar-center hidden lg:flex lg:flex-col gap-1">
     <div class="relative w-160">
       <label class="input w-full">
         <search-input (value)="productQuery.set($event)" />
