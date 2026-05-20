@@ -1,10 +1,10 @@
 <div
-  class="sticky top-0 z-30 w-full bg-base-100 shadow-sm shadow-base-300 px-4 flex items-center justify-between"
+  class="sticky top-0 z-30 w-full bg-base-100 shadow-sm shadow-base-300 px-4 flex items-center justify-between h-16"
 >
-  <!-- Menú hamburguesa solo visible en móvil -->
+  <!-- Menú hamburguesa / Logo -->
   <div class="navbar-start">
-    <!-- Logo -->
-    <div class="w-28 tablet:w-36 pl-2 shrink-0">
+    <!-- Logo (Ya no se va a estrujar porque tiene todo el espacio libre en móvil) -->
+    <div class="min-w-[28%] tablet:max-w-[27%] pl-2">
       <img
         [routerLink]="['/']"
         class="w-full logo cursor-pointer logo-coffee"
@@ -20,8 +20,8 @@
     </div>
   </div>
 
-  <!-- Buscador y menú horizontal visible solo en desktop -->
-  <div class="navbar-center hidden lg:flex lg:flex-col gap-1">
+  <!-- Buscador (Oculto en móvil, visible en desktop) -->
+  <div class="navbar-center hidden lg:flex flex-col gap-1">
     <div class="relative w-160">
       <label class="input w-full">
         <search-input (value)="productQuery.set($event)" />
@@ -33,8 +33,9 @@
     </div>
   </div>
 
-  <!-- Íconos -->
-  <div class="navbar-end gap-2">
+  <!-- Íconos: Ocultos por defecto (hidden) y activos en pantallas grandes (lg:flex) -->
+  <div class="navbar-end gap-2 hidden lg:flex">
+    <!-- Lupa -->
     <button class="btn btn-ghost btn-circle">
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -52,30 +53,12 @@
       </svg>
     </button>
 
-    <!-- <button class="btn btn-ghost btn-circle">
-      <div class="indicator">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-5 w-5"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-          />
-        </svg>
-        <span class="badge badge-xs badge-primary indicator-item"></span>
-      </div>
-    </button> -->
-
+    <!-- Tema -->
     <button class="btn btn-ghost btn-circle">
       <theme-controller />
     </button>
 
+    <!-- Avatar / Login -->
     @if (!userStore.isAuthenticated()) {
       <user-dropdown />
     } @else {
