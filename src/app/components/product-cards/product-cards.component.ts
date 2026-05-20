@@ -47,7 +47,6 @@ export class ProductCardsComponent {
 
   getImageUrl(name: string) {
     const shopSelected = ShopImagesSrc.find((shop) => shop.name === name);
-    // console.log(name, shopSelected);
 
     if (!shopSelected) return;
 
