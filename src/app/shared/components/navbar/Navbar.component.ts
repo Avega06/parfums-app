@@ -14,7 +14,7 @@ import { SearchInputComponent } from '../search-input/search-input.component';
 import { ProductsService } from '../../../services/products.service';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
 import { SearchList } from '../searchList/searchList';
 import { UserStore } from '../../stores';
 import { UserDropdown, UserAvatar } from '../auth';
@@ -28,6 +28,7 @@ import { UserDropdown, UserAvatar } from '../auth';
     SearchList,
     UserDropdown,
     UserAvatar,
+    NgOptimizedImage,
   ],
   templateUrl: './Navbar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
