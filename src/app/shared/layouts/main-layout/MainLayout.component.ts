@@ -9,22 +9,36 @@ import {
 } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { NavbarComponent } from '../../components';
+import {
+  NavbarComponent,
+  SearchInputComponent,
+  SearchList,
+} from '../../components';
 import { Footer } from '../../components/Footer/Footer';
 
 import { SupabaseService } from '../../services';
-import { UserStore } from '../../stores';
+import { ProductStore, UserStore } from '../../stores';
 import { Session, UserMetadata } from '@supabase/supabase-js';
 import { ToastMessage } from '../../components/toast-tmessage/ToastMessage';
+import { ProductsFinder } from '../../../components/ProductsFinder/ProductsFinder';
+import { MobileSideDrawer } from '../../components/mobile-side-drawer/mobile-side-drawer';
 
 @Component({
   selector: 'app-main-layout',
-  imports: [RouterOutlet, NavbarComponent, Footer, CommonModule, ToastMessage],
+  imports: [
+    RouterOutlet,
+    NavbarComponent,
+    Footer,
+    CommonModule,
+    ToastMessage,
+    MobileSideDrawer,
+  ],
   templateUrl: './MainLayout.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class MainLayoutComponent implements OnInit {
   public supabaseService = inject(SupabaseService);
+
   public userStore = inject(UserStore);
 
   public router = inject(Router);
@@ -32,10 +46,6 @@ export default class MainLayoutComponent implements OnInit {
   public session = signal<Session | null>(null);
 
   #platformId = inject(PLATFORM_ID);
-
-  isBrowser = computed(() => {
-    return isPlatformBrowser(this.#platformId);
-  });
 
   isOnline = signal<boolean | null>(this.userStore.isAuthenticated());
   toastMsg = signal<string | null>(null);
@@ -69,4 +79,8 @@ export default class MainLayoutComponent implements OnInit {
       this.toastMsg.set(`¡Bienvenido 👋 ${user['name']}!`);
     }
   }
+
+  isBrowser = computed(() => {
+    return isPlatformBrowser(this.#platformId);
+  });
 }

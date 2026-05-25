@@ -1,24 +1,15 @@
 <div
-  class="sticky top-0 z-30 w-full bg-base-100 shadow-sm shadow-base-300 px-4 flex items-center justify-between h-16"
+  class="sticky navbar top-0 z-30 w-full bg-base-100 shadow-sm shadow-base-300 px-4 flex items-center justify-between h-16"
 >
   <!-- Menú hamburguesa / Logo -->
-  <div class="navbar-start">
-    <!-- Logo (Ya no se va a estrujar porque tiene todo el espacio libre en móvil) -->
+  <div class="navbar-start flex items-center gap-2">
+    <!-- Logo -->
     <div class="min-w-[28%] tablet:max-w-[27%] pl-2">
       <img
         [routerLink]="['/']"
-        class="w-full logo cursor-pointer logo-coffee"
-        ngSrc="/logo-dark-transparent.png"
-        alt="Logo dark"
-        width="250"
-        height="50"
-        priority
-      />
-      <img
-        [routerLink]="['/']"
-        class="w-full logo cursor-pointer logo-light"
-        ngSrc="/logo-light-transparent.png"
-        alt="Logo dark"
+        class="w-full logo cursor-pointer"
+        [ngSrc]="logoSrc()"
+        alt="Logo de la aplicación"
         width="150"
         height="50"
         priority
@@ -26,45 +17,42 @@
     </div>
   </div>
 
-  <!-- Buscador (Oculto en móvil, visible en desktop) -->
-  <div class="navbar-center hidden lg:flex flex-col gap-1">
-    <div class="relative w-160">
-      <label class="input w-full">
-        <search-input (value)="productQuery.set($event)" />
-      </label>
-
-      @if (productNameResource.value()?.products && showResults()) {
-        <search-list [products]="productNameResource.value()?.products!" />
-      }
-    </div>
-  </div>
-
-  <!-- Íconos: Ocultos por defecto (hidden) y activos en pantallas grandes (lg:flex) -->
-  <div class="navbar-end gap-2 hidden lg:flex">
-    <!-- Lupa -->
-    <button class="btn btn-ghost btn-circle">
+  <div class="flex-none lg:hidden">
+    <label
+      for="mobile_drawer"
+      aria-label="open sidebar"
+      class="btn btn-square btn-ghost"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="h-5 w-5"
         fill="none"
         viewBox="0 0 24 24"
-        stroke="currentColor"
+        class="inline-block h-6 w-6 stroke-current"
       >
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
           stroke-width="2"
-          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-        />
+          d="M4 6h16M4 12h16M4 18h16"
+        ></path>
       </svg>
-    </button>
+    </label>
+  </div>
 
-    <!-- Tema -->
+  <!-- El resto de tu navbar permanece igual... -->
+  <div class="navbar-center hidden lg:flex flex-col gap-1">
+    <!-- Buscador Desktop -->
+    <div class="relative w-160">
+      <products-finder />
+    </div>
+  </div>
+
+  <div class="navbar-end gap-2 hidden lg:flex">
+    <!-- Iconos Desktop -->
+
     <button class="btn btn-ghost btn-circle">
       <theme-controller />
     </button>
-
-    <!-- Avatar / Login -->
     @if (!userStore.isAuthenticated()) {
       <user-dropdown />
     } @else {

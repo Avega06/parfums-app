@@ -1,7 +1,33 @@
-<input
-  type="search"
-  class="w-130 grow"
-  #txtSearch
-  (keyup)="searchValue.set(txtSearch.value)"
-  placeholder="Busca un producto"
-/>
+<label class="flex items-center w-68 tablet:w-155 gap-2 relative">
+  <input
+    type="text"
+    class="grow input input-ghost bg-transparent border-none border-0 p-0 shadow-none outline-none focus:outline-none focus:ring-0 pr-8"
+    #txtSearch
+    [value]="searchValue()"
+    (keyup)="searchValue.set(txtSearch.value)"
+    placeholder="Busca un producto"
+  />
+
+  @if (searchValue()) {
+    <button
+      type="button"
+      (click)="txtSearch.value = ''; searchValue.set('')"
+      [class.text-white]="themeStore.theme() === 'chadmax'"
+      [class.text-black]="themeStore.theme() === 'light'"
+      class="absolute right-4 opacity-60 hover:opacity-100 transition-opacity cursor-pointer font-bold select-none text-sm z-10"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+        class="size-5"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM8.28 7.22a.75.75 0 0 0-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 1 0 1.06 1.06L10 11.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L11.06 10l1.72-1.72a.75.75 0 0 0-1.06-1.06L10 8.94 8.28 7.22Z"
+          clip-rule="evenodd"
+        />
+      </svg>
+    </button>
+  }
+</label>

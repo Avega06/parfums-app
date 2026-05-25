@@ -1,4 +1,4 @@
-<div [attr.data-theme]="messages_theme()" class="z-[999]">
+<div [attr.data-theme]="messages_theme()">
   <div class="drawer drawer-end">
     <input
       id="chat-drawer"
@@ -11,7 +11,7 @@
       @if (isMinimize()) {
       <label
         for="chat-drawer"
-        class="avatar indicator btn tooltip-left btn-primary fixed bottom-6 right-6 rounded-full p-0 w-28 h-28 shadow-xl z-[1000] hover:scale-105 transition-all border-none"
+        class="avatar z-799 indicator btn tooltip-left btn-primary fixed bottom-6 right-6 rounded-full p-0 w-28 h-28 shadow-xl hover:scale-105 transition-all border-none"
         [class.tooltip]="isMinimize()"
         data-tip="¿Más detalles de este perfume? El olfato de Paco te los explica"
       >

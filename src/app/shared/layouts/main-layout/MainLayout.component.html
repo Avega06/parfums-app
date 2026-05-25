@@ -1,5 +1,18 @@
-<navbar />
+<div class="drawer drawer-end">
+  <input id="mobile_drawer" type="checkbox" class="drawer-toggle" />
 
-<router-outlet />
-<toast-message [(message)]="toastMsg" />
-<app-footer />
+  <!-- Todo el contenido de la página debe ir dentro de drawer-content -->
+  <div class="drawer-content flex flex-col">
+    <navbar />
+
+    <main class="flex-grow">
+      <router-outlet />
+    </main>
+
+    <toast-message [(message)]="toastMsg" />
+    <app-footer />
+  </div>
+
+  <!-- El panel lateral que se desliza -->
+  <mobile-side-drawer />
+</div>

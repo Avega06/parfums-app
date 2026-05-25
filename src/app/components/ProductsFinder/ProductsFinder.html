@@ -1,0 +1,6 @@
+<label class="input w-2xs tablet:w-full">
+  <search-input (value)="productsStore.productQuery.set($event)" />
+</label>
+@if (productFound() && showResults()) {
+<search-list [products]="productFound()" />
+}

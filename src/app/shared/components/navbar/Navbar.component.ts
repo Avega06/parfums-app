@@ -16,68 +16,70 @@ import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
 import { SearchList } from '../searchList/searchList';
-import { UserStore } from '../../stores';
+import { ProductStore, UserStore } from '../../stores';
 import { UserDropdown, UserAvatar } from '../auth';
+import { ThemeStore } from '../../../core/services/ThemeStore';
+import { ProductsFinder } from '../../../components/ProductsFinder/ProductsFinder';
 
 @Component({
   selector: 'navbar',
   imports: [
     ThemeControllerComponent,
-    SearchInputComponent,
     RouterLink,
-    SearchList,
     UserDropdown,
     UserAvatar,
     NgOptimizedImage,
+    ProductsFinder,
   ],
   templateUrl: './Navbar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent implements OnInit {
   #platformId = inject(PLATFORM_ID);
-  productsListService = inject(ProductsService);
+
   userStore = inject(UserStore);
+  themeStore = inject(ThemeStore);
 
   theme = signal<string>('');
-  productQuery = signal<string>('');
 
-  showResults = computed(() => this.productQuery().trim().length > 0);
+  width = signal(0);
 
   ngOnInit(): void {
     if (this.isBrowser()) {
       this.width.set(window.screen.width);
     }
   }
-  isBrowser = computed(() => {
-    return isPlatformBrowser(this.#platformId);
-  });
 
-  width = signal(0);
-
-  ce = effect(() => {
-    // Combinando ambas soluciones
-  });
-
-  productNameResource = resource({
-    params: this.productQuery,
-    loader: async ({ params }) => {
-      if (!params || params.trim().length === 0) {
-        return null;
-      }
-      try {
-        return await firstValueFrom(
-          this.productsListService.getProductLikeTerm(params),
-        );
-      } catch (err) {
-        if (!(err instanceof Error)) {
-          throw new Error(JSON.stringify(err));
-        }
-        throw err;
-      }
-    },
-  });
+  // productNameResource = resource({
+  //   params: this.productQuery,
+  //   loader: async ({ params }) => {
+  //     if (!params || params.trim().length === 0) {
+  //       return null;
+  //     }
+  //     try {
+  //       return await firstValueFrom(
+  //         this.productsListService.getProductLikeTerm(params),
+  //       );
+  //     } catch (err) {
+  //       if (!(err instanceof Error)) {
+  //         throw new Error(JSON.stringify(err));
+  //       }
+  //       throw err;
+  //     }
+  //   },
+  // });
 
   setTheme(theme: string) {
     this.theme.set(theme);
   }
+
+  isBrowser = computed(() => {
+    return isPlatformBrowser(this.#platformId);
+  });
+
+  logoSrc = computed(() => {
+    return this.themeStore.theme() === 'chadmax'
+      ? '/logo-dark-transparent.png' // Si está oscuro, muestra el logo claro
+      : '/logo-light-transparent.png'; // Si está claro, muestra el logo oscuro
+  });
 }

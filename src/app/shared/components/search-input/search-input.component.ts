@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { ProductsService } from '../../../services/products.service';
 import { on } from 'node:events';
+import { ThemeStore } from '../../../core/services/ThemeStore';
 
 @Component({
   selector: 'search-input',
@@ -16,7 +17,10 @@ import { on } from 'node:events';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchInputComponent {
+  themeStore = inject(ThemeStore);
+
   productService = inject(ProductsService);
+
   value = output<string>();
 
   searchValue = signal<string>('');
@@ -31,10 +35,4 @@ export class SearchInputComponent {
       clearTimeout(timeout);
     });
   });
-
-  // updateValue(event: Event) {
-  //   const input = event.target as HTMLInputElement;
-  //   this.value.emit(input.value);
-  //   //this.productService.searchValue.set(input.value);
-  // }
 }
