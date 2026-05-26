@@ -1,8 +1,10 @@
-<div class="w-full flex items-center justify-center p-4">
+<div
+  class="w-full min-h-screen flex items-center justify-center p-4 box-border"
+>
   <div
-    class="card w-full max-w-md bg-white/20 backdrop-blur-xl border border-white/30 shadow-2xl p-8"
+    class="card w-full max-w-sm sm:max-w-md bg-white/20 backdrop-blur-xl border border-white/30 shadow-2xl p-6 sm:p-8"
   >
-    <h2 class="text-3xl font-bold text-white text-center mb-6">
+    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-6">
       Bienvenido de nuevo
     </h2>
 
@@ -12,14 +14,14 @@
         placeholder="Email"
         [(ngModel)]="email"
         name="email"
-        class="input input-bordered w-full bg-white/10 border-white/20 text-white"
+        class="input input-bordered w-full bg-white/10 border-white/20 text-white focus:border-white/40"
       />
       <input
         type="password"
         placeholder="Contraseña"
         [(ngModel)]="password"
         name="password"
-        class="input input-bordered w-full bg-white/10 border-white/20 text-white"
+        class="input input-bordered w-full bg-white/10 border-white/20 text-white focus:border-white/40"
       />
 
       <button

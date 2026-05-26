@@ -27,19 +27,19 @@ export class SocialButtons {
   socialNetworks = computed<SocialNetworkInfo[]>(() => [
     {
       provider: 'google',
-      style: 'btn w-sm bg-white text-black border-[#e5e5e5]',
+      style: 'btn w-xs tablet:w-sm bg-white text-black border-[#e5e5e5]',
       svgFile: 'google.svg',
       text: 'Login with Google',
     },
     {
       provider: 'facebook',
-      style: 'btn w-sm bg-[#1A77F2] text-white border-[#005fd8]',
+      style: 'btn w-xs tablet:w-sm bg-[#1A77F2] text-white border-[#005fd8]',
       svgFile: 'facebook.svg',
       text: 'Login with Facebook',
     },
     {
       provider: 'x',
-      style: 'btn w-sm bg-black text-white border-black',
+      style: 'btn w-xs tablet:w-sm bg-black text-white border-black',
       svgFile: 'x.svg',
       text: 'Login with X',
     },
