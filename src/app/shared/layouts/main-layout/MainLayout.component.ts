@@ -37,7 +37,7 @@ import { MobileSideDrawer } from '../../components/mobile-side-drawer/mobile-sid
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class MainLayoutComponent implements OnInit {
-  public supabaseService = inject(SupabaseService);
+  // public supabaseService = inject(SupabaseService);
 
   public userStore = inject(UserStore);
 
@@ -57,21 +57,9 @@ export default class MainLayoutComponent implements OnInit {
       window.addEventListener('offline', () => this.isOnline.set(false));
     }
 
-    this.supabaseService.authChanges((event, session) => {
-      if (event === 'SIGNED_OUT') {
-        window.location.href = '/';
-      }
-
-      const { user_metadata } = session?.user as UserMetadata;
-      if (event === 'SIGNED_IN') {
-        this.dispararNotificacion(user_metadata);
-        this.userStore.userMetadata.set(user_metadata);
-
-        this.userStore.setAvatar();
-      }
-
-      this.supabaseService.session.set(session);
-    });
+    if (this.userStore.isAuthenticated()) {
+      this.dispararNotificacion(this.userStore.userMetadata());
+    }
   }
 
   async dispararNotificacion(user: UserMetadata) {

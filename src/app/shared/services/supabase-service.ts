@@ -10,16 +10,33 @@ import {
 import { SupabaseStorageService } from './supabase-storage-service';
 import { injectSupabase } from '../../supabase.config';
 import { environment } from '../../../environments/environment';
+import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Injectable({ providedIn: 'root' })
 export class SupabaseService {
   private supabase: SupabaseClient;
-  private storageCustom = inject(SupabaseStorageService);
+  private readonly platformId = inject(PLATFORM_ID);
+  private readonly router = inject(Router);
 
-  session = signal<AuthSession | null>(null);
+  private readonly _session = signal<Session | null>(null);
+  readonly session = this._session.asReadonly();
 
   constructor() {
     this.supabase = injectSupabase();
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.supabase.auth.onAuthStateChange((event, session) => {
+        // Actualizamos la señal inmediatamente con el estado de las cookies/sesión
+        this._session.set(session);
+
+        // Control de flujos globales de navegación
+        if (event === 'SIGNED_OUT') {
+          // En lugar de recargar la página completa, usa el router de Angular
+          this.router.navigate(['/login']);
+        }
+      });
+    }
   }
 
   // getSesion() {

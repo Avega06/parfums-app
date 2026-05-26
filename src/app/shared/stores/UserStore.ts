@@ -1,4 +1,3 @@
-// user.store.ts
 import {
   Injectable,
   inject,
@@ -6,66 +5,65 @@ import {
   computed,
   resource,
   PLATFORM_ID,
+  effect,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SupabaseService } from '../services';
-import { SSR_USER } from '../tokens'; // Define esto en un archivo de tokens
-import { User, UserMetadata } from '@supabase/supabase-js';
+import { SSR_USER } from '../tokens';
+import { User } from '@supabase/supabase-js';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({ providedIn: 'root' })
 export class UserStore {
-  private cookieService = inject(CookieService);
+  private readonly cookieService = inject(CookieService);
   private readonly supabase = inject(SupabaseService);
   private readonly platformId = inject(PLATFORM_ID);
-
-  // Recibimos el usuario inyectado desde el server.ts
   private readonly ssrUser = inject(SSR_USER, { optional: true });
 
-  // Signal principal iniciado con el valor de SSR
-  readonly user = signal<any | null>(this.ssrUser);
-
-  userMetadata = signal<UserMetadata>([]);
-
-  userResource = resource({
+  readonly userResource = resource({
     defaultValue: this.ssrUser,
     params: () => ({
-      session: this.supabase.session(), // Necesitas actualizar este signal en SupabaseService
+      session: this.supabase.session(), // 👈 Ahora escucha la señal global del servicio
       isBrowser: isPlatformBrowser(this.platformId),
     }),
     loader: async ({ params }) => {
-      if (!params.isBrowser) return this.ssrUser; // En servidor devolvemos lo que ya tenemos
-      // En cliente, si no hay sesión activa en el SDK, devolvemos null
+      if (!params.isBrowser) return this.ssrUser;
       if (!params.session) return null;
-
-      console.log('logging de sesion');
-
-      // Si hay sesión, pedimos el usuario actual al SDK para asegurar frescura
       return await this.supabase.getUser();
     },
   });
 
-  setAvatar() {
-    // Guardamos la cookie por 7 días, con path raíz y Secure
-    this.cookieService.set(
-      'user_avatar',
-      this.userMetadata()['picture'],
-      7,
-      '/',
-      '',
-      true,
-      'Lax',
-    );
+  // Computed signals limpias y reactivas
+  readonly currentUser = computed<User | null>(() => this.userResource.value());
+  readonly session = computed(() => this.supabase.session());
+  readonly isAuthenticated = computed(() => !!this.session());
+
+  readonly userMetadata = computed(
+    () => this.currentUser()?.user_metadata ?? {},
+  );
+  readonly userAvatar = computed<string | null>(() =>
+    this.cookieService.get('user_avatar'),
+  );
+  readonly isLoading = this.userResource.isLoading;
+
+  constructor() {
+    // 3. Efecto reactivo: Se dispara automáticamente cada vez que userMetadata cambie de valor
+    effect(() => {
+      const metadata = this.userMetadata();
+      const isBrowser = isPlatformBrowser(this.platformId);
+
+      if (isBrowser && metadata && metadata['picture']) {
+        // Setea el avatar automáticamente sin invocar métodos desde el Layout
+        this.cookieService.set(
+          'user_avatar',
+          metadata['picture'],
+          7,
+          '/',
+          '',
+          true,
+          'Lax',
+        );
+      }
+    });
   }
-
-  // Computed signals para el resto de la app
-  currentUser = computed<User>(() => this.userResource.value() ?? this.user());
-  session = computed(() => this.supabase.session());
-  isAuthenticated = computed(() => !!this.session());
-
-  userAvatar = computed<string | null>(() => {
-    return this.cookieService.get('user_avatar');
-  });
-
-  isLoading = this.userResource.isLoading;
 }

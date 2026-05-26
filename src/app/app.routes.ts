@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './shared/guards/auth-guard';
+import { authGuard, authInversedGuard } from './shared/guards';
 
 export const routes: Routes = [
   {
@@ -10,11 +10,13 @@ export const routes: Routes = [
         path: 'login',
         title: 'Iniciar Sesión',
         loadComponent: () => import('./pages/auth/login/login'),
+        canActivate: [authInversedGuard],
       },
       {
         path: 'signup',
         title: 'Crear Cuenta',
         loadComponent: () => import('./pages/auth/signup/signup'),
+        canActivate: [authInversedGuard],
       },
       {
         path: '**',
