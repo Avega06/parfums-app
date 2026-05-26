@@ -25,7 +25,7 @@ export class UserAvatar {
   isAvatarLoading = input.required<boolean>();
 
   userStore = inject(UserStore);
-  supabaseService = inject(SupabaseService);
+  private supabaseService = inject(SupabaseService);
 
   avatarUrl = signal<string>('');
 
