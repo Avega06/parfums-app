@@ -1,13 +1,14 @@
 @if (parfumsResource.isLoading()) {
-  @for (i of [].constructor(30); track $index) {
-    <skeleton-view class="w-full tablet:flex-none tablet:basis-[30%]" />
+  @for (item of skeletonArray(); track $index) {
+    <skeleton-view
+      class="w-full tablet:flex-none tablet:basis-[30%] laptop:basis-[30%]"
+    />
   }
 } @else {
   @for (product of products(); track product.parfumId) {
     <product-cards
       class="w-full tablet:flex-none cursor-pointer laptop:basis-[30%]"
       [routerLink]="[`/product/${product.product}`]"
-      routerLinkActive="router-link-active"
       [product]="product"
       (click)="selectedProduct(product)"
     />

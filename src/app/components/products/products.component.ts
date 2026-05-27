@@ -6,6 +6,7 @@ import {
   inject,
   input,
   resource,
+  signal,
 } from '@angular/core';
 import { Product } from '../../intefaces/products-response.interface';
 import { ProductCardsComponent } from '../product-cards/product-cards.component';
@@ -29,6 +30,8 @@ export class ProductsComponent {
 
   currentPage = input.required<string>();
   activeFilters = input<FilterState>();
+
+  protected skeletonArray = signal(Array(30).fill(0));
 
   selectedProduct(product: Product) {
     this.productsService.product.set(product);

@@ -1,13 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'skeleton-view',
-  template: ` <div class="skeleton h-[570px] w-100 tablet:w-70"></div> `,
+  standalone: true,
+  template: `
+    <div class="skeleton w-full h-full min-h-[635px] rounded-xl"></div>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SkeletonViewComponent {}
