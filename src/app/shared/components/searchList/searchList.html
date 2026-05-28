@@ -3,24 +3,26 @@
 >
   @if (products().length > 0) {
   <li class="p-4 pb-2 text-xs font-semibold opacity-60 tracking-wide">
-    Resultados de la busqueda:
+    Resultados de la búsqueda:
   </li>
-  @for ( product of encodedProducts(); track product.id ) {
+
+  @for (product of encodedProducts(); track product.id) {
   <li class="list-row">
-    <div>
-      <div class="text-xs uppercase font-semibold opacity-60">
-        {{product.shop}}:
-      </div>
-      <div class="text-md font-semibold">
-        <a
-          (click)="goToProduct(product.encodedName)"
-          class="cursor-pointer"
-          (mousedown)="$event.preventDefault()"
-        >
+    <label
+      [attr.for]="isMobile() ? 'mobile_drawer' : null"
+      aria-label="close sidebar"
+      class="w-full cursor-pointer block"
+      (click)="goToProduct(product.encodedName)"
+    >
+      <div>
+        <div class="text-xs uppercase font-semibold opacity-60">
+          {{ product.shop }}:
+        </div>
+        <div class="text-md font-semibold hover:underline">
           {{ product.name }}
-        </a>
+        </div>
       </div>
-    </div>
+    </label>
   </li>
   } } @else {
   <li class="p-4 pb-2 text-xs opacity-60 tracking-wide">
