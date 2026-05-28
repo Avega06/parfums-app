@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -52,10 +53,24 @@ export default class ParfumListComponent implements OnInit {
     audience: null,
   });
 
+  isMobile = signal<boolean>(false);
+
   totalPages = computed<string>(() => {
     const total = this.productsListService.totalPages() ?? '0';
     return total;
   });
+
+  constructor() {
+    afterNextRender(() => {
+      const mediaQuery = window.matchMedia('(max-width: 1023px)');
+
+      this.isMobile.set(mediaQuery.matches);
+
+      mediaQuery.addEventListener('change', (e) => {
+        this.isMobile.set(e.matches);
+      });
+    });
+  }
 
   ngOnInit(): void {
     this.supabaseService.authChanges((event, session) => {
