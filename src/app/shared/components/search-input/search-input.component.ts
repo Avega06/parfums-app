@@ -7,7 +7,6 @@ import {
   signal,
 } from '@angular/core';
 import { ProductsService } from '../../../services/products.service';
-import { on } from 'node:events';
 import { ThemeStore } from '../../../core/services/ThemeStore';
 
 @Component({
