@@ -25,6 +25,7 @@ import {
   PriceHistory,
 } from '../../components/product-price-history-chart/product-price-history-chart.component';
 import { UserStore } from '../../shared/stores';
+import { UserButtons } from '../../shared/components/user-buttons/user-buttons';
 
 @Component({
   selector: 'app-product',
@@ -33,6 +34,7 @@ import { UserStore } from '../../shared/stores';
     ChatbotComponent,
     ProductPriceHistoryChartComponent,
     ProductImageComponent,
+    UserButtons,
   ],
   templateUrl: './product.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
