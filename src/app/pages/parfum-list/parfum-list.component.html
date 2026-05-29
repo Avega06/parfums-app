@@ -8,11 +8,26 @@
 
     @if (isMobile()) {
       <div class="drawer">
-        <input id="my-drawer-1" type="checkbox" class="drawer-toggle" />
+        <input id="filter-drawer" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
           <!-- Page content here -->
-          <label for="my-drawer-1" class="btn drawer-button">Open drawer</label>
+          <label for="filter-drawer" class="btn btn-ghost drawer-button"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              class="size-5"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M6 4.75A.75.75 0 0 1 6.75 4h10.5a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 4.75ZM6 10a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H6.75A.75.75 0 0 1 6 10Zm0 5.25a.75.75 0 0 1 .75-.75h10.5a.75.75 0 0 1 0 1.5H6.75a.75.75 0 0 1-.75-.75ZM1.99 4.75a1 1 0 0 1 1-1H3a1 1 0 0 1 1 1v.01a1 1 0 0 1-1 1h-.01a1 1 0 0 1-1-1v-.01ZM1.99 15.25a1 1 0 0 1 1-1H3a1 1 0 0 1 1 1v.01a1 1 0 0 1-1 1h-.01a1 1 0 0 1-1-1v-.01ZM1.99 10a1 1 0 0 1 1-1H3a1 1 0 0 1 1 1v.01a1 1 0 0 1-1 1h-.01a1 1 0 0 1-1-1V10Z"
+                clip-rule="evenodd"
+              />
+            </svg>
+            Filtros
+          </label>
         </div>
+
         <div class="drawer-side">
           <label
             for="filter-drawer"
@@ -35,13 +50,12 @@
       />
     } @else {
       <div class="flex items-start gap-6 tablet:col-span-3">
-        <div class="tablet:block w-1/5">
+        <div class="hidden tablet:block w-1/5">
           <app-perfume-filters
             (onFiltersChange)="updateFilters($event)"
             class="block p-0"
           />
         </div>
-
         <products
           class="flex-1"
           [currentPage]="currentPage()!"
