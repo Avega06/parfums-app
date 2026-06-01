@@ -1,10 +1,9 @@
-<div class="drawer drawer-end">
+<navbar />
+
+<div class="drawer drawer-end h-[calc(100vh-64px)]">
   <input id="mobile_drawer" type="checkbox" class="drawer-toggle" />
 
-  <!-- Todo el contenido de la página debe ir dentro de drawer-content -->
-  <div class="drawer-content flex flex-col">
-    <navbar />
-
+  <div class="drawer-content flex flex-col overflow-y-auto">
     <main class="flex-grow">
       <router-outlet />
     </main>
@@ -13,6 +12,5 @@
     <app-footer />
   </div>
 
-  <!-- El panel lateral que se desliza -->
-  <mobile-side-drawer />
+  <mobile-side-drawer class="drawer-side z-40" />
 </div>

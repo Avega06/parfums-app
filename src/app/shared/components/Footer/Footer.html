@@ -4,14 +4,14 @@
       [routerLink]="['/']"
       class="logo cursor-pointer logo-coffee"
       width="150"
-      src="logo-dark-transparent.png"
+      [srcset]="themeStore.logoSrc()"
       alt="Logo dark"
     />
     <img
       [routerLink]="['/']"
-      class="logo cursor-pointer logo-light"
+      class="logo cursor-pointer mt-1 logo-light"
       width="150"
-      src="logo-light-transparent.png"
+      [srcset]="themeStore.logoSrc()"
       alt="Logo light"
     />
     <p>

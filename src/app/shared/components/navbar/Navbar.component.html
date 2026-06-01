@@ -4,15 +4,17 @@
   <!-- Menú hamburguesa / Logo -->
   <div class="navbar-start flex items-center gap-2">
     <!-- Logo -->
-    <div class="min-w-[28%] tablet:max-w-[27%] pl-2">
+    <div
+      class="min-w-[35%] tablet:max-w-[27%] pl-2"
+      [class.bottom-2]="themeStore.theme() === 'light'"
+    >
       <img
         [routerLink]="['/']"
-        class="w-full logo cursor-pointer"
-        [ngSrc]="logoSrc()"
+        class="w-full logo object-center cursor-pointer"
+        [class.mt-3]="themeStore.theme() === 'light'"
+        [srcset]="themeStore.logoSrc()"
+        [src]="themeStore.logoSrc()"
         alt="Logo de la aplicación"
-        width="150"
-        height="50"
-        priority
       />
     </div>
   </div>

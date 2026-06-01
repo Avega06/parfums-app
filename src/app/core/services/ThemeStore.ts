@@ -1,4 +1,11 @@
-import { Injectable, PLATFORM_ID, inject, signal, effect } from '@angular/core';
+import {
+  Injectable,
+  PLATFORM_ID,
+  inject,
+  signal,
+  effect,
+  computed,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 export type Theme = 'light' | 'coffee' | 'chadmax';
@@ -34,4 +41,10 @@ export class ThemeStore {
   toggle(): void {
     this._theme.set(this._theme() === 'chadmax' ? 'light' : 'chadmax');
   }
+
+  logoSrc = computed(() => {
+    return this.theme() === 'chadmax'
+      ? '/logo-dark-transparent-v2.png' // Si está oscuro, muestra el logo claro
+      : '/logo-light-transparent-v2.png'; // Si está claro, muestra el logo oscuro
+  });
 }

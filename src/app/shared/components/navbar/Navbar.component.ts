@@ -10,13 +10,9 @@ import {
   signal,
 } from '@angular/core';
 import { ThemeControllerComponent } from '../theme-controller/ThemeController.component';
-import { SearchInputComponent } from '../search-input/search-input.component';
-import { ProductsService } from '../../../services/products.service';
 import { RouterLink } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
 import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
-import { SearchList } from '../searchList/searchList';
-import { ProductStore, UserStore } from '../../stores';
+import { UserStore } from '../../stores';
 import { UserDropdown, UserAvatar } from '../auth';
 import { ThemeStore } from '../../../core/services/ThemeStore';
 import { ProductsFinder } from '../../../components/ProductsFinder/ProductsFinder';
@@ -28,7 +24,6 @@ import { ProductsFinder } from '../../../components/ProductsFinder/ProductsFinde
     RouterLink,
     UserDropdown,
     UserAvatar,
-    NgOptimizedImage,
     ProductsFinder,
   ],
   templateUrl: './Navbar.component.html',
@@ -75,11 +70,5 @@ export class NavbarComponent implements OnInit {
 
   isBrowser = computed(() => {
     return isPlatformBrowser(this.#platformId);
-  });
-
-  logoSrc = computed(() => {
-    return this.themeStore.theme() === 'chadmax'
-      ? '/logo-dark-transparent.png' // Si está oscuro, muestra el logo claro
-      : '/logo-light-transparent.png'; // Si está claro, muestra el logo oscuro
   });
 }
