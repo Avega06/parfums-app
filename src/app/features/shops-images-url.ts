@@ -10,7 +10,7 @@ export const ShopImagesSrc: ShopImageSrc[] = [
   },
   {
     name: 'Mz Perfumes',
-    src: 'https://mzperfumes.cl/wp-content/uploads/2021/10/L2.png',
+    src: 'https://assets.jumpseller.com/store/mzperfumes-cl/themes/941247/settings/4b77a615e0f8fa3231ad/Dise%C3%B1o%20sin%20t%C3%ADtulo%20%284%29.png?1769627281',
   },
   {
     name: 'Comprar en Chile',
