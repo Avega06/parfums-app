@@ -1,7 +1,25 @@
-<figure class="w-full flex items-center justify-center py-2">
+<!-- <figure class="w-full h-56 flex items-center justify-center py-2">
+  @if (isLoading()) {
+    <div class="skeleton h-52 w-full"></div>
+  } @else {
+    <img
+      [ngSrc]="imageSrc()"
+      [alt]="imageName()"
+      class="object-contain w-full transition-transform duration-700 hover:scale-110"
+      width="100px"
+      priority
+    />
+  }
+</figure> -->
+
+<figure #imageEl class="relative h-60 w-full">
   <img
-    [srcset]="imageSrc()"
-    [alt]="imageName()"
-    class="object-contain w-full transition-transform duration-700 hover:scale-110 h-68"
+    [ngSrc]="
+      imageSrc() ||
+      'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930'
+    "
+    [alt]="imageName() || 'Imagen del producto'"
+    fill
+    class="rounded-xl object-contain transition-transform duration-700 hover:scale-110"
   />
 </figure>

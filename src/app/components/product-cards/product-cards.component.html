@@ -1,11 +1,14 @@
-<figure #imageEl class="px-10 pt-10">
+<figure
+  #imageEl
+  class="tablet:h-60 w-full px-10 pt-10 flex rounded-xl justify-center items-center"
+>
   <img
     [srcset]="
       product()!.imageUrl ||
       'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930'
     "
     [alt]="product()?.product"
-    class="rounded-xl"
+    class="rounded-xl w-full h-full object-contain"
   />
 </figure>
 <div class="card-body items-center text-center">

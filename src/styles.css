@@ -44,6 +44,25 @@
   --breakpoint-mobile: 24.5625rem;
 
   --max-w-mobile: 24.5625rem;
+
+  --animate-gemini-loading: geminiFluid 9s ease infinite; /* Más sutil y lento */
+  --background-image-gemini-aurora: linear-gradient(
+    220deg,
+    #091326,
+    /* Azul medianoche ultra oscuro */ #022c22,
+    /* Verde bosque / notas verdes profundas */ #120024,
+    /* Violeta místico oscuro */ #2a1202 /* Ámbar/Madera oscura */
+  );
+
+  @keyframes geminiFluid {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
 }
 
 @plugin "daisyui" {

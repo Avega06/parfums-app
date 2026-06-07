@@ -35,13 +35,14 @@ import { UserButtons } from '../../shared/components/user-buttons/user-buttons';
     ProductPriceHistoryChartComponent,
     ProductImageComponent,
     UserButtons,
+    ShopModalComponent,
   ],
   templateUrl: './product.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ProductComponent {
   product_id = input<string>();
-  shopModal = viewChild<HTMLDialogElement>('shopModal');
+  modal = viewChild(ShopModalComponent);
 
   open = signal(false);
 
@@ -142,7 +143,7 @@ export default class ProductComponent {
   }
 
   openShopModal() {
-    this.isShopModalOpen.set(true);
+    this.modal()?.open();
   }
 
   closeModal(isClose: boolean) {

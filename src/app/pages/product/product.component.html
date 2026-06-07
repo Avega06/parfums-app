@@ -19,6 +19,7 @@
         <product-image
           [imageSrc]="product()!.imageUrl"
           [imageName]="product()!.product"
+          [isLoading]="productResource.isLoading()"
         />
 
         @if (showUserButtons()) {
@@ -28,7 +29,7 @@
     </div>
 
     <div class="lg:col-span-7 flex flex-col gap-6">
-      <div class="card bg-[#1a1a1a] shadow-xl">
+      <div class="card card-lg bg-[#1a1a1a] shadow-xl">
         <div class="card-body">
           <div class="space-y-1">
             <p
@@ -151,3 +152,7 @@
   </div>
 </div>
 <app-chatbot [productName]="product()!.product" (closeChatbot)="toggle()" />
+
+@if (shopName()) {
+  <shop-modal [shop]="shopName()" (isModalChecked)="closeModal($event)" />
+}
