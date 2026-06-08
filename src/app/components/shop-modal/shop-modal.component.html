@@ -34,6 +34,45 @@
         </div>
 
         <div class="flex-col w-full space-y-6">
+          @if (currentShopNetworks().length > 0) {
+            <div>
+              <span
+                class="text-[0.6rem] uppercase font-bold opacity-40 tracking-widest block mb-2"
+              >
+                Redes Sociales
+              </span>
+              <div class="flex flex-wrap gap-2">
+                @for (sn of currentShopNetworks(); track sn.network) {
+                  <a
+                    [href]="sn.link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-sm bg-white/5 border border-white/10 text-slate-200 rounded-xl flex items-center gap-2 normal-case transition-all duration-300"
+                    [class.hover:bg-[#e1306c]/10]="sn.network === 'Instagram'"
+                    [class.hover:border-[#e1306c]/30]="
+                      sn.network === 'Instagram'
+                    "
+                    [class.hover:bg-[#ff0050]/10]="sn.network === 'Tiktok'"
+                    [class.hover:border-[#ff0050]/30]="sn.network === 'Tiktok'"
+                    [class.hover:bg-[#1877f2]/10]="sn.network === 'Facebook'"
+                    [class.hover:border-[#1877f2]/30]="
+                      sn.network === 'Facebook'
+                    "
+                  >
+                    <img
+                      class="object-contain w-4 h-4"
+                      [src]="sn.icon"
+                      [alt]="'Icono de ' + sn.network"
+                    />
+                    <span class="text-xs font-semibold opacity-80">{{
+                      sn.network
+                    }}</span>
+                  </a>
+                }
+              </div>
+            </div>
+          }
+
           <div>
             <span
               class="text-[0.6rem] uppercase font-bold opacity-40 tracking-widest block mb-1"

@@ -21,6 +21,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { ShopSocialNetworks } from '../../features';
 
 interface UserReview {
   author: string;
@@ -148,5 +149,13 @@ export class ShopModalComponent {
 
   averageRatingRounded = computed(() => {
     return Math.round(this.averageRating());
+  });
+
+  currentShopNetworks = computed(() => {
+    const currentShopName = this.shop();
+    const foundShop = ShopSocialNetworks.find(
+      (s) => s.name.toLowerCase() === currentShopName?.toLowerCase(),
+    );
+    return foundShop ? foundShop.socialNetworks : [];
   });
 }
