@@ -23,6 +23,11 @@ export const ShopSocialNetworks: ShopNetwork[] = [
         icon: 'tiktok.svg',
         link: 'https://www.tiktok.com/@munoztore_perfumes',
       },
+      {
+        network: 'Facebook',
+        icon: 'facebook.svg',
+        link: 'https://www.facebook.com/p/munoztore_perfumes-100064201208193/?locale=es_LA',
+      },
     ],
   },
   {
@@ -33,10 +38,15 @@ export const ShopSocialNetworks: ShopNetwork[] = [
         icon: 'tiktok.svg',
         link: 'https://www.tiktok.com/@amocosmetic.cl',
       },
+      {
+        network: 'Facebook',
+        icon: 'facebook.svg',
+        link: 'https://www.facebook.com/cosmetic.cl1/',
+      },
     ],
   },
   {
-    name: 'Compra en Chile',
+    name: 'Comprar en Chile',
     socialNetworks: [
       {
         network: 'Instagram',
@@ -47,6 +57,11 @@ export const ShopSocialNetworks: ShopNetwork[] = [
         network: 'Tiktok',
         icon: 'tiktok.svg',
         link: 'https://www.tiktok.com/@comprarenchilecl',
+      },
+      {
+        network: 'Facebook',
+        icon: 'facebook.svg',
+        link: 'https://www.facebook.com/TiktokPerfumes',
       },
     ],
   },
