@@ -1,9 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { ShopImagesSrc } from '../features/shops-images-url';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class ShopService {
   constructor() {}
 

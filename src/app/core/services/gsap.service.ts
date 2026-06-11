@@ -1,10 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class GsapService {
   constructor() {
     gsap.registerPlugin(ScrollToPlugin);

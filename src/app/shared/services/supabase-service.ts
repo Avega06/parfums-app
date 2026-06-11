@@ -1,19 +1,16 @@
-import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { inject, Service, PLATFORM_ID, signal } from '@angular/core';
 import {
   AuthChangeEvent,
-  AuthSession,
-  createClient,
   Session,
   SupabaseClient,
   type User,
 } from '@supabase/supabase-js';
-import { SupabaseStorageService } from './supabase-storage-service';
 import { injectSupabase } from '../../supabase.config';
 import { environment } from '../../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class SupabaseService {
   private supabase: SupabaseClient;
   private readonly platformId = inject(PLATFORM_ID);

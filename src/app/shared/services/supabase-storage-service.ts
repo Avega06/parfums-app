@@ -1,9 +1,9 @@
-import { Injectable, inject, PLATFORM_ID } from '@angular/core';
+import { Service, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { REQUEST } from '../tokens';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class SupabaseStorageService {
   private readonly cookieService = inject(CookieService);
   private readonly platformId = inject(PLATFORM_ID);

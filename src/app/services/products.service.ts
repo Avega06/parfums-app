@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Service, signal } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import {
   Product,
@@ -8,9 +8,7 @@ import {
 import { FilterState, ProductByTerm, ShopInfoResponse } from '../intefaces';
 import { environment } from '../../environments/environment';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class ProductsService {
   searchValue = signal<string>('');
   product = signal<Product | null>(null);

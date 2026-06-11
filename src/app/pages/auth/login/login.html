@@ -8,19 +8,17 @@
       Bienvenido de nuevo
     </h2>
 
-    <form (ngSubmit)="onLogin()" class="space-y-4">
+    <form [formRoot]="loginForm" class="space-y-4">
       <input
         type="email"
         placeholder="Email"
-        [(ngModel)]="email"
-        name="email"
+        [formField]="loginForm.email"
         class="input input-bordered w-full bg-white/10 border-white/20 text-white focus:border-white/40"
       />
       <input
         type="password"
         placeholder="Contraseña"
-        [(ngModel)]="password"
-        name="password"
+        [formField]="loginForm.password"
         class="input input-bordered w-full bg-white/10 border-white/20 text-white focus:border-white/40"
       />
 
