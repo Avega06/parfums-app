@@ -16,7 +16,13 @@ const __dirname = dirname(__filename);
 const browserDistFolder = join(__dirname, '../browser');
 
 const app = express();
-const angularApp = new AngularNodeAppEngine();
+
+app.set('trust proxy', true);
+
+const angularApp = new AngularNodeAppEngine({
+  allowedHosts: ['parfums-app.onrender.com'],
+  trustProxyHeaders: true,
+});
 
 /**
  * Example Express Rest API endpoints can be defined here.
