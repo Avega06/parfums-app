@@ -1,9 +1,16 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormGroup, FormsModule } from '@angular/forms';
 import { SupabaseService } from '../../../shared/services';
 import { SocialButtons } from '../../../shared/components';
-import { form, required, FormRoot, FormField } from '@angular/forms/signals';
+import {
+  form,
+  required,
+  FormRoot,
+  FormField,
+  validate,
+  SchemaPath,
+} from '@angular/forms/signals';
 
 interface SignUpFormModel {
   firstName: string;
@@ -11,6 +18,23 @@ interface SignUpFormModel {
   email: string;
   password: string;
   confirmPassword: string;
+}
+
+export function passwordEquals(
+  passwordPath: SchemaPath<string>,
+  confirmPath: SchemaPath<string>,
+  message: string = 'Las contraseñas no coinciden',
+) {
+  validate(confirmPath, ({ value, valueOf }) => {
+    const confirmValue = value();
+    const passwordValue = valueOf(passwordPath);
+
+    if (!passwordValue) return null;
+
+    return confirmValue === passwordValue
+      ? null
+      : { kind: 'passwordMismatch', message };
+  });
 }
 
 @Component({
@@ -48,15 +72,16 @@ export default class SignUpComponent {
       required(schemaPath.email);
       required(schemaPath.password);
       required(schemaPath.confirmPassword);
+      passwordEquals(schemaPath.password, schemaPath.confirmPassword);
     },
     {
       submission: {
         action: async (field) => {
           const signUpValues = field().value;
 
-          const { ...values } = signUpValues();
+          const values = field().value;
 
-          await this.onSubmit(values);
+          await this.onSubmit(values());
         },
       },
     },
@@ -82,4 +107,13 @@ export default class SignUpComponent {
   async socialLogin(provider: any) {
     await this.authService.loginWithProvider(provider);
   }
+
+  passwordMismatchError = computed(() => {
+    const errors = this.signUpForm.confirmPassword().errors();
+
+    // Como es un Arreglo, verificamos si alguno cumple con la condición
+    return !!(
+      errors && errors.some((error) => error.kind === 'passwordMismatch')
+    );
+  });
 }
