@@ -57,7 +57,7 @@ export class SignUpForm {
     (schemaPath) => {
       required(schemaPath.firstName, { message: 'El nombre es requerido' });
       required(schemaPath.lastName, { message: 'El apellido es requerido' });
-      required(schemaPath.email, { message: 'El email requerido' });
+      required(schemaPath.email, { message: 'El email es requerido' });
       email(schemaPath.email, { message: 'El email es invalido' });
       required(schemaPath.password, { message: 'La contraseña es requerida' });
       required(schemaPath.confirmPassword, {

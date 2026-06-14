@@ -38,9 +38,11 @@ export class LoginForm {
   loginForm = form(
     this.loginModel,
     (schemaPath) => {
-      required(schemaPath.email);
-      email(schemaPath.email);
-      required(schemaPath.password);
+      required(schemaPath.email, { message: 'El email es requerido' });
+      email(schemaPath.email, { message: 'El email es invalido' });
+      required(schemaPath.password, {
+        message: 'La contraseña es requerida',
+      });
     },
     {
       submission: {
