@@ -6,6 +6,7 @@ import {
   resource,
   PLATFORM_ID,
   effect,
+  Service,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { SupabaseService } from '../services';
@@ -13,7 +14,7 @@ import { SSR_USER } from '../tokens';
 import { User } from '@supabase/supabase-js';
 import { CookieService } from 'ngx-cookie-service';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class UserStore {
   private readonly cookieService = inject(CookieService);
   private readonly supabase = inject(SupabaseService);

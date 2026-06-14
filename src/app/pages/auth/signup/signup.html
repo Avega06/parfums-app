@@ -8,56 +8,7 @@
       Registrar una cuenta
     </h2>
 
-    <form [formRoot]="signUpForm" class="space-y-4">
-      <div class="flex flex-col sm:flex-row gap-2">
-        <input
-          type="text"
-          placeholder="Nombre"
-          [formField]="signUpForm.firstName"
-          class="input input-bordered font-bold w-full bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
-        />
-        <input
-          type="text"
-          placeholder="Apellido"
-          [formField]="signUpForm.lastName"
-          class="input input-bordered w-full font-bold bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-white/40"
-        />
-      </div>
-
-      <input
-        type="email"
-        placeholder="Tu email"
-        [formField]="signUpForm.email"
-        class="input input-bordered w-full font-bold bg-white/10 border-white/20 text-white focus:border-white/40"
-      />
-
-      <input
-        type="password"
-        placeholder="Contraseña"
-        [formField]="signUpForm.password"
-        class="input input-bordered w-full font-bold bg-white/10 border-white/20 text-white focus:border-white/40"
-      />
-
-      <input
-        type="password"
-        placeholder="Confirmar Contraseña"
-        [formField]="signUpForm.confirmPassword"
-        class="input input-bordered font-bold w-full bg-white/10 border-white/20 text-white focus:border-white/40"
-      />
-
-      @if (passwordMismatchError() && signUpForm.confirmPassword().touched()) {
-      <p class="text-sm font-bold mt-1 text-error">
-        Las contraseñas no coinciden.
-      </p>
-      }
-
-      <button
-        type="submit"
-        class="btn btn-neutral w-full bg-black hover:bg-black/80 border-none text-white mt-2"
-      >
-        Crear cuenta
-      </button>
-    </form>
+    <sign-up-form />
 
     <div class="divider font-bold text-white text-xs my-4">
       También puedes registrarte mediante

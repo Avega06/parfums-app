@@ -8,27 +8,7 @@
       Bienvenido de nuevo
     </h2>
 
-    <form [formRoot]="loginForm" class="space-y-4">
-      <input
-        type="email"
-        placeholder="Email"
-        [formField]="loginForm.email"
-        class="input input-bordered w-full bg-white/10 border-white/20 text-white focus:border-white/40"
-      />
-      <input
-        type="password"
-        placeholder="Contraseña"
-        [formField]="loginForm.password"
-        class="input input-bordered w-full bg-white/10 border-white/20 text-white focus:border-white/40"
-      />
-
-      <button
-        type="submit"
-        class="btn btn-neutral w-full bg-black border-none text-white"
-      >
-        Acceder
-      </button>
-    </form>
+    <login-form />
 
     <div class="text-center mt-4">
       <p class="text-white/70 text-sm">

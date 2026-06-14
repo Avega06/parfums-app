@@ -1,10 +1,8 @@
-import { inject, Injectable, resource, signal } from '@angular/core';
+import { inject, resource, Service, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ProductsService } from '../../services/products.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Service()
 export class ProductStore {
   private productsService = inject(ProductsService);
 

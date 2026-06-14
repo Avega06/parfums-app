@@ -1,0 +1,56 @@
+<form [formRoot]="signUpForm" novalidate class="space-y-4">
+  <div class="flex flex-col sm:flex-row gap-3">
+    <form-input
+      [formField]="signUpForm.firstName"
+      type="email"
+      placeholder="Nombre"
+      formClass="input input-bordered placeholder:text-white/90 placeholder:font-bold w-full font-bold bg-white/10 border-white/20 text-white focus:border-white/40"
+      [errors]="signUpForm.firstName().errors()"
+      [isTouched]="signUpForm.firstName().touched()"
+    />
+    <form-input
+      [formField]="signUpForm.lastName"
+      type="email"
+      placeholder="Apellido"
+      formClass="input input-bordered placeholder:text-white/90 placeholder:font-bold w-full font-bold bg-white/10 border-white/20 text-white focus:border-white/40"
+      [errors]="signUpForm.lastName().errors()"
+      [isTouched]="signUpForm.lastName().touched()"
+    />
+  </div>
+
+  <form-input
+    [formField]="signUpForm.email"
+    type="email"
+    placeholder="Tu email"
+    formClass="input input-bordered placeholder:text-white/90 placeholder:font-bold w-full font-bold bg-white/10 border-white/20 text-white focus:border-white/40"
+    [errors]="signUpForm.email().errors()"
+    [isTouched]="signUpForm.email().touched()"
+    [errors]="signUpForm.email().errors()"
+    [isTouched]="signUpForm.email().touched()"
+  />
+
+  <form-input
+    [formField]="signUpForm.password"
+    type="password"
+    placeholder="Contraseña"
+    formClass="input input-bordered placeholder:text-white/90 placeholder:font-bold w-full font-bold bg-white/10 border-white/20 text-white focus:border-white/40"
+    [errors]="signUpForm.password().errors()"
+    [isTouched]="signUpForm.password().touched()"
+  />
+
+  <form-input
+    [formField]="signUpForm.confirmPassword"
+    type="password"
+    placeholder="Confirmar Contraseña"
+    formClass="input input-bordered placeholder:text-white/90 placeholder:font-bold w-full font-bold bg-white/10 border-white/20 text-white focus:border-white/40"
+    [errors]="signUpForm.confirmPassword().errors()"
+    [isTouched]="signUpForm.confirmPassword().touched()"
+  />
+
+  <button
+    type="submit"
+    class="btn btn-neutral w-full bg-black hover:bg-black/80 border-none text-white mt-2"
+  >
+    Crear cuenta
+  </button>
+</form>
