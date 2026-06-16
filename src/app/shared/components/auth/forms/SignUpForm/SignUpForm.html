@@ -34,6 +34,7 @@
     formClass="input input-bordered placeholder:text-white/90 placeholder:font-bold w-full font-bold bg-white/10 border-white/20 text-white focus:border-white/40"
     [errors]="signUpForm.password().errors()"
     [isTouched]="signUpForm.password().touched()"
+    [isPasswordInfo]="true"
   />
 
   <form-input
