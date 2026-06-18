@@ -1,0 +1,38 @@
+<div
+  class="w-full min-h-screen flex items-center justify-center p-4 box-border"
+>
+  <div
+    class="card w-full max-w-sm sm:max-w-md bg-white/20 backdrop-blur-xl border border-white/30 shadow-2xl p-6 sm:p-8 rounded-2xl"
+  >
+    <!-- Logo -->
+    <div class="flex justify-center items-center mb-4">
+      <img class="w-70" src="logo-dark-transparent-v2.png" alt="Logo" />
+    </div>
+
+    <!-- Título -->
+    <h2 class="text-2xl sm:text-3xl font-bold text-white text-center mb-4">
+      📧 ¡Casi listo!
+    </h2>
+
+    <!-- Mensaje Principal -->
+    <p class="text-white text-center font-medium mb-4">Verificación enviada</p>
+
+    <!-- Instrucciones -->
+    <p class="text-white/80 text-sm text-center leading-relaxed mb-6">
+      Hemos enviado un enlace de confirmación a tu correo electrónico. Por
+      favor, revisa tu bandeja de entrada
+      <span class="text-white font-semibold"
+        >(y la carpeta de spam por si acaso)</span
+      >
+      y haz clic en el enlace para activar tu cuenta.
+    </p>
+
+    <!-- Botón de acción (Estilo acorde al glassmorphism) -->
+    <button
+      (click)="goToLogin()"
+      class="w-full bg-white/20 hover:bg-white/30 text-white font-semibold py-2.5 px-4 rounded-xl border border-white/20 transition-all duration-200 shadow-md backdrop-blur-sm"
+    >
+      Volver al Login
+    </button>
+  </div>
+</div>

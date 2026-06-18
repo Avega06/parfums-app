@@ -10,6 +10,7 @@ import {
 } from '@angular/forms/signals';
 import { SupabaseService } from '../../../../services';
 import { FormInput } from '../../../form-input/form-input';
+import { Router } from '@angular/router';
 
 interface SignUpFormModel {
   firstName: string;
@@ -43,6 +44,7 @@ export function passwordEquals(
 })
 export class SignUpForm {
   private authService = inject(SupabaseService);
+  private router = inject(Router);
 
   signUpModel = signal<SignUpFormModel>({
     firstName: '',
@@ -92,7 +94,9 @@ export class SignUpForm {
       },
     );
     if (error) console.error(error);
-    else alert('Revisa tu correo de confirmación');
+    if (data.user && !data.session) {
+      this.router.navigate(['auth/verify-email']);
+    }
   }
 
   passwordMismatchError = computed(() => {

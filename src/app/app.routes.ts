@@ -19,6 +19,10 @@ export const routes: Routes = [
         canActivate: [authInversedGuard],
       },
       {
+        path: 'verify-email',
+        loadComponent: () => import('./pages/auth/verify-email/verify-email'),
+      },
+      {
         path: '**',
         redirectTo: 'login',
       },

@@ -59,8 +59,11 @@ export class LoginForm {
 
   async onLogin(email: string, password: string) {
     const { data, error } = await this.supabaseService.login(email, password);
-
-    if (error) alert(error.message);
+    console.log(error?.code);
+    if (error?.code === 'email_not_confirmed') {
+      await this.router.navigate(['auth/verify-email']);
+      return;
+    }
     if (data) await this.router.navigate(['/']);
   }
 }
