@@ -1,5 +1,10 @@
 import { Component, computed, effect, input, signal } from '@angular/core';
-import { Field, FormField, ValidationError } from '@angular/forms/signals';
+import {
+  Field,
+  form,
+  FormField,
+  ValidationError,
+} from '@angular/forms/signals';
 
 @Component({
   selector: 'form-input',
@@ -20,16 +25,45 @@ export class FormInput {
   placeholder = input<string>();
   errors = input<ValidationError.WithFieldTree[]>();
 
-  showPassword = signal(false);
+  showPassword = signal<boolean>(false);
+  isFocussed = signal<boolean>(false);
+  inputValue = signal<string>('');
 
   toggleVisibility() {
     this.showPassword.update((value) => !value);
   }
 
-  passwordInfo = computed(() => [
-    'Debe tener más de 8 caracteres, incluyendo',
-    '- Al menos un número',
-    '- Al menos una letra minúscula',
-    '- Al menos una letra mayúscula`',
-  ]);
+  isInvalidField = computed<boolean>(() => {
+    const field = this.formField();
+
+    return field().invalid();
+  });
+
+  passwordInfo = computed(() => {
+    if (this.type() !== 'password') return;
+    const field = this.formField();
+
+    const value = field().value() || '';
+
+    const hasValue = value.length > 0;
+
+    return [
+      {
+        valid: hasValue && !this.errors()!.some((e) => e.kind === 'minLength'),
+        message: 'Debe tener más de 8 caracteres, incluyendo:',
+      },
+      {
+        valid: !this.errors()!.some((e) => e.kind === 'requireNumber'),
+        message: 'Al menos un número',
+      },
+      {
+        valid: !this.errors()!.some((e) => e.kind === 'requireLowercase'),
+        message: 'Al menos una letra minúscula',
+      },
+      {
+        valid: !this.errors()!.some((e) => e.kind === 'requireUppercase'),
+        message: 'Al menos una letra mayúscula`',
+      },
+    ];
+  });
 }

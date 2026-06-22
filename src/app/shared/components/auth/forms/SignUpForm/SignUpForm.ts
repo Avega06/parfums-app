@@ -7,6 +7,7 @@ import {
   FormRoot,
   FormField,
   email,
+  minLength,
 } from '@angular/forms/signals';
 import { SupabaseService } from '../../../../services';
 import { FormInput } from '../../../form-input/form-input';
@@ -62,16 +63,44 @@ export class SignUpForm {
       required(schemaPath.email, { message: 'El email es requerido' });
       email(schemaPath.email, { message: 'El email es invalido' });
       required(schemaPath.password, { message: 'La contraseña es requerida' });
+      minLength(schemaPath.password, 8, {
+        message: 'Debe tener mas de 8 caracteres',
+      });
+      validate(schemaPath.password, ({ value }) => {
+        const text = value() || '';
+        const errors: { kind: string; message: string }[] = [];
+
+        if (!/[A-Z]/.test(text)) {
+          errors.push({
+            kind: 'requireUppercase',
+            message: 'Debe contener al menos una letra mayúscula',
+          });
+        }
+        if (!/[a-z]/.test(text)) {
+          errors.push({
+            kind: 'requireLowercase',
+            message: 'Debe contener al menos una letra minúscula',
+          });
+        }
+        if (!/\d/.test(text)) {
+          errors.push({
+            kind: 'requireNumber',
+            message: 'Debe contener al menos un número',
+          });
+        }
+
+        // Si hay errores, devolvemos el array. Si no, null.
+        return errors.length > 0 ? errors : null;
+      });
+
+      passwordEquals(schemaPath.password, schemaPath.confirmPassword);
       required(schemaPath.confirmPassword, {
         message: 'La confirmación de la contraseña es requerida',
       });
-      passwordEquals(schemaPath.password, schemaPath.confirmPassword);
     },
     {
       submission: {
         action: async (field) => {
-          const signUpValues = field().value;
-
           const values = field().value;
 
           await this.onSubmit(values());
