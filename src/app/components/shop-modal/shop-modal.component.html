@@ -214,7 +214,7 @@
         </div>
 
         <form
-          [formGroup]="reviewForm"
+          [formRoot]="reviewForm"
           (ngSubmit)="submitReview()"
           class="bg-[#222] p-4 rounded-2xl space-y-4 border border-white/5"
         >
@@ -228,37 +228,32 @@
             <div class="rating rating-sm sm:rating-md">
               <input
                 type="radio"
-                name="rating"
                 value="1"
-                formControlName="rating"
+                [formField]="reviewForm.rating"
                 class="mask mask-star-2 bg-amber-400"
               />
               <input
                 type="radio"
-                name="rating"
                 value="2"
-                formControlName="rating"
+                [formField]="reviewForm.rating"
                 class="mask mask-star-2 bg-amber-400"
               />
               <input
                 type="radio"
-                name="rating"
                 value="3"
-                formControlName="rating"
+                [formField]="reviewForm.rating"
                 class="mask mask-star-2 bg-amber-400"
               />
               <input
                 type="radio"
-                name="rating"
                 value="4"
-                formControlName="rating"
+                [formField]="reviewForm.rating"
                 class="mask mask-star-2 bg-amber-400"
               />
               <input
                 type="radio"
-                name="rating"
                 value="5"
-                formControlName="rating"
+                [formField]="reviewForm.rating"
                 class="mask mask-star-2 bg-amber-400"
                 defaultChecked
               />
@@ -267,7 +262,7 @@
 
           <div class="relative">
             <textarea
-              formControlName="comment"
+              [formField]="reviewForm.comment"
               placeholder="Escribe tu experiencia con esta tienda..."
               rows="2"
               class="textarea textarea-bordered w-full bg-[#161616] border-white/10 text-slate-200 text-sm rounded-xl focus:outline-none focus:border-primary resize-none p-3"
@@ -277,7 +272,7 @@
           <div class="flex justify-end">
             <button
               type="submit"
-              [disabled]="reviewForm.invalid"
+              [disabled]="reviewForm().invalid()"
               class="btn btn-primary btn-sm rounded-xl font-bold px-4 tracking-wide"
             >
               Publicar Opinión

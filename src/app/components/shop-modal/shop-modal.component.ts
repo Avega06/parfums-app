@@ -22,6 +22,13 @@ import {
 } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ShopSocialNetworks } from '../../features';
+import {
+  form,
+  FormField,
+  FormRoot,
+  minLength,
+  required,
+} from '@angular/forms/signals';
 
 interface UserReview {
   author: string;
@@ -30,11 +37,15 @@ interface UserReview {
   date: Date;
 }
 
+interface ReviewModel {
+  rating: string;
+  comment: string;
+}
+
 @Component({
   selector: 'shop-modal',
   standalone: true,
-  // 2. Agregar ReactiveFormsModule y DatePipe a los imports
-  imports: [ReactiveFormsModule, DatePipe],
+  imports: [FormRoot, FormField, DatePipe],
   templateUrl: './shop-modal.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -48,16 +59,28 @@ export class ShopModalComponent {
   shopModal = viewChild<ElementRef<HTMLDialogElement>>('dialog');
   isOpen = signal(false);
 
-  reviewForm = new FormGroup({
-    rating: new FormControl<number>(5, {
-      nonNullable: true,
-      validators: [Validators.required],
-    }),
-    comment: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(3)],
-    }),
+  reviewModel = signal<ReviewModel>({
+    rating: '5',
+    comment: '',
   });
+
+  reviewForm = form(this.reviewModel, (schemaPath) => {
+    required(schemaPath.rating);
+    required(schemaPath.comment);
+
+    minLength(schemaPath.comment, 3);
+  });
+
+  // reviewForm = new FormGroup({
+  //   rating: new FormControl<number>(5, {
+  //     nonNullable: true,
+  //     validators: [Validators.required],
+  //   }),
+  //   comment: new FormControl<string>('', {
+  //     nonNullable: true,
+  //     validators: [Validators.required, Validators.minLength(3)],
+  //   }),
+  // });
 
   // 4. Signal para almacenar los comentarios reactivamente
   reviews = signal<UserReview[]>([
@@ -110,13 +133,13 @@ export class ShopModalComponent {
 
   // 5. Método para procesar el nuevo comentario de forma reactiva
   submitReview() {
-    if (this.reviewForm.invalid) return;
+    if (this.reviewForm().invalid()) return;
 
-    const { rating, comment } = this.reviewForm.getRawValue();
+    const { rating, comment } = this.reviewForm().value();
 
     const newReview: UserReview = {
       author: 'Usuario Anónimo', // Aquí puedes enlazar tu UserStore si lo requieres
-      rating,
+      rating: +rating,
       comment,
       date: new Date(),
     };
@@ -125,7 +148,7 @@ export class ShopModalComponent {
     this.reviews.update((current) => [newReview, ...current]);
 
     // Reseteamos el formulario a sus valores base
-    this.reviewForm.reset({ rating: 5, comment: '' });
+    this.reviewForm().reset({ rating: '5', comment: '' });
   }
 
   open() {
