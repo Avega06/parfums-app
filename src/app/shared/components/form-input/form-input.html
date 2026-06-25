@@ -100,7 +100,8 @@
 </div>
 
 <ul class="list ml-2">
-  @for(error of errors(); track error){ @if(isTouched() && isInvalidField()){
+  @for(error of errors(); track error){ @if(isTouched() && isInvalidField() &&
+  !isPasswordInfo()){
   <li class="text-sm font-bold mt-1 text-error">{{error.message}}</li>
   } }
 </ul>
