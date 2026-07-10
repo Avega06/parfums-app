@@ -1,29 +1,78 @@
-<figure
-  #imageEl
-  class="tablet:h-60 w-full px-10 pt-10 flex rounded-xl justify-center items-center"
+<!-- Contenedor Blanco de la Imagen (Simula el visor del detalle del producto) -->
+<div
+  class="bg-white p-6 relative aspect-square flex items-center justify-center rounded-[2.5rem] m-2 overflow-hidden"
 >
-  <img
-    [srcset]="
-      product()!.imageUrl ||
-      'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930'
-    "
-    [alt]="product()?.product"
-    class="rounded-xl w-full h-full object-contain"
-  />
-</figure>
-<div class="card-body items-center text-center">
-  <h2 class="card-title">{{ product()?.brand }}</h2>
-  <span class="">{{ product()?.product }}</span>
-  <span class="font-bold">{{
-    product()?.price | currency: "CLP" : "symbol-narrow"
-  }}</span>
-  <div class="pt-2 card-actions flex gap-2 justify-center">
-    <span class="text-info italic underline">Disponible en:</span>
+  <!-- Badge de tipo u oferta (Opcional, estilo similar al del detalle) -->
+  @if (product()?.type) {
+    <div class="absolute top-4 left-4 z-10">
+      <span
+        class="badge badge-outline border-slate-200 text-slate-400 font-bold px-3 py-2.5 text-[10px] uppercase tracking-widest rounded-lg"
+      >
+        {{ product()?.type }}
+      </span>
+    </div>
+  }
 
+  <!-- Contenedor animable por GSAP -->
+  <figure #imageEl class="w-full h-full flex justify-center items-center">
     <img
-      [srcset]="getImageUrl(product()?.shop!)"
-      [alt]="product()?.shop"
-      class="h-14 w-22 bg-slate-100 rounded-sm object-contain"
+      [srcset]="
+        product()!.imageUrl ||
+        'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930'
+      "
+      [alt]="product()?.product"
+      class="w-full h-full object-contain"
     />
+  </figure>
+</div>
+
+<!-- Cuerpo de la Tarjeta (Alineación a la izquierda y textos estilizados tipo detalle) -->
+<div class="card-body p-6 flex flex-col justify-between flex-1 gap-4 text-left">
+  <div class="space-y-1">
+    <!-- Marca o Tienda principal en la cabecera -->
+    <p
+      class="text-primary font-bold text-[11px] uppercase tracking-[0.15em] flex items-center gap-1.5 opacity-90"
+    >
+      <span class="w-4 h-[1px] bg-primary"></span>
+      {{ product()?.brand }}
+    </p>
+
+    <!-- Nombre del Perfume (Con line-clamp-2 para que las tarjetas mantengan la misma altura) -->
+    <h3
+      class="text-base font-black text-white leading-snug line-clamp-2 min-h-[2.5rem]"
+    >
+      {{ product()?.product }}
+    </h3>
+  </div>
+
+  <!-- Fila de Precio e Info de Disponibilidad -->
+  <div
+    class="flex items-center justify-between pt-3 border-t border-white/5 w-full mt-auto"
+  >
+    <!-- Bloque de Precio -->
+    <div class="flex flex-col">
+      <span class="text-[9px] uppercase font-bold opacity-40 tracking-widest"
+        >Precio Hoy</span
+      >
+      <span class="text-2xl font-black text-white italic">
+        {{ product()?.price | currency: "CLP" : "symbol-narrow" }}
+      </span>
+    </div>
+
+    <!-- Miniatura del Distribuidor -->
+    <div class="flex flex-col items-end gap-1">
+      <span class="text-[9px] uppercase font-bold opacity-40 tracking-widest"
+        >Disponible en:</span
+      >
+      <div
+        class="w-10 h-10 bg-white rounded-xl flex items-center justify-center p-1 shadow-md"
+      >
+        <img
+          [srcset]="getImageUrl(product()?.shop!)"
+          [alt]="product()?.shop"
+          class="object-contain h-full w-full"
+        />
+      </div>
+    </div>
   </div>
 </div>

@@ -33,7 +33,7 @@ export class UserAvatar {
     if (this.userStore.isAuthenticated())
       this.avatarUrl.set(this.userStore.userAvatar()!);
 
-    console.log({
+    console.log('user_avatar', {
       avatar_url: this.avatarUrl(),
       auth: this.userStore.isAuthenticated(),
     });

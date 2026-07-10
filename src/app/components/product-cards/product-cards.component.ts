@@ -21,7 +21,7 @@ import { GsapService } from '../../core/services/gsap.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class:
-      'card card-dash cursor-pointer card-border bg-base-200 card-xl  shadow-md ',
+      'card bg-[#1a1a1a] shadow-xl rounded-[2.5rem] border border-white/5 overflow-hidden transition-transform duration-300 hover:scale-[1.02] flex flex-col h-full w-full',
   },
 })
 export class ProductCardsComponent {
