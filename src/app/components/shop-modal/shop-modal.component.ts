@@ -71,32 +71,8 @@ export class ShopModalComponent {
     minLength(schemaPath.comment, 3);
   });
 
-  // reviewForm = new FormGroup({
-  //   rating: new FormControl<number>(5, {
-  //     nonNullable: true,
-  //     validators: [Validators.required],
-  //   }),
-  //   comment: new FormControl<string>('', {
-  //     nonNullable: true,
-  //     validators: [Validators.required, Validators.minLength(3)],
-  //   }),
-  // });
-
-  // 4. Signal para almacenar los comentarios reactivamente
-  reviews = signal<UserReview[]>([
-    {
-      author: 'Homero S.',
-      rating: 5,
-      comment: 'Excelente servicio y despacho súper rápido.',
-      date: new Date('2026-05-12'),
-    },
-    {
-      author: 'Francisco A.',
-      rating: 4,
-      comment: 'Muy buena atención, aunque el stock variaba un poco.',
-      date: new Date('2026-06-02'),
-    },
-  ]);
+  public isLoading = signal<boolean>(false);
+  reviews = signal<UserReview[]>([]);
 
   isMobile = computed(() => {
     const nav = navigator as any;
@@ -131,24 +107,43 @@ export class ShopModalComponent {
       firstValueFrom(this.productsService.getShopByName(params!.shop_name)),
   });
 
-  // 5. Método para procesar el nuevo comentario de forma reactiva
-  submitReview() {
+  async submitReview() {
+    // Validar formulario (invocando la función del form signal si es un Signal-based form)
     if (this.reviewForm().invalid()) return;
 
     const { rating, comment } = this.reviewForm().value();
 
-    const newReview: UserReview = {
-      author: 'Usuario Anónimo', // Aquí puedes enlazar tu UserStore si lo requieres
-      rating: +rating,
-      comment,
-      date: new Date(),
-    };
+    this.isLoading.set(true);
 
-    // Actualizamos el signal de reseñas de manera inmutable
-    this.reviews.update((current) => [newReview, ...current]);
+    try {
+      // 2. Llamamos a la Edge Function pasándole los datos limpios
+      const response = await this.shopService.insertShopComment(
+        this.shopResource.value()?.at(0)?.shopId!,
+        +rating,
+        comment,
+      );
 
-    // Reseteamos el formulario a sus valores base
-    this.reviewForm().reset({ rating: '5', comment: '' });
+      // 3. Si la Edge Function responde con éxito, construimos el objeto final
+      // Nota: 'response.data' contendrá las columnas reales devueltas por Postgres (id, created_at, etc.)
+      const newReview: UserReview = {
+        author: 'Tú', // O la data que extraigas de tu UserStore/Auth
+        rating: response.data.rating,
+        comment: response.data.comment,
+        date: new Date(response.data.created_at), // Usamos la fecha exacta del servidor en UTC
+      };
+
+      // 4. Actualizamos el signal de reseñas de manera inmutable
+      this.reviews.update((current) => [newReview, ...current]);
+
+      // 5. Reseteamos el formulario a sus valores base solo si se guardó con éxito
+      this.reviewForm().reset({ rating: '5', comment: '' });
+    } catch (error) {
+      console.error('Error al guardar la reseña:', error);
+      // Aquí puedes manejar una alerta visual en la UI usando otro Signal si lo deseas
+      alert('Hubo un error al publicar tu comentario. Inténtalo de nuevo.');
+    } finally {
+      this.isLoading.set(false);
+    }
   }
 
   open() {

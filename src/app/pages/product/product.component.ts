@@ -79,8 +79,6 @@ export default class ProductComponent {
   ]);
 
   product = computed(() => {
-    console.log('selected product', this.productsService.product());
-
     if (this.productsService.product()) return this.productsService.product()!;
 
     const resourceValue = this.productResource.value()?.at(0);
@@ -89,8 +87,7 @@ export default class ProductComponent {
   });
 
   shopName = computed<string>(() => {
-    console.log(this.product()!.shop);
-    return this.product()!.shop;
+    return this.product()?.shop!;
   });
 
   public productName = toSignal<string>(
@@ -102,31 +99,30 @@ export default class ProductComponent {
 
   constructor() {
     effect(() => {
-      if (this.userStore.isAuthenticated()) this.showUserButtons.set(true);
+      // 1. Manejo del estado de autenticación de forma independiente
+      if (this.userStore.isAuthenticated()) {
+        this.showUserButtons.set(true);
+      }
 
-      const pageTitle = this.product()!.product;
-      const pageDescription = `${this.product()!.product} | ${
-        this.product()!.shop
-      }`;
+      // 2. Obtenemos el producto actual de la señal computada
+      const currentProduct = this.product();
 
-      const imageSrc = `${this.product()!.imageUrl}`;
-      this.title.setTitle(`${pageTitle}`);
-      this.meta.updateTag({
-        name: 'description',
-        content: pageDescription,
-      });
-      this.meta.updateTag({
-        name: 'og:title',
-        content: pageTitle,
-      });
-      this.meta.updateTag({
-        name: 'og:description',
-        content: pageDescription,
-      });
-      this.meta.updateTag({
-        name: 'og:image',
-        content: imageSrc,
-      });
+      // Si el resource aún no se resuelve o la señal está vacía, salimos de forma segura
+      if (!currentProduct) return;
+
+      // 3. Una vez que el producto existe, extraemos sus propiedades de forma segura
+      const pageTitle = currentProduct.product;
+      const pageDescription = `${currentProduct.product} | ${currentProduct.shop}`;
+      const imageSrc = currentProduct.imageUrl;
+
+      // 4. Asignamos los metatags (Se ejecutará tanto en Servidor como en Cliente)
+      this.title.setTitle(pageTitle);
+      this.meta.updateTag({ name: 'description', content: pageDescription });
+      this.meta.updateTag({ name: 'og:title', content: pageTitle });
+      this.meta.updateTag({ name: 'og:description', content: pageDescription });
+      this.meta.updateTag({ name: 'og:image', content: imageSrc });
+
+      console.log(currentProduct);
     });
   }
 
@@ -147,7 +143,6 @@ export default class ProductComponent {
   }
 
   closeModal(isClose: boolean) {
-    console.log('isClose value:', isClose);
     this.isShopModalOpen.set(isClose);
   }
 
