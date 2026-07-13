@@ -19,8 +19,4 @@ export class ProductImageComponent {
 
   heigth = input<string>();
   width = input<string>();
-
-  ce = effect(() => {
-    console.log(this.isLoading());
-  });
 }

@@ -6,6 +6,7 @@ import {
   inject,
   input,
   output,
+  PLATFORM_ID,
   signal,
   viewChild,
 } from '@angular/core';
@@ -16,6 +17,7 @@ import { ThemeStore } from '../../../core/services/ThemeStore';
 import { GsapService } from '../../../core/services';
 import { UserStore } from '../../stores';
 import { AutoGrowDirective } from '../../directives/AutoGrow';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   standalone: true,
@@ -29,6 +31,9 @@ export class ChatbotComponent {
   private chatBootService = inject(ChatBot);
   private themeStore = inject(ThemeStore);
   userStore = inject(UserStore);
+
+  #platformId = inject(PLATFORM_ID);
+  #isBrowser = isPlatformBrowser(this.#platformId);
 
   private gsapService = inject(GsapService);
 
@@ -92,18 +97,20 @@ export class ChatbotComponent {
 
     const storageKey = `paco_sid_${product.toLowerCase().replace(/\s+/g, '_')}`;
 
-    const existingSid = sessionStorage.getItem(storageKey);
+    if (this.#isBrowser) {
+      const existingSid = sessionStorage.getItem(storageKey);
 
-    if (existingSid) {
-      this.sessionId.set(existingSid);
-    } else {
-      this.clearOtherPacoSessions();
+      if (existingSid) {
+        this.sessionId.set(existingSid);
+      } else {
+        this.clearOtherPacoSessions();
 
-      const newUuid = crypto.randomUUID();
-      sessionStorage.setItem(storageKey, newUuid);
-      this.sessionId.set(newUuid);
+        const newUuid = crypto.randomUUID();
+        sessionStorage.setItem(storageKey, newUuid);
+        this.sessionId.set(newUuid);
 
-      this.messages.set([]);
+        this.messages.set([]);
+      }
     }
   });
 

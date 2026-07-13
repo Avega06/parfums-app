@@ -91,10 +91,7 @@ export default class ProductComponent {
   });
 
   public productName = toSignal<string>(
-    this.route.params.pipe(
-      map((params) => params['product_id'] ?? ''),
-      tap(console.log),
-    ),
+    this.route.params.pipe(map((params) => params['product_id'] ?? '')),
   );
 
   constructor() {
@@ -121,8 +118,6 @@ export default class ProductComponent {
       this.meta.updateTag({ name: 'og:title', content: pageTitle });
       this.meta.updateTag({ name: 'og:description', content: pageDescription });
       this.meta.updateTag({ name: 'og:image', content: imageSrc });
-
-      console.log(currentProduct);
     });
   }
 

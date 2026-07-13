@@ -90,8 +90,6 @@ export class ProductPriceHistoryChartComponent {
 
     const theme = this.themeStore.theme();
 
-    console.log({ theme });
-
     return {
       chart: {
         type: 'area',
