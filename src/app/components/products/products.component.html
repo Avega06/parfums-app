@@ -1,13 +1,14 @@
 @if (parfumsResource.isLoading()) {
   @for (item of skeletonArray(); track $index) {
+    <!-- 2 columnas en Tablet (calc 50% - gap), 3 en Laptop (calc 33.3% - gap) -->
     <skeleton-view
-      class="w-full tablet:flex-none tablet:basis-[30%] laptop:basis-[30%]"
+      class="w-full tablet:flex-none tablet:basis-[calc(50%-1.25rem)] laptop:basis-[30%]"
     />
   }
 } @else {
   @for (product of products(); track product.parfumId) {
     <product-cards
-      class="w-full tablet:flex-none cursor-pointer laptop:basis-[30%]"
+      class="w-full tablet:flex-none tablet:basis-[calc(50%-1.25rem)] laptop:basis-[30%] cursor-pointer"
       [routerLink]="[`/product/${product.product}`]"
       [product]="product"
       (click)="selectedProduct(product)"

@@ -1,4 +1,4 @@
-<div class="">
+<div>
   <div
     class="grid grid-cols-1 tablet:grid-cols-3 gap-6 py-10 max-w-7xl mx-auto px-4 items-start"
   >
@@ -9,12 +9,12 @@
     </div>
 
     @if (isMobile()) {
-      <div class="drawer">
+      <!-- 1. Agregamos tablet:col-span-3 aquí para que el botón de filtros ocupe todo el ancho -->
+      <div class="drawer col-span-1 tablet:col-span-3">
         <input id="filter-drawer" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content">
-          <!-- Page content here -->
-          <label for="filter-drawer" class="btn btn-ghost drawer-button"
-            ><svg
+          <label for="filter-drawer" class="btn btn-ghost drawer-button">
+            <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
@@ -37,7 +37,6 @@
             class="drawer-overlay"
           ></label>
           <ul class="menu min-h-full w-50">
-            <!-- Sidebar content here -->
             <app-perfume-filters
               (onFiltersChange)="updateFilters($event)"
               class="block"
@@ -45,8 +44,10 @@
           </ul>
         </div>
       </div>
+
+      <!-- 2. Agregamos tablet:col-span-3 aquí para que la lista de productos use el ancho real de la pantalla -->
       <products
-        class="flex-1"
+        class="flex-1 col-span-1 tablet:col-span-3"
         [currentPage]="currentPage()!"
         [activeFilters]="activeFilters()"
       />
