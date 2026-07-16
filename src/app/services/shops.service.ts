@@ -2,6 +2,7 @@ import { Service } from '@angular/core';
 import { ShopImagesSrc } from '../features/shops-images-url';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { injectSupabase } from '../supabase.config';
+import { ShopComments } from '../intefaces';
 
 @Service()
 export class ShopService {
@@ -37,6 +38,22 @@ export class ShopService {
       return data; // Esto devolverá el JSON que configuramos en el "Response.json" de la función
     } catch (error) {
       console.error('Error al invocar la Edge Function:', error);
+      throw error;
+    }
+  }
+
+  async getShopComments(shopId: string): Promise<ShopComments[]> {
+    try {
+      const { data: comments, error } = await this.supabase
+        .from('view_shop_comments')
+        .select('*')
+        .eq('shop_id', shopId)
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+
+      return comments;
+    } catch (error) {
+      console.error('Error al intentar encontrar los commentarios', { error });
       throw error;
     }
   }

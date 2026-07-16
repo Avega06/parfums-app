@@ -55,27 +55,29 @@
                 {{ product()?.price! | currency: "CLP" : "symbol-narrow" }}
               </span>
             </div>
-            <a
-              [href]="product()?.link!"
-              target="_blank"
-              class="btn btn-primary rounded-2xl flex-1 h-16 text-lg font-bold"
-            >
-              Ir a la tienda
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            <div class="aura text-yellow-500 duration-3000 w-full">
+              <a
+                [href]="product()?.link!"
+                target="_blank"
+                class="btn bg-base-300 text-neutral-content w-full h-16 text-lg font-bold border-none"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
-            </a>
+                Ir a la tienda
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                  />
+                </svg>
+              </a>
+            </div>
           </div>
         </div>
       </div>
