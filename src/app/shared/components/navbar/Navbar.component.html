@@ -4,17 +4,20 @@
   <!-- Menú hamburguesa / Logo -->
   <div class="navbar-start flex items-center gap-2">
     <!-- Logo -->
-    <div
-      class="min-w-[35%] tablet:max-w-[27%] pl-2"
-      [class.bottom-2]="themeStore.theme() === 'light'"
-    >
+    <div class="min-w-[35%] tablet:max-w-[27%] pl-2 logo-container">
+      <!-- Logo para Tema Claro -->
       <img
         [routerLink]="['/']"
-        class="w-full logo object-center cursor-pointer"
-        [class.mt-3]="themeStore.theme() === 'light'"
-        [srcset]="themeStore.logoSrc()"
-        [src]="themeStore.logoSrc()"
-        alt="Logo de la aplicación"
+        class="w-full logo mt-2.5 logo-light object-center cursor-pointer"
+        src="/logo-light-transparent-v2.png"
+        alt="Logo de la aplicación (Claro)"
+      />
+      <!-- Logo para Tema Oscuro/Chadmax -->
+      <img
+        [routerLink]="['/']"
+        class="w-full logo logo-coffee object-center cursor-pointer"
+        src="/logo-dark-transparent-v2.png"
+        alt="Logo de la aplicación (Oscuro)"
       />
     </div>
   </div>

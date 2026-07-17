@@ -23,11 +23,7 @@
         try {
           const theme = localStorage.getItem("theme") || "light";
           document.documentElement.setAttribute("data-theme", theme);
-        } catch (e) {
-          document.documentElement.setAttribute("data-theme", "light");
-        } finally {
-          document.documentElement.classList.remove("pretheme");
-        }
+        } catch (e) {}
       })();
     </script>
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
