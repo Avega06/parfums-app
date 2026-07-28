@@ -33,7 +33,6 @@
     <p
       class="text-primary font-bold text-[11px] uppercase tracking-[0.15em] flex items-center gap-1.5 opacity-90"
     >
-      <span class="w-4 h-[1px] bg-primary"></span>
       {{ product()?.brand }}
     </p>
 
@@ -54,7 +53,7 @@
       <span class="text-[9px] uppercase font-bold opacity-40 tracking-widest"
         >Precio Hoy</span
       >
-      <span class="text-2xl font-black text-white italic">
+      <span class="text-2xl font-black text-white">
         {{ product()?.price | currency: "CLP" : "symbol-narrow" }}
       </span>
     </div>
