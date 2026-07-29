@@ -32,6 +32,7 @@ import {
 } from '@angular/forms/signals';
 import { ShopComments } from '../../intefaces';
 import { ShopReviews } from '../ShopReviews/shop-reviews';
+import { ThemeStore } from '../../core/services/ThemeStore';
 
 interface ReviewModel {
   rating: string;
@@ -48,6 +49,10 @@ interface ReviewModel {
 export class ShopModalComponent {
   shopService = inject(ShopService);
   productsService = inject(ProductsService);
+
+  themeStore = inject(ThemeStore);
+
+  protected readonly styles = this.themeStore.globalStyles;
 
   shop = input.required<string>();
   isModalChecked = output<boolean>();

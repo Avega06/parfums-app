@@ -7,6 +7,7 @@ import {
   computed,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { GlobalStyle } from '../../intefaces';
 
 export type Theme = 'light' | 'coffee' | 'chadmax';
 
@@ -46,5 +47,19 @@ export class ThemeStore {
     return this.theme() === 'chadmax'
       ? '/logo-dark-transparent-v2.png' // Si está oscuro, muestra el logo claro
       : '/logo-light-transparent-v2.png'; // Si está claro, muestra el logo oscuro
+  });
+
+  globalStyles = computed<GlobalStyle>(() => {
+    return this.theme() === 'chadmax'
+      ? {
+          card_bg: '#1a1a1a',
+          btn_bg: 'bg-base-300',
+          card_text_opacity: '',
+        }
+      : {
+          card_bg: '',
+          btn_bg: '',
+          card_text_opacity: '',
+        };
   });
 }

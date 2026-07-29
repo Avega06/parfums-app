@@ -1,10 +1,16 @@
 <dialog #dialog class="modal modal-bottom sm:modal-middle">
   <div
-    class="modal-box bg-[#1a1a1a] text-slate-200 p-6 tablet:p-10 shadow-2xl rounded-[2rem] max-w-3xl max-h-[85vh] overflow-y-auto"
+    class="modal-box p-6 tablet:p-10 shadow-2xl rounded-[2rem] max-w-3xl max-h-[85vh] overflow-y-auto transition-colors duration-300"
+    [style.background-color]="styles().card_bg || null"
+    [class.text-slate-200]="themeStore.theme() === 'chadmax'"
+    [class.text-slate-800]="themeStore.theme() !== 'chadmax'"
   >
+    <!-- Botón Cerrar X -->
     <button
       (click)="close()"
-      class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 opacity-50 hover:opacity-100 hover:bg-white/10"
+      class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 opacity-50 hover:opacity-100"
+      [class.hover:bg-white/10]="themeStore.theme() === 'chadmax'"
+      [class.hover:bg-black/10]="themeStore.theme() !== 'chadmax'"
     >
       ✕
     </button>
@@ -15,13 +21,18 @@
       >
         Información del Comercio:
       </p>
-      <h3 class="text-3xl font-black text-white leading-tight">
+      <h3
+        class="text-3xl font-black leading-tight"
+        [class.text-white]="themeStore.theme() === 'chadmax'"
+        [class.text-slate-900]="themeStore.theme() !== 'chadmax'"
+      >
         {{ shop() }}
       </h3>
     </div>
 
     @if (shopResource.hasValue()) {
       <div class="flex flex-col md:flex-row gap-8 items-start">
+        <!-- Logo del Comercio -->
         <div
           class="w-full md:w-48 h-48 bg-white rounded-2xl flex items-center justify-center p-4 shrink-0 shadow-lg"
         >
@@ -46,7 +57,13 @@
                     [href]="sn.link"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="btn btn-sm bg-white/5 border border-white/10 text-slate-200 rounded-xl flex items-center gap-2 normal-case transition-all duration-300"
+                    class="btn btn-sm border rounded-xl flex items-center gap-2 normal-case transition-all duration-300"
+                    [class.bg-white\/5]="themeStore.theme() === 'chadmax'"
+                    [class.border-white\/10]="themeStore.theme() === 'chadmax'"
+                    [class.text-slate-200]="themeStore.theme() === 'chadmax'"
+                    [class.bg-slate-100]="themeStore.theme() !== 'chadmax'"
+                    [class.border-slate-200]="themeStore.theme() !== 'chadmax'"
+                    [class.text-slate-800]="themeStore.theme() !== 'chadmax'"
                     [class.hover:bg-[#e1306c]/10]="sn.network === 'Instagram'"
                     [class.hover:border-[#e1306c]/30]="
                       sn.network === 'Instagram'
@@ -78,7 +95,13 @@
             >
               Tipo
             </span>
-            <span class="badge badge-outline border-white/20 text-white">
+            <span
+              class="badge badge-outline"
+              [class.border-white\/20]="themeStore.theme() === 'chadmax'"
+              [class.text-white]="themeStore.theme() === 'chadmax'"
+              [class.border-slate-300]="themeStore.theme() !== 'chadmax'"
+              [class.text-slate-800]="themeStore.theme() !== 'chadmax'"
+            >
               {{ shopResource.value().at(0)!.type }}
             </span>
           </div>
@@ -126,13 +149,15 @@
             </div>
           }
 
+          <!-- Botón de Enlace al Sitio Oficial -->
           <div class="aura aura-dual text-green-600 aura-md">
             <div class="card bg-base-100">
               <a
                 [href]="shopResource.value().at(0)?.shopLink"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn btn-ghost hover:bg-white/10 hover:text-white w-full rounded-2xl flex gap-2"
+                class="btn w-full rounded-2xl flex gap-2 border-none"
+                [class]="styles().btn_bg || 'btn-ghost'"
               >
                 Visitar sitio web oficial
                 <svg
@@ -155,7 +180,11 @@
         </div>
       </div>
 
-      <div class="divider border-white/5 my-8"></div>
+      <div
+        class="divider my-8"
+        [class.border-white\/5]="themeStore.theme() === 'chadmax'"
+        [class.border-slate-200]="themeStore.theme() !== 'chadmax'"
+      ></div>
 
       @if (isOpen()) {
         <shop-reviews [shopId]="shopResource.value().at(0)?.shopId!" />

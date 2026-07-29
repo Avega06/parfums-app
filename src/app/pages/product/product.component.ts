@@ -26,6 +26,7 @@ import {
 } from '../../components/product-price-history-chart/product-price-history-chart.component';
 import { UserStore } from '../../shared/stores';
 import { UserButtons } from '../../shared/components/user-buttons/user-buttons';
+import { ThemeStore } from '../../core/services/ThemeStore';
 
 @Component({
   selector: 'app-product',
@@ -64,6 +65,9 @@ export default class ProductComponent {
   private meta = inject(Meta);
 
   userStore = inject(UserStore);
+  themeStore = inject(ThemeStore);
+
+  protected readonly styles = this.themeStore.globalStyles;
 
   shop = signal<ShopInfoResponse | null>(null);
   showUserButtons = signal<boolean>(false);

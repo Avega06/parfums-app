@@ -15,13 +15,23 @@
     Opiniones del Distribuidor
   </h4>
 
+  <!-- Banner del Promedio General -->
   <div
-    class="bg-[#161616] border border-white/5 p-6 rounded-2xl flex flex-col sm:flex-row items-center gap-6 justify-between"
+    class="border p-6 rounded-2xl flex flex-col sm:flex-row items-center gap-6 justify-between transition-all duration-300"
+    [style.background-color]="styles().card_bg || null"
+    [class.border-neutral-800/80]="themeStore.theme() === 'chadmax'"
+    [class.shadow-md]="themeStore.theme() === 'chadmax'"
+    [class.border-slate-200]="themeStore.theme() !== 'chadmax'"
+    [class.bg-slate-100]="themeStore.theme() !== 'chadmax'"
   >
     <div
       class="flex items-center gap-5 w-full sm:w-auto justify-center sm:justify-start"
     >
-      <span class="text-5xl font-black text-white italic tracking-tighter">
+      <span
+        class="text-5xl font-black italic tracking-tighter"
+        [class.text-white]="themeStore.theme() === 'chadmax'"
+        [class.text-slate-900]="themeStore.theme() !== 'chadmax'"
+      >
         {{ averageRating() }}
       </span>
       <div class="flex flex-col">
@@ -53,15 +63,27 @@
     </div>
   </div>
 
+  <!-- Formulario para dejar opinión (Signal Forms) -->
   <form
     [formRoot]="reviewForm"
     (submit)="submitReview()"
-    class="bg-[#222] p-4 rounded-2xl space-y-4 border border-white/5"
+    class="p-4 rounded-2xl space-y-4 border transition-all duration-300"
+    [style.background-color]="styles().card_bg || null"
+    [class.border-neutral-800/80]="themeStore.theme() === 'chadmax'"
+    [class.shadow-md]="themeStore.theme() === 'chadmax'"
+    [class.border-slate-200]="themeStore.theme() !== 'chadmax'"
+    [class.bg-slate-100]="themeStore.theme() !== 'chadmax'"
   >
     <div
       class="flex flex-col sm:flex-row sm:items-center justify-between gap-2"
     >
-      <span class="text-xs font-bold text-slate-300">Tu calificación:</span>
+      <span
+        class="text-xs font-bold"
+        [class.text-slate-300]="themeStore.theme() === 'chadmax'"
+        [class.text-slate-700]="themeStore.theme() !== 'chadmax'"
+      >
+        Tu calificación:
+      </span>
 
       <div class="rating rating-sm sm:rating-md">
         <input
@@ -98,12 +120,19 @@
       </div>
     </div>
 
+    <!-- Textarea adaptado al tema -->
     <div class="relative">
       <textarea
         [formField]="reviewForm.comment"
         placeholder="Escribe tu experiencia con esta tienda..."
         rows="2"
-        class="textarea textarea-bordered w-full bg-[#161616] border-white/10 text-slate-200 text-sm rounded-xl focus:outline-none focus:border-primary resize-none p-3"
+        class="textarea w-full text-sm rounded-xl focus:outline-none focus:border-primary resize-none p-3 transition-colors duration-300 border"
+        [class.bg-neutral-900]="themeStore.theme() === 'chadmax'"
+        [class.border-neutral-800]="themeStore.theme() === 'chadmax'"
+        [class.text-slate-200]="themeStore.theme() === 'chadmax'"
+        [class.bg-white]="themeStore.theme() !== 'chadmax'"
+        [class.border-slate-300]="themeStore.theme() !== 'chadmax'"
+        [class.text-slate-800]="themeStore.theme() !== 'chadmax'"
       ></textarea>
     </div>
 
@@ -117,19 +146,30 @@
       </button>
     </div>
   </form>
+
+  <!-- Lista de Comentarios -->
   @if (shopCommentsResource.hasValue()) {
   <div class="space-y-3 mt-4">
     @for (item of reviews(); track item.id) {
     <div
-      class="p-4 bg-[#161616] rounded-xl border border-white/5 flex flex-col gap-2"
+      class="p-4 rounded-xl border flex flex-col gap-2 transition-all duration-300"
+      [style.background-color]="styles().card_bg || null"
+      [class.border-neutral-800/80]="themeStore.theme() === 'chadmax'"
+      [class.shadow-sm]="themeStore.theme() === 'chadmax'"
+      [class.border-slate-200]="themeStore.theme() !== 'chadmax'"
+      [class.bg-slate-100]="themeStore.theme() !== 'chadmax'"
     >
       <div class="flex justify-between items-center">
-        <span class="text-xs font-bold text-slate-200"
-          >{{ item.author_name }}</span
+        <span
+          class="text-xs font-bold"
+          [class.text-slate-200]="themeStore.theme() === 'chadmax'"
+          [class.text-slate-900]="themeStore.theme() !== 'chadmax'"
         >
-        <span class="text-[10px] opacity-40 italic"
-          >{{ item.created_at | date: "dd/MM/yyyy HH:mm" }}</span
-        >
+          {{ item.author_name }}
+        </span>
+        <span class="text-[10px] opacity-40 italic">
+          {{ item.created_at | date: "dd/MM/yyyy HH:mm" }}
+        </span>
       </div>
 
       <div class="rating rating-xs pointer-events-none">
@@ -144,7 +184,13 @@
         }
       </div>
 
-      <p class="text-xs text-slate-400 leading-relaxed">{{ item.comment }}</p>
+      <p
+        class="text-xs leading-relaxed"
+        [class.text-slate-400]="themeStore.theme() === 'chadmax'"
+        [class.text-slate-600]="themeStore.theme() !== 'chadmax'"
+      >
+        {{ item.comment }}
+      </p>
     </div>
     } @empty {
     <p class="text-[11px] opacity-40 italic text-center py-4">

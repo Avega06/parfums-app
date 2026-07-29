@@ -17,6 +17,7 @@ import {
   FormRoot,
 } from '@angular/forms/signals';
 import { DatePipe } from '@angular/common';
+import { ThemeStore } from '../../core/services/ThemeStore';
 
 interface ReviewModel {
   rating: string;
@@ -30,6 +31,9 @@ interface ReviewModel {
 })
 export class ShopReviews {
   shopService = inject(ShopService);
+
+  readonly themeStore = inject(ThemeStore);
+  protected readonly styles = this.themeStore.globalStyles;
 
   shopId = input.required<string>();
 
