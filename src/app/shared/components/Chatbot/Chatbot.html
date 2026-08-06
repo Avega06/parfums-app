@@ -85,41 +85,47 @@
           #messagesContainer
           class="flex-1 overflow-y-auto p-4 space-y-4 bg-transparent text-sm font-sans font-medium z-10 relative"
         >
-          @for (msg of messages(); track $index) { @if (msg.text.length >= 1) {
-          <div
-            class="chat"
-            [class.chat-start]="msg.role === 'agent'"
-            [class.chat-end]="msg.role === 'user'"
-          >
-            <div class="chat-image avatar">
-              <div class="w-10 rounded-full border border-primary/10">
-                <img
-                  [src]="msg.role === 'agent' ? 'paco.ico' : userStore.userAvatar()"
-                />
-              </div>
-            </div>
+          <!-- Agregamos este div interno #messagesContent -->
+          <div #messagesContent class="space-y-4">
+            @for (msg of messages(); track $index) { @if (msg.text.length >= 1)
+            {
             <div
-              class="chat-bubble shadow-md w-fit max-w-[85%] break-words"
-              [class.chat-bubble-primary]="msg.role === 'user'"
-              [class.chat-bubble-neutral]="msg.role === 'agent'"
+              class="chat"
+              [class.chat-start]="msg.role === 'agent'"
+              [class.chat-end]="msg.role === 'user'"
             >
+              <div class="chat-image avatar">
+                <div class="w-10 rounded-full border border-primary/10">
+                  <img
+                    [src]="msg.role === 'agent' ? 'paco.ico' : userStore.userAvatar()"
+                  />
+                </div>
+              </div>
               <div
-                class="prose prose-sm max-w-none dark:prose-invert break-words"
+                class="chat-bubble shadow-md w-fit max-w-[85%] break-words"
+                [class.chat-bubble-primary]="msg.role === 'user'"
+                [class.chat-bubble-neutral]="msg.role === 'agent'"
               >
-                <markdown [data]="msg.text"></markdown>
+                <div
+                  class="prose prose-sm max-w-none dark:prose-invert break-words"
+                >
+                  <markdown [data]="msg.text"></markdown>
+                </div>
               </div>
             </div>
-          </div>
-          } } @if (loading()) {
-          <div class="chat chat-start">
-            <div
-              class="chat-bubble chat-bubble-neutral flex gap-3 items-center italic opacity-90 py-4 solid"
-            >
-              <span class="loading loading-ring loading-md text-primary"></span>
-              Paco está analizando acerca del perfume...
+            } } @if (loading()) {
+            <div class="chat chat-start">
+              <div
+                class="chat-bubble chat-bubble-neutral flex gap-3 items-center italic opacity-90 py-4 solid"
+              >
+                <span
+                  class="loading loading-ring loading-md text-primary"
+                ></span>
+                Paco está analizando acerca del perfume...
+              </div>
             </div>
+            }
           </div>
-          }
         </div>
 
         <form

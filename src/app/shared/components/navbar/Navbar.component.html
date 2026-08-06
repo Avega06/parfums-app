@@ -4,18 +4,20 @@
   <!-- Menú hamburguesa / Logo -->
   <div class="navbar-start flex items-center gap-2">
     <!-- Logo -->
-    <div class="min-w-[35%] tablet:max-w-[27%] pl-2 logo-container">
+    <div
+      class="min-w-[35%] tablet:max-w-[27%] pl-2 logo-container aspect-[3/1] relative overflow-hidden"
+    >
       <!-- Logo para Tema Claro -->
       <img
         [routerLink]="['/']"
-        class="w-full logo mt-2.5 logo-light object-center cursor-pointer"
+        class="w-full h-full logo logo-light object-cover object-center cursor-pointer block"
         src="/logo-light-transparent-v2.png"
         alt="Logo de la aplicación (Claro)"
       />
       <!-- Logo para Tema Oscuro/Chadmax -->
       <img
         [routerLink]="['/']"
-        class="w-full logo logo-coffee object-center cursor-pointer"
+        class="w-full h-full logo logo-coffee object-cover object-center cursor-pointer block"
         src="/logo-dark-transparent-v2.png"
         alt="Logo de la aplicación (Oscuro)"
       />

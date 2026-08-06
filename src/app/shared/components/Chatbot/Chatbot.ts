@@ -47,49 +47,13 @@ export class ChatbotComponent {
   sessionId = signal<string>(crypto.randomUUID());
 
   messages_theme = computed<string>(() => {
-    let theme = '';
-
-    if (this.themeStore.theme() === 'light') {
-      theme = 'caramellatte';
-    } else {
-      theme = 'luxury';
-    }
-    return theme;
+    return this.themeStore.theme() === 'light' ? 'caramellatte' : 'luxury';
   });
 
   messagesContainer =
     viewChild<ElementRef<HTMLDivElement>>('messagesContainer');
 
   messages = signal<{ role: 'user' | 'agent'; text: string }[]>([]);
-
-  userScrollEffect = effect(() => {
-    const msgs = this.messages();
-    if (msgs.length === 0) return;
-
-    const lastMessage = msgs[msgs.length - 1];
-
-    // Disparamos el scroll cuando el usuario envía o cuando Paco aparece (vacío)
-    if (
-      lastMessage.role === 'user' ||
-      (lastMessage.role === 'agent' && lastMessage.text === '')
-    ) {
-      // Esperamos al siguiente frame para que el DOM esté listo
-      requestAnimationFrame(() => {
-        const container = this.messagesContainer()?.nativeElement;
-        if (!container) return;
-
-        // Buscamos el último mensaje del usuario (.chat-end)
-        const userMessages = container.querySelectorAll('.chat-end');
-        const lastUserMsg = userMessages[
-          userMessages.length - 1
-        ] as HTMLElement;
-
-        if (lastUserMsg) {
-          this.gsapService.scrollToElementTop(container, lastUserMsg);
-        }
-      });
-    }
-  });
 
   syncSessionEffect = effect(() => {
     const product = this.productName();
@@ -125,13 +89,39 @@ export class ChatbotComponent {
     const value = this.input().trim();
     if (!value || this.loading()) return;
 
-    // 1. UI: Mensaje de usuario y preparación del agente
+    // 1. Agregar mensaje del usuario y activar loading
     this.messages.update((m) => [...m, { role: 'user', text: value }]);
     this.input.set('');
     this.loading.set(true);
 
-    // Creamos el mensaje vacío para el agente
+    // 2. Preparar el mensaje del agente
     this.messages.update((m) => [...m, { role: 'agent', text: '' }]);
+
+    // 3. Scroll exacto + Padding temporal
+    requestAnimationFrame(() => {
+      const container = this.messagesContainer()?.nativeElement;
+      if (!container) return;
+
+      const userMessages = container.querySelectorAll('.chat-end');
+      const lastUserMsg = userMessages[userMessages.length - 1] as HTMLElement;
+
+      if (lastUserMsg) {
+        // Asignamos padding temporal igual al alto del contenedor
+        // Esto le da el espacio necesario al scroll para subir la pregunta al tope
+        container.style.paddingBottom = `${container.clientHeight}px`;
+
+        const containerRect = container.getBoundingClientRect();
+        const msgRect = lastUserMsg.getBoundingClientRect();
+
+        const targetScrollTop =
+          container.scrollTop + (msgRect.top - containerRect.top) - 12;
+
+        container.scrollTo({
+          top: targetScrollTop,
+          behavior: 'smooth',
+        });
+      }
+    });
 
     try {
       await this.chatBootService.sendMessageStream(
@@ -142,14 +132,13 @@ export class ChatbotComponent {
           product_name: this.productName(),
         },
         (content) => {
-          // 2. Actualizamos el último mensaje de la señal
           this.messages.update((msgs) => {
             const last = msgs[msgs.length - 1];
             if (last && last.role === 'agent') {
               const newMsgs = [...msgs];
               newMsgs[msgs.length - 1] = {
                 ...last,
-                text: last.text + content, // Acumulamos el contenido
+                text: last.text + content,
               };
               return newMsgs;
             }
@@ -161,9 +150,14 @@ export class ChatbotComponent {
       console.error(err);
     } finally {
       this.loading.set(false);
+
+      // 4. Limpieza: Se remueve el padding temporal al finalizar el stream
+      const container = this.messagesContainer()?.nativeElement;
+      if (container) {
+        container.style.paddingBottom = '';
+      }
     }
   }
-
   handleClose() {
     this.closeChatbot.emit(false);
   }

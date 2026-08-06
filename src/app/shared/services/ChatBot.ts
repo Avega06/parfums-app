@@ -17,7 +17,10 @@ export class ChatBot {
     return this.http.post<Message>('', msg);
   }
 
-  async sendMessageStream(payload: any, onChunk: (text: string) => void) {
+  async sendMessageStream(
+    payload: unknown,
+    onChunk: (text: string) => void,
+  ): Promise<void> {
     const response = await fetch('http://localhost:3000/paco-ai/stream', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -31,8 +34,8 @@ export class ChatBot {
     const decoder = new TextDecoder();
 
     let buffer = '';
-    let lastDispatchedIndex = 0; // Para no repetir texto ya enviado del mismo objeto
-    let currentObjectNode = ''; // Para saber de qué nodo viene el texto
+    let lastDispatchedIndex = 0; // Control de posición dentro del "content" activo
+    let currentObjectNode = ''; // Guardará el nodo/agente actual
 
     while (true) {
       const { done, value } = await reader.read();
@@ -40,30 +43,33 @@ export class ChatBot {
 
       buffer += decoder.decode(value, { stream: true });
 
-      // 1. Detectar en qué nodo estamos (Orchestrator o Analyst)
-      // Buscamos el último "nodeName" que apareció en el buffer
+      // 1. Detectar cambio de nodo/agente en el buffer
       const nodeMatch = buffer.match(/"nodeName"\s*:\s*"([^"]+)"/g);
       if (nodeMatch) {
-        currentObjectNode = nodeMatch[nodeMatch.length - 1];
+        const latestNode = nodeMatch[nodeMatch.length - 1];
+
+        // Si el stream cambió a un agente distinto, reiniciamos el rastreo de caracteres
+        if (currentObjectNode !== latestNode) {
+          currentObjectNode = latestNode;
+          lastDispatchedIndex = 0;
+        }
       }
 
-      // 2. Extraer el contenido de la propiedad "content" aunque el JSON no haya terminado
-      // Buscamos lo que hay entre "content":"  y la siguiente comilla no escapada
-      const contentRegex = /"content"\s*:\s*"((?:[^"\\]|\\.)*)/g;
-      let match;
+      // 2. Omitir el Orchestrator y procesar el stream de cualquier otro agente
+      const isOrchestrator = currentObjectNode.includes('Orchestrator');
 
-      while ((match = contentRegex.exec(buffer)) !== null) {
-        // await new Promise((resolve) => setTimeout(resolve, 50));
-        // match[1] contiene el texto dentro de "content" (con escapes como \n o \")
-        let fullContent = match[1];
+      if (!isOrchestrator) {
+        const contentRegex = /"content"\s*:\s*"((?:[^"\\]|\\.)*)/g;
+        let match: RegExpExecArray | null;
 
-        // Solo procesamos si es del Analyst (o quita este IF si quieres ver TODO)
-        if (!currentObjectNode.includes('Orchestrator')) {
+        while ((match = contentRegex.exec(buffer)) !== null) {
+          const fullContent = match[1];
+
           if (fullContent.length > lastDispatchedIndex) {
-            // Extraemos solo lo NUEVO
+            // Extraemos solo lo nuevo recibido en este chunk
             let newPiece = fullContent.substring(lastDispatchedIndex);
 
-            // Limpiamos los escapes de caracteres (ej: de \n a salto de línea real)
+            // Convertimos las secuencias escapadas en caracteres reales
             newPiece = this.unescapeJsonString(newPiece);
 
             onChunk(newPiece);
@@ -72,15 +78,13 @@ export class ChatBot {
         }
       }
 
-      // 3. Si detectamos que un objeto JSON se cerró totalmente, reseteamos el índice
-      // para el siguiente objeto que venga en el stream.
+      // 3. Limpieza de buffer cuando se cierra un objeto JSON
       if (buffer.includes('}')) {
-        // Si hay una llave de cierre, el siguiente "content" empezará de cero
-        // Solo reseteamos si la llave está después del último match
-        lastDispatchedIndex = 0;
-        // Opcional: limpiar buffer de objetos ya cerrados para ahorrar memoria
         const lastBrace = buffer.lastIndexOf('}');
-        if (lastBrace > 0) buffer = buffer.substring(lastBrace);
+        if (lastBrace > 0) {
+          buffer = buffer.substring(lastBrace + 1);
+          lastDispatchedIndex = 0; // Reseteo de índice para el próximo objeto JSON del stream
+        }
       }
     }
   }
