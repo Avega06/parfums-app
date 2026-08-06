@@ -27,6 +27,7 @@ import {
 import { UserStore } from '../../shared/stores';
 import { UserButtons } from '../../shared/components/user-buttons/user-buttons';
 import { ThemeStore } from '../../core/services/ThemeStore';
+import { ProductReviews } from '../../components/product-reviews/product-reviews';
 
 @Component({
   selector: 'app-product',
@@ -37,6 +38,7 @@ import { ThemeStore } from '../../core/services/ThemeStore';
     ProductImageComponent,
     UserButtons,
     ShopModalComponent,
+    ProductReviews,
   ],
   templateUrl: './product.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

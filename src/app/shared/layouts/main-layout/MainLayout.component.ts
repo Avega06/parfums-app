@@ -9,18 +9,12 @@ import {
 } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import {
-  NavbarComponent,
-  SearchInputComponent,
-  SearchList,
-} from '../../components';
+import { NavbarComponent } from '../../components';
 import { Footer } from '../../components/Footer/Footer';
 
-import { SupabaseService } from '../../services';
-import { ProductStore, UserStore } from '../../stores';
+import { UserStore } from '../../stores';
 import { Session, UserMetadata } from '@supabase/supabase-js';
 import { ToastMessage } from '../../components/toast-tmessage/ToastMessage';
-import { ProductsFinder } from '../../../components/ProductsFinder/ProductsFinder';
 import { MobileSideDrawer } from '../../components/mobile-side-drawer/mobile-side-drawer';
 
 @Component({
