@@ -4,9 +4,9 @@ import {
   computed,
   inject,
 } from '@angular/core';
-import { ProductStore } from '../../shared/stores';
 import { SearchInputComponent } from '../../shared/components/search-input/search-input.component';
 import { SearchList } from '../../shared/components/searchList/searchList';
+import { ProductStore } from '../../stores';
 
 @Component({
   selector: 'products-finder',
