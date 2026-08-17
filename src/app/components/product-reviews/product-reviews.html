@@ -2,7 +2,7 @@
   class="card p-4 shadow-xl transition-colors duration-300"
   [style.background-color]="styles().card_bg || null"
 >
-  <average-review-score [reviews]="reviews()" />
+  <average-review-score [reviews]="reviews()" type="product" />
 
   <custom-review
     [id]="this.productStore.productId()"

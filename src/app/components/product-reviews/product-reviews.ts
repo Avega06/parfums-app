@@ -1,16 +1,9 @@
 import { Component, inject, linkedSignal, signal } from '@angular/core';
 import { ThemeStore } from '../../core/services/ThemeStore';
 import { ProductStore } from '../../stores';
-import { form, required, minLength } from '@angular/forms/signals';
 import { ProductComments } from '../../intefaces';
-import { ProductsService } from '../../services/products.service';
 import { AverageReviewScore } from '../../shared/components/reviews/average-review-score/average-review-score';
 import { CustomReview } from '../../shared/components/reviews/custom-review/custom-review';
-
-interface ReviewModel {
-  rating: string;
-  comment: string;
-}
 
 @Component({
   selector: 'product-reviews',
@@ -21,8 +14,6 @@ interface ReviewModel {
   },
 })
 export class ProductReviews {
-  private productsService = inject(ProductsService);
-
   public themeStore = inject(ThemeStore);
   public productStore = inject(ProductStore);
 

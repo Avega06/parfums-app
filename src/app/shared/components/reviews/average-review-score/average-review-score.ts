@@ -11,6 +11,7 @@ export class AverageReviewScore {
   themeStore = inject(ThemeStore);
   readonly styles = this.themeStore.globalStyles;
 
+  type = input.required<'product' | 'shop'>();
   reviews = input.required<CustomReview[]>();
 
   averageRating = computed(() => {
