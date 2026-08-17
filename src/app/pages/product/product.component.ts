@@ -28,6 +28,7 @@ import { UserStore } from '../../shared/stores';
 import { UserButtons } from '../../shared/components/user-buttons/user-buttons';
 import { ThemeStore } from '../../core/services/ThemeStore';
 import { ProductReviews } from '../../components/product-reviews/product-reviews';
+import { ProductStore } from '../../stores';
 
 @Component({
   selector: 'app-product',
@@ -44,7 +45,7 @@ import { ProductReviews } from '../../components/product-reviews/product-reviews
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class ProductComponent {
-  product_id = input<string>();
+  product_name = input<string>();
   modal = viewChild(ShopModalComponent);
 
   open = signal(false);
@@ -62,12 +63,13 @@ export default class ProductComponent {
   }
 
   productsService = inject(ProductsService);
-  private route = inject(ActivatedRoute);
+  // private route = inject(ActivatedRoute);
   private title = inject(Title);
   private meta = inject(Meta);
 
   userStore = inject(UserStore);
   themeStore = inject(ThemeStore);
+  productStore = inject(ProductStore);
 
   protected readonly styles = this.themeStore.globalStyles;
 
@@ -96,9 +98,9 @@ export default class ProductComponent {
     return this.product()?.shop!;
   });
 
-  public productName = toSignal<string>(
-    this.route.params.pipe(map((params) => params['product_id'] ?? '')),
-  );
+  // public productName = toSignal<string>(
+  //   this.route.params.pipe(map((params) => params['product_name'] ?? '')),
+  // );
 
   constructor() {
     effect(() => {
@@ -113,6 +115,7 @@ export default class ProductComponent {
       // Si el resource aún no se resuelve o la señal está vacía, salimos de forma segura
       if (!currentProduct) return;
 
+      this.productStore.productId.set(currentProduct?.parfumId);
       // 3. Una vez que el producto existe, extraemos sus propiedades de forma segura
       const pageTitle = currentProduct.product;
       const pageDescription = `${currentProduct.product} | ${currentProduct.shop}`;
@@ -148,7 +151,7 @@ export default class ProductComponent {
   }
 
   productResource = resource({
-    params: () => ({ product: this.product_id()! }),
+    params: () => ({ product: this.product_name()! }),
     loader: ({ params }) => {
       return firstValueFrom(
         this.productsService.getProductByName(params.product),

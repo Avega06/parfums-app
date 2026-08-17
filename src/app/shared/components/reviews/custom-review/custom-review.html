@@ -1,0 +1,129 @@
+<form
+  [formRoot]="reviewForm"
+  (submit)="submitReview()"
+  class="p-4 rounded-2xl space-y-4 border transition-all duration-300"
+  [style.background-color]="styles().card_bg || null"
+  [class.border-neutral-800/80]="themeStore.theme() === 'chadmax'"
+  [class.shadow-md]="themeStore.theme() === 'chadmax'"
+  [class.border-slate-200]="themeStore.theme() !== 'chadmax'"
+  [class.bg-slate-100]="themeStore.theme() !== 'chadmax'"
+>
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+    <span
+      class="text-xs font-bold"
+      [class.text-slate-300]="themeStore.theme() === 'chadmax'"
+      [class.text-slate-700]="themeStore.theme() !== 'chadmax'"
+    >
+      Tu calificación:
+    </span>
+
+    <div class="rating rating-sm sm:rating-md">
+      <input
+        type="radio"
+        value="1"
+        [formField]="reviewForm.rating"
+        class="mask mask-star-2 bg-amber-400"
+      />
+      <input
+        type="radio"
+        value="2"
+        [formField]="reviewForm.rating"
+        class="mask mask-star-2 bg-amber-400"
+      />
+      <input
+        type="radio"
+        value="3"
+        [formField]="reviewForm.rating"
+        class="mask mask-star-2 bg-amber-400"
+      />
+      <input
+        type="radio"
+        value="4"
+        [formField]="reviewForm.rating"
+        class="mask mask-star-2 bg-amber-400"
+      />
+      <input
+        type="radio"
+        value="5"
+        [formField]="reviewForm.rating"
+        class="mask mask-star-2 bg-amber-400"
+        defaultChecked
+      />
+    </div>
+  </div>
+
+  <div class="relative">
+    <textarea
+      [formField]="reviewForm.comment"
+      placeholder="Escribe tu experiencia con esta tienda..."
+      rows="2"
+      class="textarea w-full text-sm rounded-xl focus:outline-none focus:border-primary resize-none p-3 transition-colors duration-300 border"
+      [class.bg-neutral-900]="themeStore.theme() === 'chadmax'"
+      [class.border-neutral-800]="themeStore.theme() === 'chadmax'"
+      [class.text-slate-200]="themeStore.theme() === 'chadmax'"
+      [class.bg-white]="themeStore.theme() !== 'chadmax'"
+      [class.border-slate-300]="themeStore.theme() !== 'chadmax'"
+      [class.text-slate-800]="themeStore.theme() !== 'chadmax'"
+    ></textarea>
+  </div>
+
+  <div class="flex justify-end">
+    <button
+      type="submit"
+      [disabled]="reviewForm().invalid()"
+      class="btn btn-primary btn-sm rounded-xl font-bold px-4 tracking-wide"
+    >
+      Publicar Opinión
+    </button>
+  </div>
+</form>
+
+<div class="space-y-3 p-4 mt-4">
+  @for (item of comments(); track item.id) {
+  <div
+    class="p-4 rounded-xl border flex flex-col gap-2 transition-all duration-300"
+    [style.background-color]="styles().card_bg || null"
+    [class.border-neutral-800/80]="themeStore.theme() === 'chadmax'"
+    [class.shadow-sm]="themeStore.theme() === 'chadmax'"
+    [class.border-slate-200]="themeStore.theme() !== 'chadmax'"
+    [class.bg-slate-100]="themeStore.theme() !== 'chadmax'"
+  >
+    <div class="flex justify-between items-center">
+      <span
+        class="text-xs font-bold"
+        [class.text-slate-200]="themeStore.theme() === 'chadmax'"
+        [class.text-slate-900]="themeStore.theme() !== 'chadmax'"
+      >
+        {{ item.author_name }}
+      </span>
+      <span class="text-[10px] opacity-40 italic">
+        {{ item.created_at | date: "dd/MM/yyyy HH:mm" }}
+      </span>
+    </div>
+
+    <div class="rating rating-xs pointer-events-none">
+      @for (star of [1, 2, 3, 4, 5]; track star) {
+      <input
+        type="radio"
+        disabled
+        [checked]="item.rating === star"
+        class="mask mask-star-2 bg-amber-400 opacity-20"
+        [class.opacity-100]="star <= item.rating"
+      />
+      }
+    </div>
+
+    <p
+      class="text-xs leading-relaxed"
+      [class.text-slate-400]="themeStore.theme() === 'chadmax'"
+      [class.text-slate-600]="themeStore.theme() !== 'chadmax'"
+    >
+      {{ item.comment }}
+    </p>
+  </div>
+  } @empty {
+  <p class="text-[11px] opacity-40 italic text-center py-4">
+    No hay comentarios todavía. ¡Sé el primero!
+  </p>
+  }
+</div>

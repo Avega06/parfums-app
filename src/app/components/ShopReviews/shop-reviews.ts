@@ -1,6 +1,5 @@
 import {
   Component,
-  computed,
   inject,
   input,
   linkedSignal,
@@ -9,15 +8,10 @@ import {
 } from '@angular/core';
 import { ShopComments } from '../../intefaces';
 import { ShopService } from '../../services';
-import {
-  form,
-  required,
-  minLength,
-  FormField,
-  FormRoot,
-} from '@angular/forms/signals';
-import { DatePipe } from '@angular/common';
+import { form, required, minLength } from '@angular/forms/signals';
 import { ThemeStore } from '../../core/services/ThemeStore';
+import { AverageReviewScore } from '../../shared/components/reviews/average-review-score/average-review-score';
+import { CustomReview } from '../../shared/components/reviews/custom-review/custom-review';
 
 interface ReviewModel {
   rating: string;
@@ -26,7 +20,7 @@ interface ReviewModel {
 
 @Component({
   selector: 'shop-reviews',
-  imports: [FormRoot, FormField, DatePipe],
+  imports: [AverageReviewScore, CustomReview],
   templateUrl: './shop-reviews.html',
 })
 export class ShopReviews {
@@ -107,16 +101,4 @@ export class ShopReviews {
       this.isLoading.set(false);
     }
   }
-
-  averageRating = computed(() => {
-    const currentReviews = this.reviews();
-    if (currentReviews.length === 0) return 0;
-
-    const sum = currentReviews.reduce((acc, item) => acc + item.rating, 0);
-    return Math.round((sum / currentReviews.length) * 10) / 10;
-  });
-
-  averageRatingRounded = computed(() => {
-    return Math.round(this.averageRating());
-  });
 }

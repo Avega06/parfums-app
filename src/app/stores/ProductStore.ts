@@ -6,6 +6,7 @@ import { ProductsService } from '../services/products.service';
 export class ProductStore {
   private productsService = inject(ProductsService);
 
+  productId = signal<string>('');
   productQuery = signal<string>('');
 
   productNameResource = resource({
@@ -24,6 +25,21 @@ export class ProductStore {
         }
         throw err;
       }
+    },
+  });
+
+  productReviewsResource = resource({
+    params: () => {
+      const productId = this.productId();
+
+      return productId
+        ? {
+            productId: productId,
+          }
+        : null;
+    },
+    loader: async ({ params }) => {
+      return await this.productsService.getProductReviews(params!.productId);
     },
   });
 }

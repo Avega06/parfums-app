@@ -40,7 +40,7 @@ export const routes: Routes = [
           import('./pages/parfum-list/parfum-list.component'),
       },
       {
-        path: 'product/:product_id',
+        path: 'product/:product_name',
         title: 'Listado de Perfumes',
         loadComponent: () => import('./pages/product/product.component'),
       },

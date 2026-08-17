@@ -7,6 +7,8 @@ import {
 } from '../intefaces/products-response.interface';
 import { FilterState, ProductByTerm, ShopInfoResponse } from '../intefaces';
 import { environment } from '../../environments/environment';
+import { SupabaseClient } from '@supabase/supabase-js';
+import { injectSupabase } from '../supabase.config';
 
 @Service()
 export class ProductsService {
@@ -14,7 +16,13 @@ export class ProductsService {
   product = signal<Product | null>(null);
   totalPages = signal<string>('');
 
-  http = inject(HttpClient);
+  private http = inject(HttpClient);
+
+  private supabase: SupabaseClient;
+
+  constructor() {
+    this.supabase = injectSupabase();
+  }
 
   getProductLikeTerm(term: string): Observable<ProductByTerm> {
     return this.http.get<ProductByTerm>(
@@ -74,5 +82,48 @@ export class ProductsService {
       `${environment.apiUrl}/api/parfums/shop/${name}`,
       {},
     );
+  }
+
+  async insertProductReviews(
+    productId: string,
+    rating: number,
+    comment: string,
+  ) {
+    try {
+      const { data, error } = await this.supabase.functions.invoke(
+        'insert_product_reviews',
+        {
+          body: {
+            product_id: productId,
+            rating: rating,
+            comment: comment,
+          },
+        },
+      );
+
+      if (error) throw error;
+
+      return data;
+    } catch (error) {
+      console.error('Error al invocar la Edge Function:', error);
+      throw error;
+    }
+  }
+
+  async getProductReviews(productId: string) {
+    console.log({ productId });
+    try {
+      const { data: comments, error } = await this.supabase
+        .from('view_product_comments')
+        .select('*')
+        .eq('product_id', productId)
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+
+      return comments;
+    } catch (error) {
+      console.error('Error al intentar encontrar los commentarios', { error });
+      throw error;
+    }
   }
 }
