@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   effect,
   inject,
   input,
@@ -10,7 +9,7 @@ import {
 import { UserMetadata } from '@supabase/supabase-js';
 import { SupabaseService } from '../../../services';
 import { RouterLink } from '@angular/router';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import { UserStore } from '../../../stores/UserStore';
 
 @Component({
@@ -32,11 +31,6 @@ export class UserAvatar {
   eventEffect = effect(() => {
     if (this.userStore.isAuthenticated())
       this.avatarUrl.set(this.userStore.userAvatar()!);
-
-    console.log('user_avatar', {
-      avatar_url: this.avatarUrl(),
-      auth: this.userStore.isAuthenticated(),
-    });
   });
 
   async handleSignOut() {
