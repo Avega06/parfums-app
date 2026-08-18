@@ -76,10 +76,6 @@ export class GsapService {
     });
   }
 
-  /**
-   * Animación de entrada para un Toast de DaisyUI.
-   * Por defecto entra desde la derecha con un efecto de rebote suave.
-   */
   toastIn(element: HTMLElement, options: gsap.TweenVars = {}) {
     return gsap.fromTo(
       element,

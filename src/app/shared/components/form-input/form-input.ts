@@ -1,10 +1,5 @@
-import { Component, computed, effect, input, signal } from '@angular/core';
-import {
-  Field,
-  form,
-  FormField,
-  ValidationError,
-} from '@angular/forms/signals';
+import { Component, computed, input, signal } from '@angular/core';
+import { Field, FormField, ValidationError } from '@angular/forms/signals';
 
 @Component({
   selector: 'form-input',

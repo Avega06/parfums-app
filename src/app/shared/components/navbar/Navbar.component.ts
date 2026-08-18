@@ -2,11 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   inject,
   OnInit,
   PLATFORM_ID,
-  resource,
   signal,
 } from '@angular/core';
 import { ThemeControllerComponent } from '../theme-controller/ThemeController.component';

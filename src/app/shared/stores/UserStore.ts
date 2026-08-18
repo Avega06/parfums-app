@@ -1,7 +1,5 @@
 import {
-  Injectable,
   inject,
-  signal,
   computed,
   resource,
   PLATFORM_ID,

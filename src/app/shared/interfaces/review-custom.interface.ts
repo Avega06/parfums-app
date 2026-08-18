@@ -4,5 +4,5 @@ export interface CustomReview {
   comment: string;
   created_at: Date;
   author_name: string;
-  isPublishing?: boolean; // Mapeará con 'author_name' de la vista
+  isPublishing?: boolean;
 }

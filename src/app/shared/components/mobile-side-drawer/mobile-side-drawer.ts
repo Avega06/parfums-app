@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ProductsFinder } from '../../../components/ProductsFinder/ProductsFinder';
-import { UserAvatar } from '../auth';
 import { UserStore } from '../../stores/UserStore';
 import { NgOptimizedImage } from '@angular/common';
 import { ThemeControllerComponent } from '../theme-controller/ThemeController.component';
@@ -26,7 +25,6 @@ export class MobileSideDrawer {
   private supabaseService = inject(SupabaseService);
 
   async handleSignOut() {
-    console.log('singout');
     await this.supabaseService.signOut();
   }
 }

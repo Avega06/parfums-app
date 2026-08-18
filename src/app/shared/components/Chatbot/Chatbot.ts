@@ -14,7 +14,6 @@ import { ChatBot } from '../../services/ChatBot';
 
 import { MarkdownModule } from 'ngx-markdown';
 import { ThemeStore } from '../../../core/services/ThemeStore';
-import { GsapService } from '../../../core/services';
 import { UserStore } from '../../stores';
 import { AutoGrowDirective } from '../../directives/AutoGrow';
 import { isPlatformBrowser } from '@angular/common';
@@ -34,8 +33,6 @@ export class ChatbotComponent {
 
   #platformId = inject(PLATFORM_ID);
   #isBrowser = isPlatformBrowser(this.#platformId);
-
-  private gsapService = inject(GsapService);
 
   closeChatbot = output<boolean>();
 
