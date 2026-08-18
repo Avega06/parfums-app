@@ -3,5 +3,6 @@ export interface CustomReview {
   rating: number;
   comment: string;
   created_at: Date;
-  author_name: string; // Mapeará con 'author_name' de la vista
+  author_name: string;
+  isPublishing?: boolean; // Mapeará con 'author_name' de la vista
 }

@@ -111,7 +111,6 @@ export class ProductsService {
   }
 
   async getProductReviews(productId: string) {
-    console.log({ productId });
     try {
       const { data: comments, error } = await this.supabase
         .from('view_product_comments')

@@ -79,9 +79,9 @@
 </form>
 
 <div class="space-y-3 p-4 mt-4">
-  @for (item of comments(); track item.id) {
+  @for (item of comments(); track $index) {
   <div
-    class="p-4 rounded-xl border flex flex-col gap-2 transition-all duration-300"
+    class="animate-slide-down p-4 rounded-xl border flex flex-col gap-2 transition-all duration-300"
     [style.background-color]="styles().card_bg || null"
     [class.border-neutral-800/80]="themeStore.theme() === 'chadmax'"
     [class.shadow-sm]="themeStore.theme() === 'chadmax'"
@@ -96,9 +96,16 @@
       >
         {{ item.author_name }}
       </span>
+      @if (item.isPublishing) {
+      <span class="skeleton skeleton-text text-[10px] opacity-40"
+        >Publicando...</span
+      >
+      }@else{
       <span class="text-[10px] opacity-40 italic">
         {{ item.created_at | date: "dd/MM/yyyy HH:mm" }}
       </span>
+
+      }
     </div>
 
     <div class="rating rating-xs pointer-events-none">

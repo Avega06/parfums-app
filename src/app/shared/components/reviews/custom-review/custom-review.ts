@@ -1,9 +1,9 @@
 import {
   Component,
+  effect,
   inject,
   input,
   linkedSignal,
-  Resource,
   signal,
 } from '@angular/core';
 import { ThemeStore } from '../../../../core/services/ThemeStore';
@@ -39,9 +39,7 @@ export class CustomReview {
   option = input.required<'product' | 'shop'>();
   id = input.required<string>();
 
-  comments = linkedSignal<Review[]>(() => {
-    return this.reviews();
-  });
+  comments = signal<Review[]>([]);
 
   isLoading = signal<boolean>(false);
 
@@ -57,37 +55,49 @@ export class CustomReview {
     minLength(schemaPath.comment, 3);
   });
 
+  constructor() {
+    effect(() => {
+      if (this.comments().length === 0 && this.reviews().length > 0) {
+        this.comments.set(this.reviews());
+      }
+    });
+  }
+
   async submitReview() {
     if (this.reviewForm().invalid()) return;
 
     const { rating, comment } = this.reviewForm().value();
     this.isLoading.set(true);
 
+    const newReview: Review = {
+      author_name: 'Tú',
+      rating: +rating,
+      comment: comment,
+      created_at: new Date(),
+      isPublishing: true,
+    };
+
+    this.comments.update((current) => [newReview, ...current]);
+    this.reviewForm().reset({ rating: '5', comment: '' });
+
     try {
-      const response = await this.commentOrcherstatorService.sendComment(
-        this.option(),
-        {
-          id: this.id(),
-          rating: +rating,
-          comment: comment,
-        },
+      await this.commentOrcherstatorService.sendComment(this.option(), {
+        id: this.id(),
+        rating: +rating,
+        comment: comment,
+      });
+
+      this.comments.update((current) =>
+        current.map((item) =>
+          item === newReview ? { ...item, isPublishing: false } : item,
+        ),
       );
-      // 2. Construimos el objeto con la respuesta real del servidor
-      const newReview: Review = {
-        author_name: 'Tú', // Puedes extraerlo de tu UserStore/Auth
-        rating: response.data.rating,
-        comment: response.data.comment,
-        created_at: new Date(response.data.created_at),
-      };
-
-      // 3. Actualizamos el linkedSignal. ¡Esto es totalmente válido ahora!
-      this.comments.update((current) => [newReview, ...current]);
-
-      // 4. Reseteamos el formulario
-      this.reviewForm().reset({ rating: '5', comment: '' });
     } catch (error) {
       console.error('Error al guardar la reseña:', error);
-      alert('Hubo un error al publicar tu comentario. Inténtalo de nuevo.');
+      this.comments.update((current) =>
+        current.filter((item) => item !== newReview),
+      );
+      alert('Hubo un error al publicar tu comentario.');
     } finally {
       this.isLoading.set(false);
     }
