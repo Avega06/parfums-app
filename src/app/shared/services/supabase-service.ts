@@ -30,7 +30,7 @@ export class SupabaseService {
         // Control de flujos globales de navegación
         if (event === 'SIGNED_OUT') {
           // En lugar de recargar la página completa, usa el router de Angular
-          this.router.navigate(['/login']);
+          this.router.navigate(['/']);
         }
       });
     }

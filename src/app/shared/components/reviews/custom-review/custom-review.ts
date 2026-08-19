@@ -17,6 +17,8 @@ import {
 import { CustomReview as Review } from '../../../interfaces';
 import { DatePipe } from '@angular/common';
 import { CommentOrchestrator } from '../../../services';
+import { UserStore } from '../../../stores/UserStore';
+import { RouterLink } from '@angular/router';
 
 interface ReviewModel {
   rating: string;
@@ -25,14 +27,17 @@ interface ReviewModel {
 
 @Component({
   selector: 'custom-review',
-  imports: [FormRoot, FormField, DatePipe],
+  imports: [FormRoot, FormField, DatePipe, RouterLink],
   templateUrl: './custom-review.html',
 })
 export class CustomReview {
+  private commentOrcherstatorService = inject(CommentOrchestrator);
+
+  userStore = inject(UserStore);
+  readonly isAuthenticated = this.userStore.isAuthenticated;
+
   themeStore = inject(ThemeStore);
   readonly styles = this.themeStore.globalStyles;
-
-  private commentOrcherstatorService = inject(CommentOrchestrator);
 
   reviews = input.required<Review[]>();
 
@@ -64,7 +69,7 @@ export class CustomReview {
   }
 
   async submitReview() {
-    if (this.reviewForm().invalid()) return;
+    if (this.reviewForm().invalid() || !this.isAuthenticated()) return;
 
     const { rating, comment } = this.reviewForm().value();
     this.isLoading.set(true);
