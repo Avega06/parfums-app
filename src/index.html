@@ -6,31 +6,40 @@
     <base href="/" />
     <link rel="preconnect" href="https://lh3.googleusercontent.com" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Estilos inmediatos para logos según el tema -->
     <style>
-      .logo-light {
-        display: none;
-      }
-      .logo-coffee {
+      .logo-light,
+      .logo-coffee,
+      .logo-chadmax {
         display: none;
       }
       html[data-theme="light"] .logo-light {
         display: inline-block !important;
       }
-      html[data-theme="chadmax"] .logo-coffee {
+      html[data-theme="coffee"] .logo-coffee {
+        display: inline-block !important;
+      }
+      html[data-theme="chadmax"] .logo-chadmax {
         display: inline-block !important;
       }
     </style>
+
+    <!-- Script bloqueante: Lee la cookie ANTES de pintar el HTML -->
     <script>
       (function () {
         try {
-          const theme = localStorage.getItem("theme") || "light";
+          const match = document.cookie.match(/theme=(light|coffee|chadmax)/);
+          const theme = match ? match[1] : "light";
           document.documentElement.setAttribute("data-theme", theme);
         } catch (e) {}
       })();
     </script>
+
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
   </head>
-  <body>
+  <!-- bg-base-100 y text-base-content aseguran que el fondo adopte el color exacto del tema activo desde el milisegundo 0 -->
+  <body class="bg-base-100 text-base-content min-h-screen antialiased">
     <app-root></app-root>
   </body>
 </html>

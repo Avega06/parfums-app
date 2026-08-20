@@ -5,6 +5,8 @@ import {
   signal,
   effect,
   computed,
+  DOCUMENT,
+  REQUEST,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { GlobalStyle } from '../../intefaces';
@@ -13,25 +15,34 @@ export type Theme = 'light' | 'coffee' | 'chadmax';
 
 @Injectable({ providedIn: 'root' })
 export class ThemeStore {
-  #platformId = inject(PLATFORM_ID);
-  #isBrowser = isPlatformBrowser(this.#platformId);
+  readonly #platformId = inject(PLATFORM_ID);
+  readonly #isBrowser = isPlatformBrowser(this.#platformId);
+  readonly #document = inject(DOCUMENT);
+  readonly #request = inject(REQUEST, { optional: true });
 
-  private readonly _theme = signal<Theme>('light');
+  private readonly _theme = signal<Theme>(this.#getInitialTheme());
   readonly theme = this._theme.asReadonly();
 
   constructor() {
+    // APLICACIÓN INMEDIATA (Funciona tanto en Node.js/SSR como en el Navegador)
+    this.#applyThemeToDocument(this.theme());
+
     if (!this.#isBrowser) return;
 
-    const stored = localStorage.getItem('theme') as Theme | null;
-    if (stored) {
-      this._theme.set(stored);
-    }
+    // Reacción a cambios de estado únicamente en el cliente
+    effect(async () => {
+      const currentTheme = this.theme();
+      this.#applyThemeToDocument(currentTheme);
 
-    effect(() => {
-      const theme = this._theme();
-
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
+      if ('cookieStore' in window) {
+        await cookieStore.set({
+          name: 'theme',
+          value: currentTheme,
+          path: '/',
+          expires: Date.now() + 31536000000,
+          sameSite: 'lax',
+        });
+      }
     });
   }
 
@@ -45,8 +56,8 @@ export class ThemeStore {
 
   logoSrc = computed(() => {
     return this.theme() === 'chadmax'
-      ? '/logo-dark-transparent-v2.png' // Si está oscuro, muestra el logo claro
-      : '/logo-light-transparent-v2.png'; // Si está claro, muestra el logo oscuro
+      ? '/logo-dark-transparent-v2.png'
+      : '/logo-light-transparent-v2.png';
   });
 
   globalStyles = computed<GlobalStyle>(() => {
@@ -62,4 +73,21 @@ export class ThemeStore {
           card_text_opacity: '',
         };
   });
+
+  #getInitialTheme(): Theme {
+    let cookieString = '';
+
+    if (this.#isBrowser) {
+      cookieString = this.#document.cookie || '';
+    } else if (this.#request) {
+      cookieString = this.#request.headers.get('cookie') || '';
+    }
+
+    const match = cookieString.match(/theme=(light|coffee|chadmax)/);
+    return (match?.[1] as Theme) ?? 'light';
+  }
+
+  #applyThemeToDocument(theme: Theme): void {
+    this.#document.documentElement.setAttribute('data-theme', theme);
+  }
 }

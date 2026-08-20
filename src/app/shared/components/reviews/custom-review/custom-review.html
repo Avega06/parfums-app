@@ -118,7 +118,8 @@
       [class.text-slate-400]="themeStore.theme() === 'chadmax'"
       [class.text-slate-600]="themeStore.theme() !== 'chadmax'"
     >
-      Comparte tu experiencia con la comunidad y califica esta tienda.
+      Comparte tu experiencia con la comunidad y califica {{option() ===
+      'product' ? ' este producto.' : 'esta tienda.'}}
     </p>
 
     <div class="card-actions justify-end mt-2">
