@@ -56,7 +56,7 @@
   <div class="relative">
     <textarea
       [formField]="reviewForm.comment"
-      placeholder="Escribe tu experiencia con esta tienda..."
+      [placeholder]="customPlaceholder()"
       rows="2"
       class="textarea w-full text-sm rounded-xl focus:outline-none focus:border-primary resize-none p-3 transition-colors duration-300 border"
       [class.bg-neutral-900]="themeStore.theme() === 'chadmax'"

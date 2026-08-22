@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   effect,
   inject,
   input,
@@ -107,4 +108,10 @@ export class CustomReview {
       this.isLoading.set(false);
     }
   }
+
+  customPlaceholder = computed<string>(() => {
+    return this.option() === 'shop'
+      ? 'Escribe tu experiencia sobre esta tienda...'
+      : 'Escribe tu experiencia sobre este producto...';
+  });
 }
